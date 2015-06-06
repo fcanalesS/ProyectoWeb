@@ -42,7 +42,7 @@
 			<div class="content">
 				<div class="title">Laravel 5</div>
 				<div class="quote">{{ Inspiring::quote() }}</div>
-                <div class="quote"><a href="{{ url('login') }}">INICIAR SESION</a></div>
+                <div class="quote"><a href="{{ url('/login') }}">INICIAR SESION</a></div>
 			</div>
 		</div>
 	</body>

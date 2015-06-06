@@ -51,14 +51,14 @@
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
-                                <span class="hidden-xs">Felipe Canales</span>
+                                <span class="hidden-xs">Felipe Sebastian Canales Saavedra</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header">
                                     <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
                                     <p>
-                                        Felipe Canales - Administrador
+                                        Administrador
                                     </p>
                                 </li>
 
@@ -112,40 +112,41 @@
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu">
                     <li class="header">MENÚ DE NAVEGACIÓN</li>
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-dashboard"></i> <span>Menú 1</span> <i class="fa fa-angle-left pull-right"></i>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="../../#"><i class="fa fa-circle-o"></i> Submenú 1</a></li>
-                            <li><a href="../../#"><i class="fa fa-circle-o"></i> Submenú 2</a></li>
-                        </ul>
-                    </li>
 
 
                     <li>
-                        <a href="../widgets.html">
+                        <a href="">
                             <i class="fa fa-th"></i> <span>Link a algún lado</span> <small class="label pull-right bg-green">Hot</small>
                         </a>
                     </li>
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-circle-o"></i>
-                            <span>Lista de alguna cosa</span>
+                            <span>Opciones de campus</span>
                             <i class="fa fa-angle-left pull-right"></i>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href=""><i class="fa fa-circle-o"></i> Cosa 1</a></li>
-                            <li><a href=""><i class="fa fa-circle-o"></i> Cosa 2</a></li>
-                            <li><a href=""><i class="fa fa-circle-o"></i> Cosa 3</a></li>
-                            <li><a href=""><i class="fa fa-circle-o"></i> Cosa 4</a></li>
+                            <li><a href=""><i class="fa fa-book"></i> <span>Crear</span></a></li>
+                            <li><a href=""><i class="fa fa-book"></i> <span>Modificar</span></a></li>
+                            <li><a href=""><i class="fa fa-book"></i> <span>Archivar</span></a></li>
                         </ul>
                     </li>
-                    <li><a href=""><i class="fa fa-book"></i> <span>Ayuda!</span></a></li>
-                    <li class="header">LABELS</li>
-                    <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Importante</span></a></li>
-                    <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Peligro</span></a></li>
-                    <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Información</span></a></li>
+
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-circle-o"></i>
+                            <span>Opciones de usuarios</span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href=""><i class="fa fa-book"></i> <span>Modificar usuario</span></a></li>
+                        </ul>
+                    </li>
+
+                    <li class="header"></li>
+                    <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Refrescar base de datos</span></a></li>
+                    <li class="header"></li>
+
                 </ul>
             </section>
             <!-- /.sidebar -->
@@ -217,32 +218,24 @@
                         <!-- Custom tabs -->
                         <div class="box">
                             <div class="box-header with-border">
-                                <h3 class="box-title">Caja grande de usuarios</h3>
+                                <h3 class="box-title">Listado de Periodos</h3>
                                 <div class="box-tools pull-right">
                                     <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                                     <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
                                 </div>
                             </div>
                             <div class="box-body">
-                                <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab assumenda eos esse fugit
-                                    libero pariatur quibusdam quos voluptatem? Accusamus delectus dolor eaque incidunt minus
-                                    molestiae nulla. Deleniti ipsa voluptate voluptatibus?
+                                <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut impedit, modi
+                                    molestiae nemo nesciunt officia provident quos tempora veniam. Debitis harum ipsum
+                                    nemo nulla odio optio provident quasi quis sequi?
                                 </div>
-                                <div>Accusamus commodi eveniet expedita incidunt ipsum iusto libero maxime nesciunt nobis omnis,
-                                    praesentium quis, recusandae, reiciendis sit suscipit totam ullam veniam voluptas! A dolor
-                                    dolores ipsum quam repellat sed veniam!
+                                <div>Animi aperiam asperiores beatae commodi consectetur distinctio dolor eveniet fuga
+                                    illo libero molestiae, nobis nulla perferendis porro quis quod recusandae saepe,
+                                    ullam. Deserunt, ducimus hic laudantium nemo quis quod unde?
                                 </div>
-                                <div>Aut culpa cumque delectus deleniti ex illo, impedit inventore laboriosam laborum odit,
-                                    officiis sequi sint tempora tempore temporibus! Ea, reprehenderit voluptatem. Dignissimos
-                                    eligendi natus nemo nihil, ratione recusandae repudiandae tempora.
-                                </div>
-                                <div>Ipsa, nulla, ratione? Aperiam commodi consequuntur cupiditate eligendi exercitationem
-                                    facilis fuga impedit iure iusto magnam nemo pariatur quaerat quam quod, reiciendis
-                                    repudiandae rerum saepe similique temporibus ut! Ab, aliquam earum.
-                                </div>
-                                <div>A blanditiis cumque distinctio dolore, eveniet quia quis saepe voluptatem. Consequatur
-                                    debitis dolore, eum inventore maiores mollitia nam necessitatibus officiis similique
-                                    voluptatibus! Aliquid aut dolorem, eaque eum labore odio quasi!
+                                <div>Aliquid animi culpa delectus enim exercitationem facilis fugiat id iste obcaecati
+                                    optio reiciendis sequi similique, temporibus? Adipisci assumenda consequatur dicta
+                                    ea libero magnam, maiores, quis reprehenderit soluta veniam vitae, voluptas.
                                 </div>
                             </div><!-- /.box-body -->
                             <div class="box-footer">
@@ -326,33 +319,15 @@
                     <section class="col-lg-5 connectedSortable">
                         <div class="box">
                             <div class="box-header with-border">
-                                <h3 class="box-title">Caja grande de usuarios</h3>
+                                <h3 class="box-title">Caja chica de usuarios</h3>
                                 <div class="box-tools pull-right">
                                     <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                                     <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
                                 </div>
                             </div>
                             <div class="box-body">
-                                <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab assumenda eos esse fugit
-                                    libero pariatur quibusdam quos voluptatem? Accusamus delectus dolor eaque incidunt minus
-                                    molestiae nulla. Deleniti ipsa voluptate voluptatibus?
-                                </div>
-                                <div>Accusamus commodi eveniet expedita incidunt ipsum iusto libero maxime nesciunt nobis omnis,
-                                    praesentium quis, recusandae, reiciendis sit suscipit totam ullam veniam voluptas! A dolor
-                                    dolores ipsum quam repellat sed veniam!
-                                </div>
-                                <div>Aut culpa cumque delectus deleniti ex illo, impedit inventore laboriosam laborum odit,
-                                    officiis sequi sint tempora tempore temporibus! Ea, reprehenderit voluptatem. Dignissimos
-                                    eligendi natus nemo nihil, ratione recusandae repudiandae tempora.
-                                </div>
-                                <div>Ipsa, nulla, ratione? Aperiam commodi consequuntur cupiditate eligendi exercitationem
-                                    facilis fuga impedit iure iusto magnam nemo pariatur quaerat quam quod, reiciendis
-                                    repudiandae rerum saepe similique temporibus ut! Ab, aliquam earum.
-                                </div>
-                                <div>A blanditiis cumque distinctio dolore, eveniet quia quis saepe voluptatem. Consequatur
-                                    debitis dolore, eum inventore maiores mollitia nam necessitatibus officiis similique
-                                    voluptatibus! Aliquid aut dolorem, eaque eum labore odio quasi!
-                                </div>
+                                Lorem ipsum dolor sit amet.
+
                             </div><!-- /.box-body -->
                             <div class="box-footer">
                                 Footer
