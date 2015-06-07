@@ -24,9 +24,10 @@ Route::controllers([
 
 Route::get('/', 'WelcomeController@index');
 
-resource('login', 'LoginController');
+Route::get('login/{id}', 'LoginController@index');
+
+Route::post('login/{id}', 'LoginController@postLogin');
 
 Route::group(['prefix' => 'admin'], function() {
-    Route::get('index/', 'AdminController@index');
-
+    Route::get('index/{id}', 'AdminController@index');
 });

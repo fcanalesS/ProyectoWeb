@@ -11,7 +11,19 @@ class TestSeeder extends Seeder{
 
         \DB::table('roles_usuarios')->insert(array(
             'rut'           =>  16967863,
-            'rol_id'        =>  1,
+            'rol_id'        =>  4,
+            'created_at'    =>  \DB::raw('NOW()'),
+            'updated_at'    =>  \DB::raw('NOW()')
+        ));
+        \DB::table('roles_usuarios')->insert(array(
+            'rut'           =>  17473293,
+            'rol_id'        =>  4,
+            'created_at'    =>  \DB::raw('NOW()'),
+            'updated_at'    =>  \DB::raw('NOW()')
+        ));
+        \DB::table('roles_usuarios')->insert(array(
+            'rut'           =>  17473293,
+            'rol_id'        =>  3,
             'created_at'    =>  \DB::raw('NOW()'),
             'updated_at'    =>  \DB::raw('NOW()')
         ));

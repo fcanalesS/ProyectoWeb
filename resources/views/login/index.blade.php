@@ -9,7 +9,7 @@
         <div class="login-box-body">
             <p class="login-box-msg">Ingrese sus datos para iniciar sesión</p>
 
-            {!! Form::open(['action' => 'LoginController@postLogin', 'method' => 'POST', 'class' => 'form-horizontal']) !!}
+            {!! Form::open(['url' => '/login/'. $type , 'method' => 'POST', 'class' => 'form-horizontal']) !!}
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                 <div class="form-group has-feedback">
                     {!! Form::text('rut', null, ['class' => 'form-control', 'placeholder' => 'Rut']) !!}

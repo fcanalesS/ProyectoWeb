@@ -327,7 +327,7 @@
                             </div>
                             <div class="box-body">
                                 Lorem ipsum dolor sit amet.
-
+                                {{ $inputs }}
                             </div><!-- /.box-body -->
                             <div class="box-footer">
                                 Footer

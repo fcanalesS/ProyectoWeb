@@ -3,15 +3,15 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Periodo;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller {
 
-	public function index ()
+	public function index (Request $request)
     {
+        $inputs = $request->route('id');
 
-        return view('admin.index');
+        return view('admin.index', compact('inputs'));
     }
 
 }

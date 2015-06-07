@@ -6,6 +6,4 @@ class RolUsuario extends Model {
 
 	protected $table = 'roles_usuarios';
 
-
-
 }

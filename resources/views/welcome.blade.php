@@ -1,49 +1,56 @@
 <html>
 	<head>
-		<title>Laravel</title>
-		
-		<link href='//fonts.googleapis.com/css?family=Lato:100' rel='stylesheet' type='text/css'>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+        <title>Laravel</title>
 
-		<style>
-			body {
-				margin: 0;
-				padding: 0;
-				width: 100%;
-				height: 100%;
-				color: #B0BEC5;
-				display: table;
-				font-weight: 100;
-				font-family: 'Lato';
-			}
+        <!-- Bootstrap 3.3.4 -->
+        <link href="{{ asset('/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+        <!-- Font Awesome Icons -->
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <!-- Theme style -->
+        <link href="{{ asset('/dist/css/AdminLTE.min.css') }}" rel="stylesheet" type="text/css" />
+        <!-- Ionicons -->
+        <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+        <!-- iCheck -->
+        <link href="{{ asset('/plugins/iCheck/square/blue.css') }}" rel="stylesheet" type="text/css" />
 
-			.container {
-				text-align: center;
-				display: table-cell;
-				vertical-align: middle;
-			}
+        <link href="{{ asset('/dist/css/skins/skin-blue.min.css') }}" rel="stylesheet" type="text/css" />
 
-			.content {
-				text-align: center;
-				display: inline-block;
-			}
 
-			.title {
-				font-size: 96px;
-				margin-bottom: 40px;
-			}
+        <!-- Fonts -->
+        <link href='//fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
 
-			.quote {
-				font-size: 24px;
-			}
-		</style>
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
 	</head>
-	<body>
+	<body class="login-page">
 		<div class="container">
-			<div class="content">
-				<div class="title">Laravel 5</div>
-				<div class="quote">{{ Inspiring::quote() }}</div>
-                <div class="quote"><a href="{{ url('/login') }}">INICIAR SESION</a></div>
-			</div>
-		</div>
-	</body>
+            <br/><br/><br/><br/><br/>
+            <div class="login-logo">
+                <a href="www.utem.cl">Bienvenido <b>UTEM</b></a>
+            </div>
+
+            <div class="login-box-body">
+                <p class="login-box-msg">Elija el perfil que le corresponda</p>
+                
+                <div class="row row-centered">
+                    <div class="col-xs-4 col-centered">
+                        <a href="{{ url('/login/estudiantes') }}" class="btn btn-primary btn-block btn-flat">Estudiante</a>
+                    </div>
+                    <div class="col-xs-4 col-centered">
+                        <a href="{{ url('/login/docentes') }}" class="btn btn-primary btn-block btn-flat">Docente</a>
+                    </div>
+                    <div class="col-xs-4 col-centered">
+                        <a href="{{ url('/login/funcionarios') }}" class="btn btn-primary btn-block btn-flat">Funcionario</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>
