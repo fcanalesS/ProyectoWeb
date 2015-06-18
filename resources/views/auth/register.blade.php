@@ -6,7 +6,7 @@
     </div>
 
     <div class="register-box-body">
-        <p class="login-box-msg">Registro para un nuevo mienbro</p>
+        <p class="login-box-msg">Registro para un nuevo miembro</p>
         <form action="../../index.html" method="post">
             <div class="form-group has-feedback">
                 <input type="text" class="form-control" placeholder="Primer nombre Segundo nombre"/>

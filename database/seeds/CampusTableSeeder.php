@@ -132,6 +132,16 @@ class CampusTableSeeder extends Seeder{
                 'curso_id'      =>  $curso_id
             ));
         }
+
+        \DB::table('estudiantes')->insert(array(
+            'carrera_id'        =>  2,
+            'rut'               =>  16967863,
+            'nombres'           =>  'Felipe Sebastian',
+            'apellidos'         =>  'Canales Saavedra',
+            'email'             =>  'f.canales.27@gmail.com',
+            'created_at'        =>  \DB::raw('NOW()'),
+            'updated_at'        =>  \DB::raw('NOW()')
+        ));
     }
 
 }

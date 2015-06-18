@@ -16,6 +16,10 @@
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
 
+                <div class="form-group has-feedback">
+                    {!! Form::password('pass', ['class' => 'form-control', 'placeholder' => 'Contraseña']) !!}
+                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                </div>
                 <!--
                 <div class="form-group has-feedback">
                     <input type="password" class="form-control" placeholder="Password"/>
@@ -40,12 +44,6 @@
                     </div><!-- /.col -->
                 </div>
             {!! Form::close() !!}
-
-            <div class="social-auth-links text-center">
-                <p>- O puede -</p>
-                <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Inicie usando Facebook</a>
-                <a href="#" class="btn btn-block btn-social btn-google-plus btn-flat"><i class="fa fa-google-plus"></i> Inicie usando Google+</a>
-            </div><!-- /.social-auth-links -->
 
             <a href="{{ url('/#') }}">Olvidé mi contraseña</a><br>
             <a href="{{ url('/registrar') }}" class="text-center">Registrar un nuevo usuario</a>

@@ -28,6 +28,9 @@ Route::get('login/{id}', 'LoginController@index');
 
 Route::post('login/{id}', 'LoginController@postLogin');
 
-Route::group(['prefix' => 'admin'], function() {
-    Route::get('index/{id}', 'AdminController@index');
+Route::get('logout', 'LoginController@logout');
+
+Route::group(['prefix' => 'admin', 'namespace' => 'Admini'], function() {
+    Route::get('index', 'AdminController@index');
+    Route::resource('campus', 'CampusController');
 });
