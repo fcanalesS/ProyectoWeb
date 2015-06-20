@@ -4,6 +4,8 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Http\Requests\LoginRequest;
+use App\RutUtils;
+use App\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -18,18 +20,15 @@ class LoginController extends Controller {
 
     public function postLogin (LoginRequest $request)
     {
-        $rut = $request->input('rut');
-        $type = $request->route('id');
+        $user_data = ['rut' => $request->input('rut'), 'password' => $request->input('password')];
 
-        //dd($type);
+        $rut = RutUtils::rut($user_data['rut']);
 
-        //return Redirect::intended('/admin/index');
+        $rules = ['rut' => 'Required', 'password' => 'Required'];
+
+
+
         return redirect('admin/index/');
-
-        /*
-         *  $rol_user = RolUsuario::select('rol_id')->where('rut', '=', 16967863)->get();
-            dd($rol_user->toArray());
-         */
     }
 
     public function logout()

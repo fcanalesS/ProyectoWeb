@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 class Campus extends Model {
 
 	protected $table = 'campus';
+    protected $fillable = ['nombre', 'direccion', 'latitud', 'longitud', 'descripcion', 'rut_encargado'];
     protected $hidden = ['created_at', 'updated_at'];
 
     public function campus_facultades ()

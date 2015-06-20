@@ -39,17 +39,16 @@ class TestSeeder extends Seeder{
         }
 
 
-
-        /*
-        \DB::table('funcionarios')->insert(array(
+        \DB::table('estudiantes')->insert(array(
             'departamento_id'   =>  1,
             'rut'               =>  16967863,
             'nombres'           =>  'Felipe Sebastian',
             'apellidos'         =>  'Canales Saavedra',
+            'email'             =>  'f.canales.27@gmail.com',
             'created_at'        =>  \DB::raw('NOW()'),
             'updated_at'        =>  \DB::raw('NOW()')
         ));
-        */
+
     }
 
 }

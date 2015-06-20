@@ -17,7 +17,7 @@ class AdminController extends Controller {
 
         $type_user = RolUsuario::select('rol_id', 'rut')
                         ->with('rol')
-                        ->where('rut', '=', $rut)
+                        ->where('rut', '=', 16967863)
                         ->orderBy('id')->get();
 
         $campus = Campus::all();

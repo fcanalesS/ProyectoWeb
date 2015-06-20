@@ -17,7 +17,7 @@
                 </div>
 
                 <div class="form-group has-feedback">
-                    {!! Form::password('pass', ['class' => 'form-control', 'placeholder' => 'Contraseña']) !!}
+                    {!! Form::password('password', ['class' => 'form-control', 'placeholder' => 'Contraseña']) !!}
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
                 <!--
