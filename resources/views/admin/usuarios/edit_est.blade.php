@@ -147,115 +147,44 @@
             <!-- Default box -->
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Listado de funcionarios</h3>
+                    <h3 class="box-title"></h3>
                     <div class="box-tools pull-right">
                         <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                         <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
                     </div>
                 </div>
                 <div class="box-body">
-                    <table class="table table-bordered table-hover" id="funcionarios">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Rut</th>
-                            <th>Nombres</th>
-                            <th>Apellidos</th>
-                            <th>Departamento</th>
-                            <th>Acciones</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($func as $f)
-                            <tr>
-                                <td>{{ $f->id }}</td>
-                                <td>{{ $f->rut }}</td>
-                                <td>{{ $f->nombres }}</td>
-                                <td>{{ $f->apellidos }}</td>
-                                <td>{{ $f->funcionario_departamento->nombre }}</td>
-                                <td><a href="{{ route('admin.usuarios.edit', [$f->id, 'funcionarios']) }}" class="btn bg-olive">Editar</a> <a href="" class="btn btn-danger">Eliminar</a></td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div><!-- /.box-body -->
-                <div class="box-footer">
-                </div>
-            </div><!-- /.box -->
-
-            <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Listado de docentes</h3>
-                    <div class="box-tools pull-right">
-                        <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                        <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+                    {!! Form::model($estudiante, ['route' => ['admin.usuarios.update', $estudiante, $tipo, $estudiante->rut], 'method' => 'PUT', 'role' => 'form']) !!}
+                    <div class="form-group">
+                        {!! Form::text('nombres', null,['class' => 'form-control', 'disabled']) !!}
                     </div>
-                </div>
-                <div class="box-body">
-                    <table class="table table-bordered table-hover" id="docentes">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Rut</th>
-                            <th>Nombres</th>
-                            <th>Apellidos</th>
-                            <th>Departamento</th>
-                            <th>Acciones</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($docentes as $d)
-                            <tr>
-                                <td>{{ $d->id }}</td>
-                                <td>{{ $d->rut }}</td>
-                                <td>{{ $d->nombres }}</td>
-                                <td>{{ $d->apellidos }}</td>
-                                <td>{{ $d->docente_departamento->nombre }}</td>
-                                <td><a href="{{ route('admin.usuarios.edit', [$d->id, 'docentes']) }}" class="btn bg-olive">Editar</a> <a href="" class="btn btn-danger">Eliminar</a></td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
-                </div><!-- /.box-body -->
-                <div class="box-footer">
-                </div>
-            </div><!-- /.box -->
-
-            <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Listado de estudiantes</h3>
-                    <div class="box-tools pull-right">
-                        <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                        <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+                    <div class="form-group">
+                        {!! Form::text('apellidos', null,['class' => 'form-control', 'disabled']) !!}
                     </div>
-                </div>
-                <div class="box-body">
-                    <table class="table table-bordered table-hover" id="estudiantes">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Rut</th>
-                            <th>Nombres</th>
-                            <th>Apellidos</th>
-                            <th>Departamento</th>
-                            <th>Acciones</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($estudiantes as $e)
-                            <tr>
-                                <td>{{ $e->id }}</td>
-                                <td>{{ $e->rut }}</td>
-                                <td>{{ $e->nombres }}</td>
-                                <td>{{ $e->apellidos }}</td>
-                                <td>{{ $e->estudiante_carrera->nombre }}</td>
-                                <td><a href="{{ route('admin.usuarios.edit', [$e->id, 'estudiantes']) }}" class="btn bg-olive">Editar</a> <a href="" class="btn btn-danger">Eliminar</a></td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                    <div class="form-group">
+                        {!! Form::text('rut', null,['class' => 'form-control', 'disabled']) !!}
+                    </div>
+                    <div class="form-group">
+                        {!! Form::text('email', null, ['class' => 'form-control', 'disabled']) !!}
+                    </div>
+                    <div class="form-group">
+                        <label for="rol" class="">Rol actual</label>
+                        {!! Form::text('rol', $datos_usuario[0]->nombre,['class' => 'form-control', 'placeholder' => 'Rol', 'disabled']) !!}
+                    </div>
+                    <div class="form-group">
+                        <label for="rol_asig" class="">Seleccione un nuevo rol</label>
+                        {!! Form::select('rol_asig', (['0' => 'Selecciona un Perfil'] + $rol ), null, ['class' => 'form-control', 'multiple']) !!}
+                    </div>
+                    {!! Form::hidden('id', $id) !!}
+                    <button type="submit" class="btn btn-success ">Actualizar</button>
+                    {!! Form::close() !!}
                 </div><!-- /.box-body -->
                 <div class="box-footer">
+                    @if(Session::has('promoted'))
+                    <div class="callout callout-success">
+                        <p>{{ Session::get('promoted') }}</p>
+                    </div>
+                    @endif
                 </div>
             </div><!-- /.box -->
 
@@ -263,7 +192,7 @@
     </div>
     <footer class="main-footer">
         <div class="pull-right hidden-xs">
-            <b>Version</b> 0.0.0.1
+            <b>Version</b> 0.0.1
         </div>
         <strong>Copyright &copy; 2015 <a href="#">Felipe Canales</a>.</strong>
     </footer>
@@ -292,23 +221,7 @@
 <!-- Table Options -->
 <script type="text/javascript">
     $(function() {
-        $("#docentes").dataTable({
-            "bPaginate": true,
-            "bLengthChange": false,
-            "bFilter": true,
-            "bSort": true,
-            "bInfo": true,
-            "bAutoWidth": true
-        });
-        $("#funcionarios").dataTable({
-            "bPaginate": true,
-            "bLengthChange": false,
-            "bFilter": true,
-            "bSort": true,
-            "bInfo": true,
-            "bAutoWidth": true
-        });
-        $("#estudiantes").dataTable({
+        $("#campus").dataTable({
             "bPaginate": true,
             "bLengthChange": false,
             "bFilter": true,

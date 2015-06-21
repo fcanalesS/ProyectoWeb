@@ -55,33 +55,55 @@ class CampusTableSeeder extends Seeder{
                 'updated_at'        =>  \DB::raw('NOW()')
             ));
 
+            $rut_f = $faker->unique()->ean8;
+
             \DB::table('funcionarios')->insertGetID(array(
                 'departamento_id'   =>  $departamento_id,
-                'rut'               =>  $faker->unique()->ean8,
+                'rut'               =>  $rut_f,
                 'nombres'           =>  $faker->firstName . ' ' . $faker->name,
                 'apellidos'         =>  $faker->lastName . ' ' . $faker->lastName,
                 'created_at'        =>  \DB::raw('NOW()'),
                 'updated_at'        =>  \DB::raw('NOW()')
             ));
+            //******
+            \DB::table('roles_usuarios')->insert(array(
+                'rut'       =>  $rut_f,
+                'rol_id'    =>  $faker->numberBetween(1, 4)
+            ));
+            //******
 
+            $rut_d = $faker->unique()->ean8;
             $docente_id = \DB::table('docentes')->insertGetID(array(
                 'departamento_id'   =>  $departamento_id,
-                'rut'               =>  $faker->unique()->ean8,
+                'rut'               =>  $rut_d,
                 'nombres'           =>  $faker->firstName . ' ' . $faker->name,
                 'apellidos'         =>  $faker->lastName . ' ' . $faker->lastName,
                 'created_at'        =>  \DB::raw('NOW()'),
                 'updated_at'        =>  \DB::raw('NOW()')
             ));
+            //******
+            \DB::table('roles_usuarios')->insert(array(
+                'rut'       =>  $rut_d,
+                'rol_id'    =>  $faker->numberBetween(1, 4)
+            ));
+            //******
 
+            $rut_e = $faker->unique()->ean8;
             $estudiante_id = \DB::table('estudiantes')->insertGetID(array(
                 'carrera_id'        =>  $carrera_id,
-                'rut'               =>  $faker->unique()->ean8,
+                'rut'               =>  $rut_e,
                 'nombres'           =>  $faker->firstName . ' ' . $faker->name,
                 'apellidos'         =>  $faker->lastName . ' ' . $faker->lastName,
                 'email'             =>  $faker->email,
                 'created_at'        =>  \DB::raw('NOW()'),
                 'updated_at'        =>  \DB::raw('NOW()')
             ));
+            //******
+            \DB::table('roles_usuarios')->insert(array(
+                'rut'       =>  $rut_e,
+                'rol_id'    =>  $faker->numberBetween(1, 4)
+            ));
+            //******
 
             $tipo_sala_id = \DB::table('tipos_salas')->insertGetID(array(
                 'nombre'            =>  $faker->unique()->company,
@@ -132,16 +154,6 @@ class CampusTableSeeder extends Seeder{
                 'curso_id'      =>  $curso_id
             ));
         }
-
-        \DB::table('estudiantes')->insert(array(
-            'carrera_id'        =>  2,
-            'rut'               =>  16967863,
-            'nombres'           =>  'Felipe Sebastian',
-            'apellidos'         =>  'Canales Saavedra',
-            'email'             =>  'f.canales.27@gmail.com',
-            'created_at'        =>  \DB::raw('NOW()'),
-            'updated_at'        =>  \DB::raw('NOW()')
-        ));
     }
 
 }

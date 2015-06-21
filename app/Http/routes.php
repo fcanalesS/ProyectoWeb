@@ -35,5 +35,5 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admini'], function() {
     Route::resource('campus', 'CampusController');
     Route::resource('usuarios', 'UsuarioController', ['only' => ['index']]);
     Route::get('usuarios/{id}/{tipo}', ['as' => 'admin.usuarios.edit', 'uses' => 'UsuarioController@edit']);
-    Route::put('usuarios/{id}/{tipo}', ['as' => 'admin.usuarios.update', 'uses' => 'UsuarioController@update']);
+    Route::put('usuarios/{id}/{tipo}/{rut}', ['as' => 'admin.usuarios.update', 'uses' => 'UsuarioController@update']);
 });

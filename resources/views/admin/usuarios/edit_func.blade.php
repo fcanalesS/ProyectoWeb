@@ -154,7 +154,7 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    {!! Form::model($func, ['route' => ['admin.usuarios.update', $func, $tipo], 'method' => 'PUT', 'role' => 'form']) !!}
+                    {!! Form::model($func, ['route' => ['admin.usuarios.update', $func, $tipo, $func->rut], 'method' => 'PUT', 'role' => 'form']) !!}
                     <div class="form-group">
                         {!! Form::text('nombres', null,['class' => 'form-control', 'disabled']) !!}
                     </div>
@@ -170,13 +170,18 @@
                     </div>
                     <div class="form-group">
                         <label for="rol_asig" class="">Seleccione un nuevo rol</label>
-                        {!! Form::select('rol_asig', (['0' => 'Selecciona un Perfil', '1' => 'Administrador', '2' => 'Docente', '3' => 'Estudiante', '4' => 'Encargado de campus' ] ), null, ['class' => 'form-control']) !!}
+                        {!! Form::select('rol_asig', (['0' => 'Selecciona un Perfil'] + $rol ), null, ['class' => 'form-control']) !!}
                     </div>
                     {!! Form::hidden('id', $id) !!}
                     <button type="submit" class="btn btn-success ">Actualizar</button>
                     {!! Form::close() !!}
                 </div><!-- /.box-body -->
                 <div class="box-footer">
+                    @if(Session::has('promoted'))
+                    <div class="callout callout-success">
+                        <p>{{ Session::get('promoted') }}</p>
+                    </div>
+                    @endif
                 </div>
             </div><!-- /.box -->
 

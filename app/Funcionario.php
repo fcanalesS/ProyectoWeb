@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Funcionario extends Model {
 
-	protected $table= 'funcionarios';
+	protected $table = 'funcionarios';
     protected $hidden = ['created_at', 'updated_at'];
 
     public function funcionario_departamento ()
