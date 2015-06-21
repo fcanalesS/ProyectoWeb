@@ -109,11 +109,11 @@
                         </a>
                     </li>
                     <li class="header">Menu de Administración</li>
-                    <li><a href="{{ url($rut.'/admin/campus') }}"><i class="fa fa-circle-o"></i><span>Perfiles de Campus</span></a></li>
-                    <li><a href=""><i class="fa fa-circle-o"></i><span>Perfiles de Usuarios</span></a></li>
+                    <li><a href="{{ url('/admin/campus') }}"><i class="fa fa-circle-o"></i><span>Perfiles de Campus</span></a></li>
+                    <li><a href="{{ url('/admin/usuarios') }}"><i class="fa fa-circle-o"></i><span>Perfiles de Usuarios</span></a></li>
 
                     <li class="header"></li>
-                    <li><a href="#"><i class="fa fa-circle-o text-green"></i> <span>Contacto</span></a></li>
+                    <li><a href="#!"><i class="fa fa-circle-o text-green"></i> <span>Contacto</span></a></li>
                     <li class="header"></li>
 
                 </ul>

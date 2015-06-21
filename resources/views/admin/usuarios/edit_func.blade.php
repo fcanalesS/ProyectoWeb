@@ -5,16 +5,16 @@
     <title>UTEM</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- Bootstrap 3.3.4 -->
-    <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../../bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <!-- Font Awesome Icons -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <!-- Ionicons -->
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
     <!-- Theme style -->
-    <link href="../../dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../../dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
-    <link href="../../dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../../dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -50,13 +50,13 @@
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
+                            <img src="../../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
                             <span class="hidden-xs">Felipe Sebastian Canales Saavedra</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
+                                <img src="../../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
                                 <p>
                                     Administrador
                                 </p>
@@ -91,7 +91,7 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
+                    <img src="../../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
                 </div>
                 <div class="pull-left info">
                     <p>Felipe Canales</p>
@@ -147,112 +147,39 @@
             <!-- Default box -->
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Mision y Vision</h3>
+                    <h3 class="box-title">{{ $datos_usuario[0]->nombre }}</h3>
                     <div class="box-tools pull-right">
                         <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                         <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
                     </div>
                 </div>
                 <div class="box-body">
-                    <table class="table table-bordered table-hover" id="campus">
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Direccion</th>
-                            <th>Rut Encargado</th>
-                            <th>Acciones</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach($campus as $c)
-                            <tr>
-                                <td>{{ $c->id }}</td>
-                                <td>{{ $c->nombre }}</td>
-                                <td>{{ $c->direccion }}</td>
-                                <td>{{ $c->rut_encargado }}</td>
-                                <td><a href="{{ route('admin.campus.edit', [$c->id]) }}" class="btn bg-olive">Editar</a> <a href="" class="btn btn-danger">Eliminar</a></td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                    {!! Form::model($func, ['route' => ['admin.usuarios.update', $func, $tipo], 'method' => 'PUT', 'role' => 'form']) !!}
+                    <div class="form-group">
+                        {!! Form::text('nombres', null,['class' => 'form-control', 'disabled']) !!}
+                    </div>
+                    <div class="form-group">
+                        {!! Form::text('apellidos', null,['class' => 'form-control', 'disabled']) !!}
+                    </div>
+                    <div class="form-group">
+                        {!! Form::text('rut', null,['class' => 'form-control', 'disabled']) !!}
+                    </div>
+                    <div class="form-group">
+                        <label for="rol" class="">Rol actual</label>
+                        {!! Form::text('rol', $datos_usuario[0]->nombre,['class' => 'form-control', 'placeholder' => 'Rol', 'disabled']) !!}
+                    </div>
+                    <div class="form-group">
+                        <label for="rol_asig" class="">Seleccione un nuevo rol</label>
+                        {!! Form::select('rol_asig', (['0' => 'Selecciona un Perfil', '1' => 'Administrador', '2' => 'Docente', '3' => 'Estudiante', '4' => 'Encargado de campus' ] ), null, ['class' => 'form-control']) !!}
+                    </div>
+                    {!! Form::hidden('id', $id) !!}
+                    <button type="submit" class="btn btn-success ">Actualizar</button>
+                    {!! Form::close() !!}
                 </div><!-- /.box-body -->
+                <div class="box-footer">
+                </div>
             </div><!-- /.box -->
-            <div class="box-footer">
-                @if(Session::has('message_1'))
-                    <div class="callout callout-success">
-                        <p>{{ Session::get('message_1') }}</p>
-                    </div>
-                @endif
-                @if(Session::has('delete_message'))
-                    <div class="callout callout-danger">
-                        <p>{{ Session::get('delete_message') }}</p>
-                    </div>
-                @endif
-            </div>
 
-            <!-- Main row -->
-            <div class="row">
-                <!-- Left col -->
-                <section class="col-lg-7 connectedSortable">
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Agregar Campus</h3>
-                            <div class="box-tools pull-right">
-                                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <div class="box-body">
-                            {!! Form::open(['route' => 'admin.campus.store', 'method' => 'POST', 'role' => 'form']) !!}
-                            <div class="form-group">
-                                {!! Form::text('nombre', '',['class' => 'form-control', 'placeholder' => 'Ingresa nombre']) !!}
-                            </div>
-                            <div class="form-group">
-                                {!! Form::text('direccion', '',['class' => 'form-control', 'placeholder' => 'Ingresa direccion']) !!}
-                            </div>
-                            <div class="form-group">
-                                {!! Form::text('latitud', '',['class' => 'form-control', 'placeholder' => 'Ingresa Latitud']) !!}
-                            </div>
-                            <div class="form-group">
-                                {!! Form::text('longitud', '',['class' => 'form-control', 'placeholder' => 'Ingresa Longitud']) !!}
-                            </div>
-                            <div class="form-group">
-                                {!! Form::textarea('descripcion', '',['class' => 'form-control', 'placeholder' => 'Descripcion del campus']) !!}
-                            </div>
-                            <div class="form-group">
-                                {!! Form::text('rut_encargado', '',['class' => 'form-control', 'placeholder' => 'Ingresa rut del encargado']) !!}
-                            </div>
-                            <button type="submit" class="btn btn-success ">Agregar</button>
-                            {!! Form::close() !!}
-                        </div><!-- /.box-body -->
-                        <div class="box-footer">
-                            @if(Session::has('message'))
-                                <div class="callout callout-success">
-                                    <p>{{ Session::get('message') }}</p>
-                                </div>
-                            @endif
-                        </div>
-                    </div><!-- /.box -->
-                </section>
-
-
-                <!-- Right Col -->
-                <section class="col-lg-5 connectedSortable">
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Campus</h3>
-                            <div class="box-tools pull-right">
-                                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <div class="box-body">
-                            Inforacion o algo
-                        </div><!-- /.box-body -->
-                    </div><!-- /.box -->
-                </section>
-            </div>
         </section>
     </div>
     <footer class="main-footer">

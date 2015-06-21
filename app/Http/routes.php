@@ -33,4 +33,7 @@ Route::get('logout', 'LoginController@logout');
 Route::group(['prefix' => 'admin', 'namespace' => 'Admini'], function() {
     Route::get('index', 'AdminController@index');
     Route::resource('campus', 'CampusController');
+    Route::resource('usuarios', 'UsuarioController', ['only' => ['index']]);
+    Route::get('usuarios/{id}/{tipo}', ['as' => 'admin.usuarios.edit', 'uses' => 'UsuarioController@edit']);
+    Route::put('usuarios/{id}/{tipo}', ['as' => 'admin.usuarios.update', 'uses' => 'UsuarioController@update']);
 });
