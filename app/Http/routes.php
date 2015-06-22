@@ -37,3 +37,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admini'], function() {
     Route::get('usuarios/{id}/{tipo}', ['as' => 'admin.usuarios.edit', 'uses' => 'UsuarioController@edit']);
     Route::put('usuarios/{id}/{tipo}/{rut}', ['as' => 'admin.usuarios.update', 'uses' => 'UsuarioController@update']);
 });
+
+Route::group(['prefix' => 'encargado', 'namespace' => 'ECampus'], function () {
+    Route::get('index', 'EncargadoController@index');
+    Route::resource('salas', 'SalasController');
+});
