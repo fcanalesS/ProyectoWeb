@@ -5,16 +5,16 @@
     <title>UTEM</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- Bootstrap 3.3.4 -->
-    <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../../bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <!-- Font Awesome Icons -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <!-- Ionicons -->
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
     <!-- Theme style -->
-    <link href="../../dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../../dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
-    <link href="../../dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
+    <link href="../../../dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -33,7 +33,7 @@
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>U</b>TM</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>UTEM</b>E. Campus</span>
+            <span class="logo-lg"><b>UTEM</b>Administrador</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -108,7 +108,7 @@
                         <i class="fa fa-th"></i> <span>Link a algún lado</span> <small class="label pull-right bg-red">!</small>
                     </a>
                 </li>
-                <li class="header">Menú</li>
+                <li class="header">Menu de Administración</li>
 
                 <li><a href="{{ url('encargado/salas') }}"><i class="fa fa-circle-o"></i><span>Modificar salas</span></a></li>
                 <li><a href="{{ url('encargado/asignar') }}"><i class="fa fa-circle-o"></i><span>Asignar sala a curso/evento</span></a></li>
@@ -134,7 +134,7 @@
         <section class="content-header">
             <h1>
                 Dashboard
-                <small>Administrador</small>
+                <small>Encargado de Campus: 'fulano'</small>
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
@@ -149,48 +149,104 @@
             <!-- Default box -->
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Listado de salas</h3>
+                    <h3 class="box-title">Listado de salas ocupadas</h3>
                     <div class="box-tools pull-right">
                         <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                         <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
                     </div>
                 </div>
                 <div class="box-body">
-
+                    <table class="table table-bordered table-hover" id="salas">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Sala</th>
+                            <th>Sección</th>
+                            <th>Cod. Asignatura</th>
+                            <th>Fecha</th>
+                            <th>Periodo</th>
+                            <th>Hora Inicio</th>
+                            <th>Hora Fin</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($horarios as $h)
+                            <tr>
+                                <td>{{ $h->id }}</td>
+                                <td>{{ $h->horario_sala->nombre }}</td>
+                                <td>{{ $h->horario_curso->seccion }}</td>
+                                <td>{{ $h->horario_curso->asignatura_id }}</td>
+                                <td>{{ $h->fecha }}</td>
+                                <td>{{ $h->horario_periodo->bloque }}</td>
+                                <td>{{ $h->horario_periodo->inicio }}</td>
+                                <td>{{ $h->horario_periodo->fin }}</td>
+                                <td><a href="{{ route('encargado.asignar.edit', [$h->id]) }}" class="btn btn-xs bg-olive">Editar</a> <a href="" class="btn btn-xs btn-danger">Eliminar</a></td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
                 </div><!-- /.box-body -->
+                <div class="box-footer">
+                    @if(Session::has('re_sala'))
+                        <div class="callout callout-success">
+                            <p>{{ Session::get('re_sala') }}</p>
+                        </div>
+                    @endif
+                </div>
             </div><!-- /.box -->
 
             <!-- Main row -->
             <div class="row">
                 <!-- Left col -->
-                <section class="col-lg-8 connectedSortable">
+                <section class="col-lg-6 connectedSortable">
                     <!-- Custom tabs -->
                     <div class="box">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Listado de salas</h3>
+                            <h3 class="box-title">Agregar estado de sala</h3>
                             <div class="box-tools pull-right">
                                 <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                                 <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
                             </div>
                         </div>
                         <div class="box-body">
-
+                            {!! Form::open(['route' => 'encargado.asignar.store', 'method' => 'POST', 'role' => 'form']) !!}
+                                <div class="form-group">
+                                    <label>Date masks:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        {!! Form::text('fecha', '', ['class' => 'form-control', 'data-inputmask' => '"alias": "yyyy-mm-dd"', 'data-mask', 'id' => 'datemask']) !!}
+                                    </div><!-- /.input group -->
+                                </div><!-- /.form group -->
+                                <div class="form-group">
+                                    {!! Form::select('sala_id', (['0' => 'Salas'] + $salas ), null, ['class' => 'form-control']) !!}
+                                </div>
+                                <div class="form-group">
+                                    {!! Form::select('periodo_id', (['0' => 'Periodo'] + $periodos ), null, ['class' => 'form-control']) !!}
+                                </div>
+                                <div class="form-group">
+                                    {!! Form::select('curso_id', (['0' => 'Asignatura'] + $asignaturas ), null, ['class' => 'form-control']) !!}
+                                </div>
+                                <button type="submit" class="btn btn-success ">Agregar</button>
+                            {!! Form::close() !!}
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
                     <div class="box-footer">
-                        @if(Session::has('add_sala'))
+                        @if(Session::has('add_horario'))
                             <div class="callout callout-success">
-                                <p>{{ Session::get('add_sala') }}</p>
+                                <p>{{ Session::get('add_horario') }}</p>
                             </div>
                         @endif
                     </div>
                 </section>
 
                 <!-- Right Col -->
-                <section class="col-lg-4 connectedSortable">
+                <section class="col-lg-6 connectedSortable">
                     <div class="box">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Listado de salas actuales</h3>
+                            <h3 class="box-title">Agregar nuevo tipo</h3>
                             <div class="box-tools pull-right">
                                 <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                                 <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
@@ -200,6 +256,7 @@
 
                         </div><!-- /.box-body -->
                         <div class="box-footer">
+
                         </div><!-- /.box-footer-->
                     </div><!-- /.box -->
 
@@ -245,21 +302,31 @@
 </div><!-- ./wrapper -->
 
 <!-- jQuery 2.1.4 -->
-<script src="../../plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="../../../plugins/jQuery/jQuery-2.1.4.min.js"></script>
 <!-- Bootstrap 3.3.2 JS -->
-<script src="../../bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="../../../bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<!-- InputMask -->
+<script src="../../plugins/input-mask/jquery.inputmask.js" type="text/javascript"></script>
+<script src="../../plugins/input-mask/jquery.inputmask.date.extensions.js" type="text/javascript"></script>
+<script src="../../plugins/input-mask/jquery.inputmask.extensions.js" type="text/javascript"></script>
 <!-- SlimScroll -->
-<script src="../../plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<script src="../../../plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
 <!-- FastClick -->
-<script src='../../plugins/fastclick/fastclick.min.js'></script>
+<script src='../../../plugins/fastclick/fastclick.min.js'></script>
 <!-- AdminLTE App -->
-<script src="../../dist/js/app.min.js" type="text/javascript"></script>
+<script src="../../../dist/js/app.min.js" type="text/javascript"></script>
 <!-- Data Table scripts -->
-<script src="../../plugins/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
-<script src="../../plugins/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
-
+<script src="../../../plugins/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="../../../plugins/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
 <!-- Demo -->
-<script src="../../dist/js/demo.js" type="text/javascript"></script>
+<script src="../../../dist/js/demo.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(function() {
+       $("#datemask").inputmask("yyyy-mm-dd", {"placeholder": "yyyy-mm-dd"})
+    });
+</script>
+
 <script type="text/javascript">
     $(function () {
         $("#salas").dataTable({
@@ -270,31 +337,9 @@
             "bInfo": true,
             "bAutoWidth": true
         });
-        $("#horario").dataTable({
-            "bPaginate": true,
-            "bLengthChange": false,
-            "bFilter": true,
-            "bSort": true,
-            "bInfo": true,
-            "bAutoWidth": true
-        });
-        $("#doc").dataTable({
-            "bPaginate": true,
-            "bLengthChange": false,
-            "bFilter": true,
-            "bSort": true,
-            "bInfo": true,
-            "bAutoWidth": true
-        });
-        $("#est").dataTable({
-            "bPaginate": true,
-            "bLengthChange": false,
-            "bFilter": true,
-            "bSort": true,
-            "bInfo": true,
-            "bAutoWidth": true
-        });
     });
 </script>
+
+
 </body>
 </html>

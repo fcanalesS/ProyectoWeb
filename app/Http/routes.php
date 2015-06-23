@@ -41,4 +41,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admini'], function() {
 Route::group(['prefix' => 'encargado', 'namespace' => 'ECampus'], function () {
     Route::get('index', 'EncargadoController@index');
     Route::resource('salas', 'SalasController');
+    Route::post('/tipo-salas', ['as' => 'encargado.tiposala.store', 'uses' => 'TipoSalasController@store']);
+    Route::get('/tipo-salas/edit/{id}', ['as' => 'encargado.tiposala.edit', 'uses' => 'TipoSalasController@edit']);
+    Route::put('tipo-salas/{id}', ['as' => 'encargado.tiposala.update', 'uses' => 'TipoSalasController@update']);
+    Route::resource('asignar', 'AsignarController');
 });

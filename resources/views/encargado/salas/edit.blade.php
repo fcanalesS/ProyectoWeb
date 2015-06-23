@@ -109,7 +109,8 @@
                     </a>
                 </li>
                 <li class="header">Menu de Administración</li>
-                <li><a href=""><i class="fa fa-circle-o"></i><span>Asignar sala a curso/evento</span></a></li>
+                <li><a href="{{ url('encargado/salas') }}"><i class="fa fa-circle-o"></i><span>Modificar salas</span></a></li>
+                <li><a href="{{ url('encargado/asignar') }}"><i class="fa fa-circle-o"></i><span>Asignar sala a curso/evento</span></a></li>
                 <li><a href=""><i class="fa fa-circle-o"></i><span>Ingreso de datos academicos</span></a></li>
 
                 <li class="header"></li>
@@ -169,7 +170,7 @@
                         </div>
                         <div class="form-group">
                             <label for="sala_campus">Campus al que pertenece</label>
-                            {!! Form::text('nombre', $campus[0]->nombre,['class' => 'form-control', 'id'=>'sala_campus', 'disabled']) !!}
+                            {!! Form::text('campus_id', $campus[0]->nombre,['class' => 'form-control', 'id'=>'sala_campus', 'disabled']) !!}
                         </div>
                     {!! Form::hidden('campus_id', $campus[0]->id) !!}
                     {!! Form::hidden('id', $id) !!}
@@ -177,11 +178,6 @@
                     {!! Form::close() !!}
                 </div><!-- /.box-body -->
                 <div class="box-footer">
-                    @if(Session::has('promoted'))
-                        <div class="callout callout-success">
-                            <p>{{ Session::get('promoted') }}</p>
-                        </div>
-                    @endif
                 </div>
             </div><!-- /.box -->
 

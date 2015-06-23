@@ -4,8 +4,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Horario extends Model {
 
+    public $timestamps = false;
+
 	protected $table = 'horarios';
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $fillable = ['fecha', 'sala_id', 'periodo_id', 'curso_id'];
 
     public function horario_sala ()
     {

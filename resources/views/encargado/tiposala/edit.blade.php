@@ -109,8 +109,9 @@
                     </a>
                 </li>
                 <li class="header">Menu de Administración</li>
-                <li><a href=""><i class="fa fa-circle-o"></i><span>Perfiles de Campus</span></a></li>
-                <li><a href=""><i class="fa fa-circle-o"></i><span>Perfiles de Usuarios</span></a></li>
+                <li><a href="{{ url('encargado/salas') }}"><i class="fa fa-circle-o"></i><span>Modificar salas</span></a></li>
+                <li><a href="{{ url('encargado/asignar') }}"><i class="fa fa-circle-o"></i><span>Asignar sala a curso/evento</span></a></li>
+                <li><a href=""><i class="fa fa-circle-o"></i><span>Ingreso de datos academicos</span></a></li>
 
                 <li class="header"></li>
                 <li><a href="#"><i class="fa fa-circle-o text-green"></i> <span>Contacto</span></a></li>
@@ -147,36 +148,23 @@
             <!-- Default box -->
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Editar Campus: <strong>{{ $campus->nombre }}</strong></h3>
+                    <h3 class="box-title">Editar Tipo de sala</h3>
                     <div class="box-tools pull-right">
                         <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                         <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
                     </div>
                 </div>
                 <div class="box-body">
-                    {!! Form::model($campus, ['route' => ['admin.campus.update', $campus], 'method' => 'PUT', 'role' => 'form']) !!}
+                    {!! Form::model($tipo_sala, ['route' => ['encargado.tiposala.update', $tipo_sala], 'method' => 'PUT', 'role' => 'form']) !!}
                         <div class="form-group">
                             {!! Form::text('nombre', null,['class' => 'form-control', 'placeholder' => 'Ingresa nombre']) !!}
                         </div>
                         <div class="form-group">
-                            {!! Form::text('direccion', null,['class' => 'form-control', 'placeholder' => 'Ingresa direccion']) !!}
+                            {!! Form::textarea('descripcion', null,['class' => 'form-control', 'placeholder' => 'Ingresa direccion']) !!}
                         </div>
-                        <div class="form-group">
-                            {!! Form::text('latitud', null,['class' => 'form-control', 'placeholder' => 'Ingresa Latitud']) !!}
-                        </div>
-                        <div class="form-group">
-                            {!! Form::text('longitud', null,['class' => 'form-control', 'placeholder' => 'Ingresa Longitud']) !!}
-                        </div>
-                        <div class="form-group">
-                            {!! Form::textarea('descripcion', null,['class' => 'form-control', 'placeholder' => 'Descripcion del campus']) !!}
-                        </div>
-                        <div class="form-group">
-                            {!! Form::text('rut_encargado', null,['class' => 'form-control', 'placeholder' => 'Ingresa rut del encargado']) !!}
-                        </div>
-                        {!! Form::hidden('id', $id) !!}
-                        <button type="submit" class="btn btn-success ">Actualizar</button>
+                    {!! Form::hidden('id', $id) !!}
+                    <button type="submit" class="btn btn-success ">Actualizar</button>
                     {!! Form::close() !!}<br/>
-                    @include('partials.delete')
                 </div><!-- /.box-body -->
                 <div class="box-footer">
                 </div>
@@ -197,34 +185,15 @@
 </div><!-- ./wrapper -->
 
 <!-- jQuery 2.1.4 -->
-<script src="../../plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="../../../plugins/jQuery/jQuery-2.1.4.min.js"></script>
 <!-- Bootstrap 3.3.2 JS -->
-<script src="../../bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="../../../bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 <!-- SlimScroll -->
-<script src="../../plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<script src="../../../plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
 <!-- FastClick -->
-<script src='../../plugins/fastclick/fastclick.min.js'></script>
+<script src='../../../plugins/fastclick/fastclick.min.js'></script>
 <!-- AdminLTE App -->
-<script src="../../dist/js/app.min.js" type="text/javascript"></script>
-<!-- Data Table scripts -->
-<script src="../../plugins/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
-<script src="../../plugins/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
-
-<!-- Demo -->
-<script src="../../dist/js/demo.js" type="text/javascript"></script>
-<!-- Table Options -->
-<script type="text/javascript">
-    $(function() {
-        $("#campus").dataTable({
-            "bPaginate": true,
-            "bLengthChange": false,
-            "bFilter": true,
-            "bSort": true,
-            "bInfo": true,
-            "bAutoWidth": true
-        });
-    });
-</script>
+<script src="../../../dist/js/app.min.js" type="text/javascript"></script>
 
 </body>
 </html>

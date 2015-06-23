@@ -18,7 +18,16 @@ class SalasController extends Controller {
 	 */
 	public function index()
 	{
-		return view('encargado.salas.index');
+        $datos_salas = Sala::select('id', 'campus_id', 'tipo_sala_id', 'nombre', 'descripcion')
+            ->with('sala_campus')
+            ->with('sala_tipoS')->get();
+        $tipo_sala = TipoSala::lists('nombre', 'id');
+        $ts = TipoSala::select('id','nombre', 'descripcion')->get();
+        $campus_sala = Campus::lists('nombre', 'id');
+
+        //dd($tipo_sala);
+
+        return view('encargado.salas.index', compact('datos_salas', 'tipo_sala', 'campus_sala', 'ts'));
 	}
 
 	/**
@@ -77,16 +86,22 @@ class SalasController extends Controller {
         return view('encargado.salas.edit', compact('sala', 'tipo_s', 'campus', 'id'));
 	}
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int $id
+     * @param Request $request
+     * @return Response
+     */
 	public function update($id, Request $request)
-	{
-		dd($request->all());
-	}
+    {
+        $sala = Sala::findOrFail($id);
+        $sala->fill($request->all());
+
+        $sala->save();
+
+        return redirect('encargado/salas');
+    }
 
 	/**
 	 * Remove the specified resource from storage.
