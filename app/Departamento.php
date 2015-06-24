@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 class Departamento extends Model {
 
 	protected $table = 'departamentos';
+    protected $fillable = ['nombre', 'facultad_id', 'descripcion'];
     protected $hidden = ['created_at', 'updated_at'];
 
     public function dep_facultades ()

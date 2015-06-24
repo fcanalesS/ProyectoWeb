@@ -120,7 +120,7 @@
                     </ul>
                 </li>
                 <li><a href="{{ url('encargado/asignar') }}"><i class="fa fa-circle-o"></i><span>Asignar sala a curso/evento</span></a></li>
-                <li><a href=""><i class="fa fa-circle-o"></i><span>Ingreso de datos academicos</span></a></li>
+                <li><a href="{{ url('encargado/ingreso-datos') }}"><i class="fa fa-circle-o"></i><span>Ingreso de datos academicos</span></a></li>
 
                 <li class="header"></li>
                 <li><a href="#!"><i class="fa fa-circle-o text-green"></i> <span>Contacto</span></a></li>

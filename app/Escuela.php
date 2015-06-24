@@ -4,7 +4,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Escuela extends Model {
 
-	protected $table = 'escuela';
+	protected $table = 'escuelas';
+    protected $fillable = ['nombre', 'departamento_id', 'descripcion'];
     protected $hidden = ['created_at', 'updated_at'];
 
     public function escuela_departamento()

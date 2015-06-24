@@ -155,24 +155,23 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    {!! Form::model($sala, ['route' => ['encargado.salas.update', $sala], 'method' => 'PUT', 'role' => 'form']) !!}
+                    {!! Form::model($asignatura, ['route' => ['encargado.ingreso-datos.update_asig', $asignatura], 'method' => 'PUT', 'role' => 'form']) !!}
                         <div class="form-group">
-                            <label for="nombre">Nombre:</label>
-                            {!! Form::text('nombre', $sala->nombre,['class' => 'form-control', 'id'=>'nombre']) !!}
+                            <label for="">Departamentos:</label>
+                            {!! Form::select('departamento_id', (['0' => 'Departamento'] + $depto ), null, ['class' => 'form-control']) !!}
                         </div>
                         <div class="form-group">
-                            <label for="descripcion">Descripción</label>
-                            {!! Form::textarea('descripcion', $sala->descripcion, ['class' => 'form-control', 'id' => 'descripcion']) !!}
+                            <label for="">Codigo (AAA00000)</label>
+                            {!! Form::text('codigo', $asignatura->codigo,['class' => 'form-control', 'maxlength' => '8']) !!}
                         </div>
                         <div class="form-group">
-                            <label for="tipo">Tipos disponibles de salas</label>
-                            {!! Form::select('tipo_sala_id', (['0' => 'Tipos de sala disponibles'] + $tipo_s ), null, ['class' => 'form-control', 'id' => 'tipo']) !!}
+                            <label for="">Nombre</label>
+                            {!! Form::text('nombre', $asignatura->nombre,['class' => 'form-control']) !!}
                         </div>
                         <div class="form-group">
-                            <label for="sala_campus">Campus al que pertenece</label>
-                            {!! Form::text('campus_id', $campus[0]->nombre,['class' => 'form-control', 'id'=>'sala_campus', 'disabled']) !!}
+                            <label for="">Descripcion</label>
+                            {!! Form::textarea('descripcion', $asignatura->descripcion,['class' => 'form-control', 'readonly']) !!}
                         </div>
-                    {!! Form::hidden('campus_id', $campus[0]->id) !!}
                     {!! Form::hidden('id', $id) !!}
                     <button type="submit" class="btn btn-success ">Actualizar</button>
                     {!! Form::close() !!}
@@ -212,18 +211,7 @@
 <!-- Demo -->
 <script src="../../dist/js/demo.js" type="text/javascript"></script>
 <!-- Table Options -->
-<script type="text/javascript">
-    $(function() {
-        $("#campus").dataTable({
-            "bPaginate": true,
-            "bLengthChange": false,
-            "bFilter": true,
-            "bSort": true,
-            "bInfo": true,
-            "bAutoWidth": true
-        });
-    });
-</script>
+
 
 </body>
 </html>
