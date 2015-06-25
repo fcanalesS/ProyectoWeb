@@ -123,7 +123,6 @@
                         <li><a href="#car"><i class="fa fa-circle-o"></i> Agregar Carrera</a></li>
                         <li class="header"></li>
                         <li><a href="#est"><i class="fa fa-circle-o"></i> Agregar Estudiante</a></li>
-                        <li><a href="#fun"><i class="fa fa-circle-o"></i> Agregar Funcionario</a></li>
                         <li><a href="#doc"><i class="fa fa-circle-o"></i> Agregar Docente</a></li>
                     </ul>
                 </li>
@@ -162,7 +161,7 @@
             <!-- Listado de Asignaturas -->
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title" id="asi">Listado de Asignaturas</h3>
+                    <h3 class="box-title">Listado de Asignaturas</h3>
                     <div class="box-tools pull-right">
                         <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                         <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
@@ -197,6 +196,7 @@
                 <div class="box-footer">
                     <div class="row">
                         <div class="col-lg-7 col-md-7">
+                            <h3 class="box-title" id="asi">Agregra Asignatura</h3>
                             {!! Form::open(['route' => 'encargado.ingreso-datos.store_asig', 'method' => 'POST', 'role' => 'form']) !!}
                             <div class="form-group">
                                 <label for="">Nombre de asignatura</label>
@@ -241,7 +241,7 @@
             <!-- Listado de Cursos -->
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title" id="cur">Listado de Cursos</h3>
+                    <h3 class="box-title">Listado de Cursos</h3>
                     <div class="box-tools pull-right">
                         <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                         <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
@@ -269,14 +269,19 @@
                                     <td>{{ $c->semestre }}</td>
                                     <td>{{ $c->anio }}</td>
                                     <td>{{ $c->curso_docente->nombres }} {{ $c->curso_docente->apellidos }}</td>
-                                    <td><a href="" class="btn btn-xs bg-olive">Editar</a> <a href="" class="btn btn-xs btn-danger">Eliminar</a></td>
+                                    <td><a href="{{ route('encargado.ingreso-datos.edit_curso', [$c->id]) }}" class="btn btn-xs bg-olive">Editar</a> <a href="" class="btn btn-xs btn-danger">Eliminar</a></td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
+                    @if(Session::has('update_curso'))
+                        <div class="callout callout-success">
+                            <p>{{ Session::get('update_curso') }}</p>
+                        </div>
+                    @endif
                 </div><!-- /.box-body -->
                 <div class="box-footer">
-                    <h3 class="box-title">Agregar Curso</h3><br/>
+                    <h3 class="box-title" id="cur">Agregar Curso</h3><br/>
                     {!! Form::open(['route' => 'encargado.ingreso-datos.store_curso', 'method' => 'POST', 'role' => 'form']) !!}
                         <div class="row">
                             <div class="col-lg-7 col-md-7">
@@ -326,7 +331,7 @@
             <!-- Listado de Carreras -->
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title" id="car">Listado de Carreras</h3>
+                    <h3 class="box-title">Listado de Carreras</h3>
                     <div class="box-tools pull-right">
                         <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                         <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
@@ -350,17 +355,51 @@
                                 <td>{{ $carrera->codigo }}</td>
                                 <td>{{ $carrera->nombre }}</td>
                                 <td>{{ $carrera->carrera_escuela->nombre }}</td>
-                                <td><a href="" class="btn btn-xs bg-olive">Editar</a> <a href="" class="btn btn-xs btn-danger">Eliminar</a></td>
+                                <td><a href="{{ route('encargado.ingreso-datos.edit_carrera', [$carrera->id]) }}" class="btn btn-xs bg-olive">Editar</a> <a href="" class="btn btn-xs btn-danger">Eliminar</a></td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
                 </div><!-- /.box-body -->
                 <div class="box-footer">
-                    <a href="#" type="button" class="btn bg-primary">Agregar una nueva carrera</a>
-                    @if(Session::has('re_sala'))
+                    <h3 class="box-title" id="car">Agregar Carrera</h3>
+                    <div class="row">
+                        <div class="col-lg-7 col-md-7">
+                            {!! Form::open(['route' => ['encargado.ingreso-datos.store_carrera'], 'method' => 'POST', 'role' => 'form']) !!}
+                            <div class="form-group">
+                                <label for="">Escuelas:</label>
+                                {!! Form::select('escuela_id', (['0' => 'Escuelas'] + $escuela_lists ), null, ['class' => 'form-control']) !!}
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-3 col-lg-3">
+                                        <label for="">Codigo de carrera</label>
+                                        {!! Form::text('codigo', '',['class' => 'form-control', 'maxlength' => '8']) !!}
+                                    </div>
+                                    <div class="col-md-9 col-lg-9">
+                                        <label for="">Nombre de carrera</label>
+                                        {!! Form::text('nombre', '',['class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Descripción:</label>
+                                {!! Form::textarea('descripcion', '',['class' => 'form-control']) !!}
+                            </div>
+                            <br/>
+                            <button type="submit" class="btn btn-success ">Agregar</button>
+                            {!! Form::close() !!}
+                        </div>
+                    </div>
+                    <hr/>
+                    @if(Session::has('add_carrera'))
                         <div class="callout callout-success">
-                            <p>{{ Session::get('re_sala') }}</p>
+                            <p>{{ Session::get('add_carrera') }}</p>
+                        </div>
+                    @endif
+                    @if(Session::has('update_carrera'))
+                        <div class="callout callout-success">
+                            <p>{{ Session::get('update_carrera') }}</p>
                         </div>
                     @endif
                 </div>
@@ -368,7 +407,7 @@
             <!-- Listado de Estudiantes -->
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title" id="est">Listado de Estudiantes</h3>
+                    <h3 class="box-title">Listado de Estudiantes</h3>
                     <div class="box-tools pull-right">
                         <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                         <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
@@ -401,6 +440,7 @@
                     </table>
                 </div><!-- /.box-body -->
                 <div class="box-footer">
+                    <h3 class="box-title" id="est">Agregar Estudiante</h3>
                     <div class="row">
                         <div class="col-lg-7 col-md-7">
                             <label for="">Nombres</label>
@@ -447,78 +487,6 @@
                     @endif
                 </div>
             </div><!-- /.box -->
-
-            <!-- Main row -->
-            <div class="row">
-                <!-- Left col -->
-                <section class="col-lg-6 connectedSortable">
-                    <!-- Custom tabs -->
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Agregar estado de sala</h3>
-                            <div class="box-tools pull-right">
-                                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <div class="box-body">
-
-                        </div><!-- /.box-body -->
-                    </div><!-- /.box -->
-                    <div class="box-footer">
-                        @if(Session::has('add_horario'))
-                            <div class="callout callout-success">
-                                <p>{{ Session::get('add_horario') }}</p>
-                            </div>
-                        @endif
-                    </div>
-                </section>
-
-                <!-- Right Col -->
-                <section class="col-lg-6 connectedSortable">
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Agregar nuevo tipo</h3>
-                            <div class="box-tools pull-right">
-                                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <div class="box-body">
-
-                        </div><!-- /.box-body -->
-                        <div class="box-footer">
-
-                        </div><!-- /.box-footer-->
-                    </div><!-- /.box -->
-
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Docentes</h3>
-                            <div class="box-tools pull-right">
-                                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <div class="box-body">
-
-                        </div>
-                    </div>
-
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Estudiantes</h3>
-                            <div class="box-tools pull-right">
-                                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <div class="box-body">
-
-                        </div>
-                    </div>
-                </section>
-            </div>
         </section>
     </div>
     <footer class="main-footer">

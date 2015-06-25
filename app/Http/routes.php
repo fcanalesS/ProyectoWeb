@@ -51,18 +51,35 @@ Route::group(['prefix' => 'encargado', 'namespace' => 'ECampus'], function () {
     /*Datos Academicos*/
     Route::get('ingreso-datos', ['as' => 'encargado.ingreso-datos.index', 'uses' => 'IngresoDatosController@index']);
 
-    /**Datos Academicos -> Asignatura*/
-    Route::post('asignatura',
-        ['as' => 'encargado.ingreso-datos.store_asig', 'uses' => 'IngresoDatosController@store_asignatura']);
-    Route::get('asignatura/{id}',
-        ['as' => 'encargado.ingreso-datos.edit_asig', 'uses' => 'IngresoDatosController@edit_asignatura']);
-    Route::put('asignatura/{id}',
-        ['as' => 'encargado.ingreso-datos.update_asig', 'uses' => 'IngresoDatosController@update_asignatura']);
-    /**Datos Academicos -> Asignatura*/
+        /**Datos Academicos -> Asignatura*/
+        Route::post('asignatura',
+            ['as' => 'encargado.ingreso-datos.store_asig', 'uses' => 'IngresoDatosController@store_asignatura']);
+        Route::get('asignatura/{id}',
+            ['as' => 'encargado.ingreso-datos.edit_asig', 'uses' => 'IngresoDatosController@edit_asignatura']);
+        Route::put('asignatura/{id}',
+            ['as' => 'encargado.ingreso-datos.update_asig', 'uses' => 'IngresoDatosController@update_asignatura']);
+        /**Datos Academicos -> Asignatura*/
 
-    /**Datos Academicos -> Curso*/
-    Route::post('curso',
-        ['as' => 'encargado.ingreso-datos.store_curso', 'uses' => 'IngresoDatosController@store_curso']);
-    /**Datos Academicos -> Curso*/
+        /**Datos Academicos -> Curso*/
+        Route::post('curso',
+            ['as' => 'encargado.ingreso-datos.store_curso', 'uses' => 'IngresoDatosController@store_curso']);
+        Route::get('curso/{id}',
+            ['as' => 'encargado.ingreso-datos.edit_curso', 'uses' => 'IngresoDatosController@edit_curso']);
+        Route::put('curso/{id}',
+            ['as' => 'encargado.ingreso-datos.update_curso', 'uses' => 'IngresoDatosController@update_curso']);
+        /**Datos Academicos -> Curso*/
+
+        /**Datos Académicos -> Carrera*/
+        Route::post('carrera',
+            ['as' => 'encargado.ingreso-datos.store_carrera', 'uses' => 'IngresoDatosController@store_carrera']);
+        Route::get('carrera/{id}',
+            ['as' => 'encargado.ingreso-datos.edit_carrera', 'uses' => 'IngresoDatosController@edit_carrera']);
+        Route::put('carrera/{id}',
+            ['as' => 'encargado.ingreso-datos.update_carrera', 'uses' => 'IngresoDatosController@update_carrera']);
+        /**Datos Académicos -> Carrera*/
+
+
+
+
 
 });
