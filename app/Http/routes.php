@@ -78,7 +78,18 @@ Route::group(['prefix' => 'encargado', 'namespace' => 'ECampus'], function () {
             ['as' => 'encargado.ingreso-datos.update_carrera', 'uses' => 'IngresoDatosController@update_carrera']);
         /**Datos Académicos -> Carrera*/
 
-
+    /**Datos Académicos -> Estudiante*/
+    Route::post('estudiante',
+        ['as' => 'encargado.ingreso-datos.store_estudiante', 'uses' => 'IngresoDatosController@store_estudiante']);
+    Route::get('estudiante/{id}',
+        ['as' => 'encargado.ingreso-datos.edit_estudiante', 'uses' => 'IngresoDatosController@edit_estudiante']);
+    Route::put('estudiante/{id}',
+        ['as' => 'encargado.ingreso-datos.update_estudiante', 'uses' => 'IngresoDatosController@update_estudiante']);
+    Route::get('revisar-estudiante/{id}',
+        ['as' => 'encargado.revisar.index', 'uses' => 'RevisarEstudianteController@index']);
+    Route::post('revisar-estudiante/{id}',
+        ['as' => 'encargado.revisar.ac', 'uses' => 'RevisarEstudianteController@ac']);
+    /**Datos Académicos -> Estudiante*/
 
 
 

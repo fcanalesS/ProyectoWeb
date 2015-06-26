@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers\ECampus;
 
 use App\Asignatura;
+use App\AsignaturaCursada;
 use App\Carrera;
 use App\Curso;
 use App\Departamento;
@@ -10,6 +11,7 @@ use App\Estudiante;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\RutUtils;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -23,7 +25,7 @@ class IngresoDatosController extends Controller {
 	public function index()
 	{
         $estudiantes = Estudiante::select('id', 'carrera_id', 'rut', 'nombres', 'apellidos', 'email')
-                            ->with('estudiante_carrera')
+                            ->with('estudiante_carrera', 'estudiante_ac')
                             ->get();
 
         $asignaturas = Asignatura::select('id', 'departamento_id', 'codigo', 'nombre', 'descripcion')
@@ -154,4 +156,62 @@ class IngresoDatosController extends Controller {
         }
     }
     /***** Carrera *****/
+
+    /***** Estudiantes *****/
+    public function store_estudiante(Request $request)
+    {
+        $nombres = $request->input('nombre1') .' '. $request->input('nombre2');
+        $apellidos = $request->input('apellido1') .' '. $request->input('apellido2');
+        $rut = $request->input('num') .'-'. $request->input('dig_veri');
+        if(!RutUtils::isRut($rut))
+            return redirect('encargado/ingreso-datos#est')
+                ->with('error_rut', 'El rut ingresado no es válido');
+        else
+        {
+            $array = ['carrera_id' => $request->input('carrera_id'),
+                        'rut' => $request->input('num'), 'nombres' => $nombres, 'apellidos' => $apellidos,
+                        'email' => $request->input('email')];
+            $estudiante = new Estudiante($array);
+            $estudiante->save();
+
+            return redirect('encargado/ingreso-datos#est')
+                ->with('estudiante_add', 'El estudiante '. $request->input('nombre') .' ha sido agregado');
+        }
+    }
+
+    public function edit_estudiante($id)
+    {
+        $estudiante = Estudiante::findOrFail($id);
+        $carrera_lists = Carrera::lists('nombre', 'id');
+        $datos = ['carrera_id' => $estudiante->carrera_id, 'num' => $estudiante->rut, 'dig_veri' => RutUtils::dv($estudiante->rut),
+                    'nombres' => explode(' ', $estudiante->nombres), 'apellidos' => explode(' ', $estudiante->apellidos),
+                    'email' => $estudiante->email];
+
+        return view('encargado.ingreso-datos.edit_est', compact('id', 'estudiante', 'carrera_lists', 'datos'));
+    }
+
+    public function update_estudiante($id, Request $request)
+    {
+        $estudiante = Estudiante::findOrFail($id);
+        $rut = $request->input('num') .'-'. $request->input('dig_veri');
+
+        if(!RutUtils::isRut($rut))
+            return redirect()->back()->withInput()
+                ->with('error_rut', 'El rut ingresado no es válido');
+        else
+        {
+            $array = ['carrera_id' => $request->input('carrera_id'), 'rut' => $request->input('num'),
+            'nombres' => $request->input('nombre1'). ' ' .$request->input('nombre2'),
+            'apellidos' => $request->input('apellido1'). ' ' .$request->input('apellido2')];
+
+            $estudiante->fill($array);
+            $estudiante->save();
+
+            return redirect('encargado/ingreso-datos#est')
+                ->with('update_estudiante', 'El estudiante '. $request->input('nombre'). ' ha sido actualizado');
+        }
+
+        dd($request->all());
+    }
+    /***** Estudiantes *****/
 }

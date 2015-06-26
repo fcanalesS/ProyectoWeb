@@ -85,7 +85,7 @@
     <!-- =============================================== -->
 
     <!-- Left side column. contains the sidebar -->
-    <aside class="main-sidebar">
+    <aside class="main-sidebar" id="scrollspy">
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
             <!-- Sidebar user panel -->
@@ -414,10 +414,11 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    <table class="table table-bordered table-hover" id="estudiantes">
+                    <table class="table table-bordered table-hover table-striped" id="estudiantes">
                         <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Rut</th>
                             <th>Nombres</th>
                             <th>Apellidos</th>
                             <th>E-mail</th>
@@ -429,20 +430,38 @@
                         @foreach($estudiantes as $e)
                             <tr>
                                 <td>{{ $e->id }}</td>
+                                <td>{{ $e->rut }}</td>
                                 <td>{{ $e->nombres }}</td>
                                 <td>{{ $e->apellidos }}</td>
                                 <td>{{ $e->email }}</td>
                                 <td>{{ $e->estudiante_carrera->nombre }}</td>
-                                <td><a href="" class="btn btn-xs bg-olive">Editar</a> <a href="" class="btn btn-xs btn-danger">Eliminar</a></td>
+                                <td><a href="{{ route('encargado.ingreso-datos.update_estudiante', [$e->id]) }}" class="btn btn-xs bg-olive">Editar</a> <a href="" class="btn btn-xs btn-danger">Eliminar</a>
+                                    <a href="{{ route('encargado.revisar.index', [$e->id]) }}" class="btn btn-xs bg-maroon-gradient">Revisar</a></td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
                 </div><!-- /.box-body -->
                 <div class="box-footer">
+                    {!! Form::open(['route' => ['encargado.ingreso-datos.store_estudiante'], 'method' => 'POST', 'role' => 'form']) !!}
                     <h3 class="box-title" id="est">Agregar Estudiante</h3>
                     <div class="row">
                         <div class="col-lg-7 col-md-7">
+                            <div class="row">
+                                <div class="col-md-8 col-lg-8">
+                                    <label for="">Rut</label>
+                                    {!! Form::text('num', '',['class' => 'form-control']) !!}
+                                </div>
+                                <div class="col-md-4 col-lg-4">
+                                    <label for="">Digito verificador</label>
+                                    <select name="dig_veri" id="" class="form-control">
+                                        @for($i=0; $i<=9; $i++)
+                                            <option value="{{ $i }}">{{ $i }}</option>
+                                        @endfor
+                                            <option value="K">K</option>
+                                    </select>
+                                </div>
+                            </div>
                             <label for="">Nombres</label>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6">
@@ -474,17 +493,34 @@
                                 {!! Form::text('email', '',['class' => 'form-control', 'placeholder' => 'E-mail']) !!}
                             </div>
                             <div class="form-group">
-                                {!! Form::select('tipo_sala_id', (['0' => 'Seleccione una carrera'] + $carrera_lists ), null, ['class' => 'form-control']) !!}
+                                <label for="">Carrera</label>
+                                {!! Form::select('carrera_id', (['0' => 'Seleccione una carrera'] + $carrera_lists ), null, ['class' => 'form-control']) !!}
                             </div>
                             <button type="submit" class="btn btn-success ">Agregar</button>
+                            {!! Form::close() !!}
                         </div>
                     </div>
                     <hr/>
-                    @if(Session::has('re_sala'))
-                        <div class="callout callout-success">
-                            <p>{{ Session::get('re_sala') }}</p>
+                    <div class="row">
+                        <div class="col-lg-7 col-md-7">
+                            @if(Session::has('error_rut'))
+                                <div class="callout callout-warning">
+                                    <p>{{ Session::get('error_rut') }}</p>
+                                </div>
+                            @endif
+                            @if( Session::has('estudiante_add'))
+                                <div class="callout callout-success">
+                                    <p>{{ Session::get('estudiante_add') }}</p>
+                                </div>
+                            @endif
+                            @if( Session::has('update_estudiante'))
+                                <div class="callout callout-success">
+                                    <p>{{ Session::get('update_estudiante') }}</p>
+                                </div>
+                            @endif
+
                         </div>
-                    @endif
+                    </div>
                 </div>
             </div><!-- /.box -->
         </section>
