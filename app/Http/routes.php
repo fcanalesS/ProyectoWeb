@@ -87,8 +87,8 @@ Route::group(['prefix' => 'encargado', 'namespace' => 'ECampus'], function () {
         ['as' => 'encargado.ingreso-datos.update_estudiante', 'uses' => 'IngresoDatosController@update_estudiante']);
     Route::get('revisar-estudiante/{id}',
         ['as' => 'encargado.revisar.index', 'uses' => 'RevisarEstudianteController@index']);
-    Route::post('revisar-estudiante/{id}',
-        ['as' => 'encargado.revisar.ac', 'uses' => 'RevisarEstudianteController@ac']);
+    Route::post('revisar-estudiante/',
+        ['as' => 'encargado.revisar.ac', 'uses' => 'RevisarEstudianteController@asignatura_c']);
     /**Datos Académicos -> Estudiante*/
 
 

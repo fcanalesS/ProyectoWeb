@@ -158,6 +158,16 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-7 col-lg-7">
+                            <div class="row">
+                                <div class="col-md-4 col-lg-4">
+                                    <label for="">Código</label>
+                                    {!! Form::text('codigo', $carrera[0]->codigo, ['class' => 'form-control', 'readonly']) !!}
+                                </div>
+                                <div class="col-md-8 col-lg-8">
+                                    <label for="">Carrera</label>
+                                    {!! Form::text('nombre1', $carrera[0]->nombre, ['class' => 'form-control', 'readonly']) !!}
+                                </div>
+                            </div>
                             <label for="">Nombres</label>
                             <div class="row">
                                 <div class="col-md-6 col-lg-6 form-group">
@@ -201,15 +211,17 @@
                                         <tr>
                                             <th>Sección</th>
                                             <th>Semestre</th>
+                                            <th>Año</th>
                                             <th>Asignatura</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         @foreach($ac as $a)
                                             <tr>
-                                                <td>{{ $a->ac_curso->seccion }}</td>
-                                                <td>{{ $a->ac_curso->semestre }}</td>
-                                                <td>Asignatura del curso</td>
+                                                <td>{{ $a->seccion }}</td>
+                                                <td>{{ $a->semestre }}</td>
+                                                <td>{{ $a->anio }}</td>
+                                                <td>{{ $a->nombre }}</td>
                                             </tr>
                                         @endforeach
                                         </tbody>
@@ -234,17 +246,39 @@
                     <!-- Custom tabs -->
                     <div class="box">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Agregar estado de sala</h3>
+                            <h3 class="box-title">Agregar asignatura cursada</h3>
                             <div class="box-tools pull-right">
                                 <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                                 <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
                             </div>
                         </div>
                         <div class="box-body">
-
+                            {!! Form::open(['route' => ['encargado.revisar.ac'], 'method' => 'POST', 'role' => 'form']) !!}
+                            <div class="form-group">
+                                <label for="">Seleccione curso</label>
+                                <select name="curso_id" id="cursos" class="form-control">
+                                    <option value="">Sección - Asignatura</option>
+                                    @for($i=0; $i<count($asig); $i++)
+                                    <option value="{{ $asig[$i]->id }}">{{ $asig[$i]->seccion }} - {{ $asig[$i]->nombre }}</option>
+                                    @endfor
+                                </select>
+                            </div>
+                            {!! Form::hidden('estudiante_id', $id) !!}
+                            <button type="submit" class="btn btn-success ">Agregar</button>
+                            {!! Form::close() !!}
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
                     <div class="box-footer">
+                        @if(Session::has('ac_add'))
+                            <div class="callout callout-success">
+                                <p>{{ Session::get('ac_add') }}</p>
+                            </div>
+                        @endif
+                        @if(Session::has('ac_add_error'))
+                            <div class="callout callout-danger">
+                                <p>{{ Session::get('ac_add_error') }}</p>
+                            </div>
+                        @endif
                     </div>
                 </section>
 
