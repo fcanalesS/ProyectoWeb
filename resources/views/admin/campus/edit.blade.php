@@ -5,16 +5,16 @@
     <title>UTEM</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- Bootstrap 3.3.4 -->
-    <link href="../../../bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Font Awesome Icons -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <!-- Ionicons -->
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
     <!-- Theme style -->
-    <link href="../../../dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/dist/css/AdminLTE.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
-    <link href="../../../dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/dist/css/skins/_all-skins.min.css') }}" rel="stylesheet" type="text/css" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -50,13 +50,13 @@
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="../../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
+                            <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image"/>
                             <span class="hidden-xs">Felipe Sebastian Canales Saavedra</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="../../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
+                                <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image" />
                                 <p>
                                     Administrador
                                 </p>
@@ -91,7 +91,7 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="../../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
+                    <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image" />
                 </div>
                 <div class="pull-left info">
                     <p>Felipe Canales</p>
@@ -147,42 +147,74 @@
             <!-- Default box -->
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Editar Campus: <strong>{{ $campus->nombre }}</strong></h3>
+                    <h3 class="box-title"></h3>
                     <div class="box-tools pull-right">
                         <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                         <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
                     </div>
                 </div>
                 <div class="box-body">
-                    {!! Form::model($campus, ['route' => ['admin.campus.update', $campus], 'method' => 'PUT', 'role' => 'form']) !!}
-                        <div class="form-group">
-                            {!! Form::text('nombre', null,['class' => 'form-control', 'placeholder' => 'Ingresa nombre']) !!}
+                    {!! Form::model($campus, ['route' => ['admin.campus.update_campus', $campus], 'method' => 'PUT', 'role' => 'form']) !!}
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="">Rut encargado</label>
+                                        {!! Form::text('rut_encargado', null,['class' => 'form-control', '']) !!}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Campus</label>
+                                {!! Form::text('nombre', null,['class' => 'form-control', '']) !!}
+                            </div>
+                            <div class="form-group">
+                                <label for="">Dirección</label>
+                                {!! Form::text('direccion', null,['class' => 'form-control', '']) !!}
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="">Latitud</label>
+                                        {!! Form::text('latitud', null,['class' => 'form-control', 'disabled']) !!}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="">Longitud</label>
+                                        {!! Form::text('longitud', null,['class' => 'form-control', 'disabled']) !!}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Descipción</label>
+                                {!! Form::textarea('descripcion', null,['class' => 'form-control', '']) !!}
+                            </div>
                         </div>
-                        <div class="form-group">
-                            {!! Form::text('direccion', null,['class' => 'form-control', 'placeholder' => 'Ingresa direccion']) !!}
+                        <div class="col-md-5">
+                            <H1>Insertar mapa aquí</H1>
+                            <br>
+                            @if(Session::has('campus'))
+                                <div class="alert alert-info alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h4><i class="icon fa fa-info"></i> Información!</h4>
+                                    {{ Session::get('campus') }}
+                                </div>
+                            @endif
+
                         </div>
-                        <div class="form-group">
-                            {!! Form::text('latitud', null,['class' => 'form-control', 'placeholder' => 'Ingresa Latitud']) !!}
-                        </div>
-                        <div class="form-group">
-                            {!! Form::text('longitud', null,['class' => 'form-control', 'placeholder' => 'Ingresa Longitud']) !!}
-                        </div>
-                        <div class="form-group">
-                            {!! Form::textarea('descripcion', null,['class' => 'form-control', 'placeholder' => 'Descripcion del campus']) !!}
-                        </div>
-                        <div class="form-group">
-                            {!! Form::text('rut_encargado', null,['class' => 'form-control', 'placeholder' => 'Ingresa rut del encargado']) !!}
-                        </div>
-                        {!! Form::hidden('id', $id) !!}
-                        <button type="submit" class="btn btn-success ">Actualizar</button>
-                    {!! Form::close() !!}<br/>
-                    @include('partials.delete')
+                    </div>
+                    {!! Form::hidden('id', $id) !!}
+                    <button type="submit" class="btn btn-success ">Actualizar</button>
+                    {!! Form::close() !!}
                 </div><!-- /.box-body -->
                 <div class="box-footer">
+
                 </div>
             </div><!-- /.box -->
 
         </section>
+
+
     </div>
     <footer class="main-footer">
         <div class="pull-right hidden-xs">
@@ -197,34 +229,16 @@
 </div><!-- ./wrapper -->
 
 <!-- jQuery 2.1.4 -->
-<script src="../../plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="{{ asset('/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
 <!-- Bootstrap 3.3.2 JS -->
-<script src="../../bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="{{ asset('/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
 <!-- SlimScroll -->
-<script src="../../plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<script src="{{ asset('/plugins/slimScroll/jquery.slimscroll.min.js') }}" type="text/javascript"></script>
 <!-- FastClick -->
-<script src='../../plugins/fastclick/fastclick.min.js'></script>
+<script src='{{ asset('/plugins/fastclick/fastclick.min.js') }}'></script>
 <!-- AdminLTE App -->
-<script src="../../dist/js/app.min.js" type="text/javascript"></script>
-<!-- Data Table scripts -->
-<script src="../../plugins/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
-<script src="../../plugins/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
+<script src="{{ asset('/dist/js/app.min.js') }}" type="text/javascript"></script>
 
-<!-- Demo -->
-<script src="../../dist/js/demo.js" type="text/javascript"></script>
-<!-- Table Options -->
-<script type="text/javascript">
-    $(function() {
-        $("#campus").dataTable({
-            "bPaginate": true,
-            "bLengthChange": false,
-            "bFilter": true,
-            "bSort": true,
-            "bInfo": true,
-            "bAutoWidth": true
-        });
-    });
-</script>
 
 </body>
 </html>

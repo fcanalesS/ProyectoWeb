@@ -5,16 +5,16 @@
     <title>UTEM</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- Bootstrap 3.3.4 -->
-    <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Font Awesome Icons -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <!-- Ionicons -->
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
     <!-- Theme style -->
-    <link href="../../dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/dist/css/AdminLTE.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
-    <link href="../../dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/dist/css/skins/_all-skins.min.css') }}" rel="stylesheet" type="text/css" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -50,13 +50,13 @@
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
+                            <img src="../../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
                             <span class="hidden-xs">Felipe Sebastian Canales Saavedra</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
+                                <img src="../../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
                                 <p>
                                     Administrador
                                 </p>
@@ -91,7 +91,7 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
+                    <img src="../../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
                 </div>
                 <div class="pull-left info">
                     <p>Felipe Canales</p>
@@ -104,13 +104,16 @@
                 <li class="header">MENÚ DE NAVEGACIÓN</li>
 
                 <li>
-                    <a href="">
-                        <i class="fa fa-th"></i> <span>Link a algún lado</span> <small class="label pull-right bg-red">!</small>
+                    <a href="{{ route('admin.index') }}">
+                        <i class="fa fa-th"></i> <span>Inicio</span> <small class="label pull-right bg-red">!</small>
                     </a>
                 </li>
-                <li class="header">Menu de Administración</li>
-                <li><a href=""><i class="fa fa-circle-o"></i><span>Perfiles de Campus</span></a></li>
-                <li><a href=""><i class="fa fa-circle-o"></i><span>Perfiles de Usuarios</span></a></li>
+                <li class="header">Opciones</li>
+                <li><a href="#c"><i class="fa fa-user"></i><span>Editar/Agregar campus</span></a></li>
+                <li><a href="#f"><i class="fa fa-user"></i><span>Editar/Agregar facultades</span></a></li>
+                <li><a href="#d"><i class="fa fa-user"></i><span>Editar/Agregar departamentos</span></a></li>
+                <li><a href="#e"><i class="fa fa-user"></i><span>Editar/Agregar escuelas</span></a></li>
+                <li><a href=""><i class="fa fa-building-o"></i><span>Opciones Campus</span></a></li>
 
                 <li class="header"></li>
                 <li><a href="#"><i class="fa fa-circle-o text-green"></i> <span>Contacto</span></a></li>
@@ -130,129 +133,307 @@
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>
+            <h1 id="p">
                 Dashboard
-                <small>Administrador</small>
+                <small>Opciones de usuarios</small>
             </h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
-                <li><a href="">Dashboard</a></li>
-                <li class="active">Está aquí (Mejorar o implementar de alguna otra forma)</li>
-            </ol>
         </section>
 
         <!-- Main content -->
         <section class="content">
 
             <!-- Default box -->
-            <div class="box">
+            <div class="box"> <!-- CAMPUS -->
                 <div class="box-header with-border">
-                    <h3 class="box-title">Mision y Vision</h3>
+                    <h3 class="box-title" id="c">Listado de Campus <a href="#p" class="fa fa-arrow-up" for=""></a></h3>
                     <div class="box-tools pull-right">
                         <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                         <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
                     </div>
                 </div>
                 <div class="box-body">
-                    <table class="table table-bordered table-hover" id="campus">
+                    <table id="cam" class="table table-bordered">
                         <thead>
                         <tr>
                             <th>ID</th>
                             <th>Nombre</th>
-                            <th>Direccion</th>
+                            <th>Dirección</th>
+                            <th>Descripcion</th>
                             <th>Rut Encargado</th>
                             <th>Acciones</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($campus as $c)
+                            @foreach($campus as $c)
+                                <tr>
+                                    <td>{{ $c->id }}</td>
+                                    <td>{{ $c->nombre }}</td>
+                                    <td>{{ $c->direccion }}</td>
+                                    <td>{{ $c->descripcion }}</td>
+                                    <td>{{ $c->rut_encargado }}</td>
+                                    <td>
+                                        <a href="{{ route('admin.campus.edit_campus', [$c->id]) }}" class="btn btn-xs bg-olive">Editar</a>
+                                        <a href="" class="btn btn-xs btn-danger">Eliminar</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div><!-- /.box-body -->
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-md-7">
+                            {!! Form::open(['route' => 'admin.campus.store']) !!}
+                            <div class="form-group">
+                                <label for="">Campus</label>
+                                {!! Form::text('nombre', null,['class' => 'form-control', 'required']) !!}
+                            </div>
+                            <div class="form-group">
+                                <label for="">Direccion</label>
+                                {!! Form::text('direccion', null,['class' => 'form-control', 'required']) !!}
+                            </div>
+                            <div class="form-group">
+                                <label for="">Rut Encargado</label>
+                                {!! Form::text('rut_encargado', null,['class' => 'form-control', 'required']) !!}
+                            </div>
+                            <div class="form-group">
+                                <label for="">Descripción</label>
+                                {!! Form::textarea('descripcion', null,['class' => 'form-control', 'required']) !!}
+                            </div>
+
+                            <button type="submit" class="btn btn-success ">Agregar campus</button>
+                            {!! Form::close() !!}
+                        </div>
+                        <div class="col-md-5">
+                            @if(Session::has('campus_add'))
+                                <div class="alert alert-info alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h4><i class="icon fa fa-info"></i> Información!</h4>
+                                    {{ Session::get('campus_add') }}
+                                </div>
+                            @endif
+                            @if(Session::has('error_direccion'))
+                                <div class="alert alert-danger alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h4><i class="icon fa fa-info"></i> Alerta!</h4>
+                                    {{ Session::get('error_direccion') }}
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.box -->
+
+            <div class="box"> <!-- Facultades -->
+                <div class="box-header with-border">
+                    <h3 class="box-title" id="f">Listado de Facultades <a href="#p" class="fa fa-arrow-up" for=""></a></h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+                        <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <table id="fac" class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Facultad</th>
+                            <th>Descripcion</th>
+                            <th>Campus</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($facultades as $f)
                             <tr>
-                                <td>{{ $c->id }}</td>
-                                <td>{{ $c->nombre }}</td>
-                                <td>{{ $c->direccion }}</td>
-                                <td>{{ $c->rut_encargado }}</td>
-                                <td><a href="{{ route('admin.campus.edit', [$c->id]) }}" class="btn bg-olive">Editar</a> <a href="" class="btn btn-danger">Eliminar</a></td>
+                                <td>{{ $f->id }}</td>
+                                <td>{{ $f->nombre }}</td>
+                                <td>{{ $f->descripcion }}</td>
+                                <td>{{ $f->campus->nombre }}</td>
+                                <td>
+                                    <a href="{{ route('admin.campus.edit_f', [$f->id]) }}" class="btn btn-xs bg-olive">Editar</a>
+                                    <a href="" class="btn btn-xs btn-danger">Eliminar</a>
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
                 </div><!-- /.box-body -->
-            </div><!-- /.box -->
-            <div class="box-footer">
-                @if(Session::has('message_1'))
-                    <div class="callout callout-success">
-                        <p>{{ Session::get('message_1') }}</p>
-                    </div>
-                @endif
-                @if(Session::has('delete_message'))
-                    <div class="callout callout-danger">
-                        <p>{{ Session::get('delete_message') }}</p>
-                    </div>
-                @endif
-            </div>
-
-            <!-- Main row -->
-            <div class="row">
-                <!-- Left col -->
-                <section class="col-lg-7 connectedSortable">
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Agregar Campus</h3>
-                            <div class="box-tools pull-right">
-                                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <div class="box-body">
-                            {!! Form::open(['route' => 'admin.campus.store', 'method' => 'POST', 'role' => 'form']) !!}
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-md-7">
+                            {!! Form::open(['route' => 'admin.campus.store_f']) !!}
                             <div class="form-group">
-                                {!! Form::text('nombre', '',['class' => 'form-control', 'placeholder' => 'Ingresa nombre']) !!}
+                                <label for="">Facultad</label>
+                                {!! Form::text('nombre', null,['class' => 'form-control', 'required']) !!}
                             </div>
                             <div class="form-group">
-                                {!! Form::text('direccion', '',['class' => 'form-control', 'placeholder' => 'Ingresa direccion']) !!}
+                                <label for="">Descripción</label>
+                                {!! Form::textarea('descripcion', null,['class' => 'form-control', 'required']) !!}
                             </div>
                             <div class="form-group">
-                                {!! Form::text('latitud', '',['class' => 'form-control', 'placeholder' => 'Ingresa Latitud']) !!}
+                                <label for="">Seleccione un campus</label>
+                                {!! Form::select('campus_id', (['0' => 'Seleccione un Campus'] + $c_lists ), null, ['class' => 'form-control', 'required']) !!}
                             </div>
-                            <div class="form-group">
-                                {!! Form::text('longitud', '',['class' => 'form-control', 'placeholder' => 'Ingresa Longitud']) !!}
-                            </div>
-                            <div class="form-group">
-                                {!! Form::textarea('descripcion', '',['class' => 'form-control', 'placeholder' => 'Descripcion del campus']) !!}
-                            </div>
-                            <div class="form-group">
-                                {!! Form::text('rut_encargado', '',['class' => 'form-control', 'placeholder' => 'Ingresa rut del encargado']) !!}
-                            </div>
-                            <button type="submit" class="btn btn-success ">Agregar</button>
+                            <button type="submit" class="btn btn-success ">Agregar facultad</button>
                             {!! Form::close() !!}
-                        </div><!-- /.box-body -->
-                        <div class="box-footer">
-                            @if(Session::has('message'))
-                                <div class="callout callout-success">
-                                    <p>{{ Session::get('message') }}</p>
+                        </div>
+                        <div class="col-md-5">
+                            @if(Session::has('facultad_add'))
+                                <div class="alert alert-info alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h4><i class="icon fa fa-info"></i> Información!</h4>
+                                    {{ Session::get('facultad_add') }}
                                 </div>
                             @endif
                         </div>
-                    </div><!-- /.box -->
-                </section>
+                    </div>
+                </div>
+            </div><!-- /.box -->
 
-
-                <!-- Right Col -->
-                <section class="col-lg-5 connectedSortable">
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Campus</h3>
-                            <div class="box-tools pull-right">
-                                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+            <div class="box"> <!-- Departamentos -->
+                <div class="box-header with-border">
+                    <h3 class="box-title" id="d">Listado de Departamentos <a href="#p" class="fa fa-arrow-up" for=""></a></h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+                        <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <table id="dep" class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Departamento</th>
+                            <th>Descripcion</th>
+                            <th>Facultad</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($deptos as $d)
+                            <tr>
+                                <td>{{ $d->id }}</td>
+                                <td>{{ $d->nombre }}</td>
+                                <td>{{ $d->descripcion }}</td>
+                                <td>{{ $d->dep_facultades->nombre }}</td>
+                                <td>
+                                    <a href="{{ route('admin.campus.edit_d', [$d->id]) }}" class="btn btn-xs bg-olive">Editar</a>
+                                    <a href="" class="btn btn-xs btn-danger">Eliminar</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div><!-- /.box-body -->
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-md-7">
+                            {!! Form::open(['route' => 'admin.campus.store_d', 'method' => 'POST', 'role' => 'form']) !!}
+                            <div class="form-group">
+                                <label for="">Departamento</label>
+                                {!! Form::text('nombre', null,['class' => 'form-control', 'required']) !!}
                             </div>
+                            <div class="form-group">
+                                <label for="">Descripción</label>
+                                {!! Form::textarea('descripcion', null,['class' => 'form-control', 'required']) !!}
+                            </div>
+                            <div class="form-group">
+                                <label for="">Seleccione una facultad</label>
+                                {!! Form::select('facultad_id', (['0' => 'Seleccione un Campus'] + $f_lists ), null, ['class' => 'form-control', 'required']) !!}
+                            </div>
+                            <button type="submit" class="btn btn-success ">Agregar departamento</button>
+                            {!! Form::close() !!}
                         </div>
-                        <div class="box-body">
-                            Inforacion o algo
-                        </div><!-- /.box-body -->
-                    </div><!-- /.box -->
-                </section>
-            </div>
+                        <div class="col-md-5">
+                            @if(Session::has('depto_add'))
+                                <div class="alert alert-info alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h4><i class="icon fa fa-info"></i> Información!</h4>
+                                    {{ Session::get('depto_add') }}
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.box -->
+
+            <div class="box"> <!-- Escuelas -->
+                <div class="box-header with-border">
+                    <h3 class="box-title" id="e">Listado de Escuelas <a href="#p" class="fa fa-arrow-up" for=""></a></h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+                        <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <table id="esc" class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Escuela</th>
+                            <th>Descripcion</th>
+                            <th>Departamento</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($escuelas as $e)
+                            <tr>
+                                <td>{{ $e->id }}</td>
+                                <td>{{ $e->nombre }}</td>
+                                <td>{{ $e->descripcion }}</td>
+                                <td>{{ $e->escuela_departamento->nombre }}</td>
+                                <td>
+                                    <a href="{{ route('admin.campus.edit_e', [$e->id]) }}" class="btn btn-xs bg-olive">Editar</a>
+                                    <a href="" class="btn btn-xs btn-danger">Eliminar</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div><!-- /.box-body -->
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-md-7">
+                            {!! Form::open(['route' => 'admin.campus.store_e']) !!}
+                            <div class="form-group">
+                                <label for="">Escuela</label>
+                                {!! Form::text('nombre', null,['class' => 'form-control', 'required']) !!}
+                            </div>
+                            <div class="form-group">
+                                <label for="">Descripción</label>
+                                {!! Form::textarea('descripcion', null,['class' => 'form-control', 'required']) !!}
+                            </div>
+                            <div class="form-group">
+                                <label for="">Seleccione una departamento</label>
+                                {!! Form::select('departamento_id', (['0' => 'Seleccione un Campus'] + $d_lists ), null, ['class' => 'form-control', 'required']) !!}
+                            </div>
+                            <button type="submit" class="btn btn-success ">Agregar escuela</button>
+                            {!! Form::close() !!}
+                        </div>
+                        <div class="col-md-5">
+                            {!! Form::open(['route' => 'admin.campus.file_e', 'method' => 'POST', 'role' => 'form', 'files' => 'true']) !!}
+                            <div class="form-group">
+                                <label for="">Seleccione el archivo</label>
+                                {!! Form::file('office') !!}
+                            </div>
+
+                            <button type="submit" class="btn btn-success ">Subir archivo</button>
+                            {!! Form::close() !!}
+                            @if(Session::has('escuela_add'))
+                                <hr>
+                                <div class="alert alert-info alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h4><i class="icon fa fa-info"></i> Información!</h4>
+                                    {{ Session::get('escuela_add') }}
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.box -->
+
         </section>
     </div>
     <footer class="main-footer">
@@ -268,25 +449,49 @@
 </div><!-- ./wrapper -->
 
 <!-- jQuery 2.1.4 -->
-<script src="../../plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="{{ asset('/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
 <!-- Bootstrap 3.3.2 JS -->
-<script src="../../bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="{{ asset('/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
 <!-- SlimScroll -->
-<script src="../../plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<script src="{{ asset('/plugins/slimScroll/jquery.slimscroll.min.js') }}" type="text/javascript"></script>
 <!-- FastClick -->
-<script src='../../plugins/fastclick/fastclick.min.js'></script>
+<script src='{{ asset('/plugins/fastclick/fastclick.min.js') }}'></script>
 <!-- AdminLTE App -->
-<script src="../../dist/js/app.min.js" type="text/javascript"></script>
+<script src="{{ asset('/dist/js/app.min.js') }}" type="text/javascript"></script>
 <!-- Data Table scripts -->
-<script src="../../plugins/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
-<script src="../../plugins/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
+<script src="{{ asset('/plugins/datatables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/plugins/datatables/dataTables.bootstrap.min.js') }}" type="text/javascript"></script>
 
 <!-- Demo -->
-<script src="../../dist/js/demo.js" type="text/javascript"></script>
+<script src="{{ asset('/dist/js/demo.js') }}" type="text/javascript"></script>
 <!-- Table Options -->
 <script type="text/javascript">
     $(function() {
-        $("#campus").dataTable({
+        $("#cam").dataTable({
+            "bPaginate": true,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true
+        });
+        $("#fac").dataTable({
+            "bPaginate": true,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true
+        });
+        $("#dep").dataTable({
+            "bPaginate": true,
+            "bLengthChange": false,
+            "bFilter": true,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": true
+        });
+        $("#esc").dataTable({
             "bPaginate": true,
             "bLengthChange": false,
             "bFilter": true,

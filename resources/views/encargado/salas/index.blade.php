@@ -5,16 +5,16 @@
     <title>UTEM</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- Bootstrap 3.3.4 -->
-    <link href="../../../bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Font Awesome Icons -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <!-- Ionicons -->
     <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
     <!-- Theme style -->
-    <link href="../../../dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/dist/css/AdminLTE.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
-    <link href="../../../dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/dist/css/skins/_all-skins.min.css') }}" rel="stylesheet" type="text/css" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -29,7 +29,7 @@
 
     <header class="main-header">
         <!-- Logo -->
-        <a href="#" class="logo">
+        <a href="{{ route('encargado.index', [$rut]) }}" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>U</b>TM</span>
             <!-- logo for regular state and mobile devices -->
@@ -50,15 +50,15 @@
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
+                            <img src="../../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
                             <span class="hidden-xs">Felipe Sebastian Canales Saavedra</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
+                                <img src="../../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
                                 <p>
-                                    Administrador
+                                    Encargado Campus
                                 </p>
                             </li>
 
@@ -91,7 +91,7 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
+                    <img src="../../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
                 </div>
                 <div class="pull-left info">
                     <p>Felipe Canales</p>
@@ -104,26 +104,16 @@
                 <li class="header">MENÚ DE NAVEGACIÓN</li>
 
                 <li>
-                    <a href="">
-                        <i class="fa fa-th"></i> <span>Link a algún lado</span> <small class="label pull-right bg-red">!</small>
+                    <a href="{{ route('encargado.index') }}">
+                        <i class="fa fa-th"></i> <span>Inicio</span> <small class="label pull-right bg-red">!</small>
                     </a>
                 </li>
-                <li class="header">Menu de Administración</li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-circle-o"></i>
-                        <span>Modificar Salas</span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#add_sala"><i class="fa fa-circle-o"></i> Agregar sala</a></li>
-                        <li><a href="#add_tipo"><i class="fa fa-circle-o"></i> Agregar tipo de sala</a></li>
-                    </ul>
-                </li>
-                <li><a href="{{ url('encargado/asignar') }}"><i class="fa fa-circle-o"></i><span>Asignar sala a curso/evento</span></a></li>
-                <li><a href="{{ url('encargado/ingreso-datos') }}"><i class="fa fa-circle-o"></i><span>Ingreso de datos academicos</span></a></li>
+                <li class="header">Opciones</li>
+                <li><a href="#agregar-salas"><i class="fa fa-user"></i><span>Agregar salas</span></a></li>
+                <li><a href="#salas-ocupadas"><i class="fa fa-user"></i><span>Listado de salas ocupadas</span></a></li>
 
                 <li class="header"></li>
-                <li><a href="#!"><i class="fa fa-circle-o text-green"></i> <span>Contacto</span></a></li>
+                <li><a href="#"><i class="fa fa-circle-o text-green"></i> <span>Contacto</span></a></li>
                 <li class="header"></li>
 
             </ul>
@@ -140,15 +130,11 @@
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>
+            <h1 id="p">
                 Dashboard
-                <small>Administrador</small>
+                <small>Opciones de usuarios</small>
+                <small><strong>Agregar opcion de agregar y agregar por lote</strong></small>
             </h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
-                <li><a href="#">Dashboard</a></li>
-                <li class="active">Está aquí</li>
-            </ol>
         </section>
 
         <!-- Main content -->
@@ -157,163 +143,159 @@
             <!-- Default box -->
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Listado de salas</h3>
+                    <h3 class="box-title" id="#agregar-salas">Listado de Salas <a href="#p" class="fa fa-arrow-up" for="" ></a></h3>
                     <div class="box-tools pull-right">
                         <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                         <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
                     </div>
                 </div>
                 <div class="box-body">
-                    <table class="table table-bordered table-hover" id="salas">
+                    <table id="salas" class="table table-bordered">
                         <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Sala</th>
-                            <th>Descripcion</th>
+                            <th>Descripción</th>
                             <th>Tipo</th>
                             <th>Campus</th>
                             <th>Acciones</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($datos_salas as $sala)
-                            <tr>
-                                <td>{{ $sala->id }}</td>
-                                <td>{{ $sala->nombre }}</td>
-                                <td>{{ $sala->descripcion }}</td>
-                                <td>{{ $sala->sala_tipoS->nombre }}</td>
-                                <td>{{ $sala->sala_campus->nombre }}</td>
-                                <td><a href="{{ route('encargado.salas.edit', [$sala->id]) }}" class="btn btn-xs bg-olive">Editar</a> <a href="" class="btn btn-xs btn-danger">Eliminar</a></td>
+                        @foreach($salas as $s)
+                            <tr data-id="{{ $s->id }}">
+                                <td>{{ $s->nombre }}</td>
+                                <td>{{ $s->descripcion }}</td>
+                                <td>{{ $s->sala_tipoS->nombre }}</td>
+                                <td>{{ $s->sala_campus->nombre }}</td>
+                                <td>
+                                    <a href=
+                                       "{{ route('encargado.edit.sala', [$s->id, $rut])  }}"
+                                       type="button" class="btn btn-xs bg-olive">Editar</a>
+                                    <a href="" type="button" class="btn btn-xs btn-danger btn-salas">Eliminar</a>
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
                 </div><!-- /.box-body -->
-            </div><!-- /.box -->
-
-            <!-- Main row -->
-            <div class="row">
-                <!-- Left col -->
-                <section class="col-lg-6 connectedSortable">
-                    <!-- Custom tabs -->
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title" id="add_sala">Agregar sala</h3>
-                            <div class="box-tools pull-right">
-                                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <div class="box-body">
-                            {!! Form::open(['route' => 'encargado.salas.store', 'method' => 'POST', 'role' => 'form']) !!}
-                            <div class="form-group">
-                                {!! Form::select('campus_id', (['0' => 'Ingrese el campus al que pertenece la sala'] + $campus_sala ), null, ['class' => 'form-control']) !!}
+                <div class="box-footer">
+                    {!! Form::open(['route' => 'encargado.add.sala', 'method' => 'POST', 'role' => 'form']) !!}
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Campus</label>
+                                        {!! Form::select('campus_id', (['0' => ''] + $campus ), null, ['class' => 'form-control', 'required']) !!}
+                                    </div>
+                                </div>
                             </div>
                             <div class="form-group">
-                                {!! Form::select('tipo_sala_id', (['0' => 'Tipos de sala disponibles'] + $tipo_sala ), null, ['class' => 'form-control']) !!}
+                                <label for="">Sala</label>
+                                {!! Form::text('nombre', null,['class' => 'form-control', 'required', ' ']) !!}
                             </div>
                             <div class="form-group">
-                                {!! Form::text('nombre', '',['class' => 'form-control', 'placeholder' => 'Nombre de sala']) !!}
+                                <label>Tipo de sala</label>
+                                {!! Form::select('tipo_sala_id', (['0' => ''] + $tiposala), null, ['class' => 'form-control', 'required']) !!}
                             </div>
                             <div class="form-group">
-                                {!! Form::textarea('descripcion', '',['class' => 'form-control', 'placeholder' => 'Descripcion de la sala']) !!}
-                            </div>
-                            <button type="submit" class="btn btn-success ">Agregar sala</button>
-                            {!! Form::close() !!}
-                        </div><!-- /.box-body -->
-                    </div><!-- /.box -->
-                    <div class="box-footer">
-                        @if(Session::has('add_sala'))
-                            <div class="callout callout-success">
-                                <p>{{ Session::get('add_sala') }}</p>
-                            </div>
-                        @endif
-                    </div>
-                </section>
-
-                <!-- Right Col -->
-                <section class="col-lg-6 connectedSortable">
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Agregar nuevo tipo</h3>
-                            <div class="box-tools pull-right">
-                                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <div class="box-body">
-                            <table class="table table-bordered table-hover" id="salas">
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Tipo</th>
-                                    <th>Descripcion</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($ts as $tipo)
-                                    <tr>
-                                        <td>{{ $tipo->id }}</td>
-                                        <td>{{ $tipo->nombre }}</td>
-                                        <td>{{ $tipo->descripcion }}</td>
-                                        <td><a href="{{ route('encargado.tiposala.edit', [$tipo->id]) }}" class="btn btn-xs bg-olive">Editar</a> <a href="" class="btn btn-xs btn-danger">Eliminar</a></td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                            <hr/>
-                            <h3 class="box-title" id="add_tipo">Agregar tipo de sala</h3>
-                            {!! Form::open(['route' => 'encargado.tiposala.store', 'method' => 'POST', 'role' => 'form']) !!}
-                            <div class="form-group">
-                                {!! Form::text('nombre', '',['class' => 'form-control', 'placeholder' => 'Tipo de sala']) !!}
-                            </div>
-                            <div class="form-group">
-                                {!! Form::textarea('descripcion', '',['class' => 'form-control', 'placeholder' => 'Ingrese una descripcion']) !!}
+                                <label for="">Descripción</label>
+                                {!! Form::textarea('descripcion', null,['class' => 'form-control', 'required', ' ']) !!}
                             </div>
                             <button type="submit" class="btn btn-success ">Agregar</button>
                             {!! Form::close() !!}
-                        </div><!-- /.box-body -->
-                        <div class="box-footer">
-                            @if(Session::has('tipo_add'))
-                                <div class="callout callout-success">
-                                    <p>{{ Session::get('tipo_add') }}</p>
+                        </div>
+                        <div class="col-md-5">
+                            @if(Session::has('sala_add'))
+                                <div class="alert alert-info alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h4><i class="icon fa fa-info"></i> Información!</h4>
+                                    {{ Session::get('sala_add') }}
                                 </div>
                             @endif
-                            @if(Session::has('tipo_update'))
-                                <div class="callout callout-success">
-                                    <p>{{ Session::get('tipo_update') }}</p>
+                            @if(Session::has('sala_file'))
+                                <div class="alert alert-infor alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h4><i class="icon fa fa-info"></i> Información!</h4>
+                                    {{ Session::get('sala_file') }}
                                 </div>
                             @endif
-                        </div><!-- /.box-footer-->
-                    </div><!-- /.box -->
-
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Docentes</h3>
-                            <div class="box-tools pull-right">
-                                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+                            @if(Session::has('sala_file_error'))
+                                <div class="alert alert-danger alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h4><i class="icon fa fa-info"></i> Información!</h4>
+                                    {{ Session::get('sala_file_error') }}
+                                </div>
+                            @endif
+                            <div class="box">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Agregar archivo con salas</h3>
+                                    <div class="box-tools pull-right">
+                                        <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+                                        <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    {!! Form::open(['route' => 'encargado.archivo.salas', 'method' => 'POST', 'role' => 'form', 'files' => 'true']) !!}
+                                    <div class="form-group">
+                                        <label for="fileInput">Seleccione el archivo</label>
+                                        {!! Form::file('file') !!}
+                                        <p class="help-block">Solo archivos con extension: *.xlsx; *.xls</p>
+                                    </div>
+                                    <button type="submit" class="btn btn-success ">Subir archivo</button>
+                                    {!! Form::close() !!}
+                                </div>
                             </div>
                         </div>
-                        <div class="box-body">
-
-                        </div>
                     </div>
+                </div>
+            </div><!-- /.box -->
 
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Estudiantes</h3>
-                            <div class="box-tools pull-right">
-                                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <div class="box-body">
-
-                        </div>
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title" id="#salas-ocupadas">Listado de salas ocupadas <a href="#p" class="fa fa-arrow-up" for="" ></a></h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+                        <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
                     </div>
-                </section>
-            </div>
+                </div>
+                <div class="box-body">
+                    <table id="salas-ocupadas" class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Sala</th>
+                            <th>Docente</th>
+                            <th>Asignatura</th>
+                            <th>Sección</th>
+                            <th>Semestre</th>
+                            <th>Año</th>
+                            <th>Campus</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($h_salas as $h)
+                                <tr data-id="{{ $h->id }}">
+                                    <td>{{ $h->fecha }}</td>
+                                    <td>{{ $h->sala }}</td>
+                                    <td>{{ $h->nombres }} {{ $h->apellidos }}</td>
+                                    <td>{{ $h->asig }}</td>
+                                    <td>{{ $h->seccion }}</td>
+                                    <td>{{ $h->semestre }}</td>
+                                    <td>{{ $h->anio }}</td>
+                                    <td>{{ $h->campus }}</td>
+                                    <td><a href="" type="button" class="btn btn-horario btn-xs btn-danger">Eliminar</a></td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div><!-- /.box-body -->
+                <div class="box-footer">
+
+                </div>
+            </div><!-- /.box -->
+
         </section>
     </div>
     <footer class="main-footer">
@@ -328,24 +310,31 @@
     <!-- =============================================== -->
 </div><!-- ./wrapper -->
 
+{!! Form::open(['route' => ['encargado.salas.delete', ':SALA_ID'], 'method' => 'DELETE', 'id' => 'form-delete-sala']) !!}
+{!! Form::close() !!}
+
+{!! Form::open(['route' => ['encargado.hsalas.delete', ':HSALA_ID'], 'method' => 'DELETE', 'id' => 'form-delete-hsala']) !!}
+{!! Form::close() !!}
+
 <!-- jQuery 2.1.4 -->
-<script src="../../../plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="{{ asset('/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
 <!-- Bootstrap 3.3.2 JS -->
-<script src="../../../bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="{{ asset('/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
 <!-- SlimScroll -->
-<script src="../../../plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<script src="{{ asset('/plugins/slimScroll/jquery.slimscroll.min.js') }}" type="text/javascript"></script>
 <!-- FastClick -->
-<script src='../../../plugins/fastclick/fastclick.min.js'></script>
+<script src='{{ asset('/plugins/fastclick/fastclick.min.js') }}'></script>
 <!-- AdminLTE App -->
-<script src="../../../dist/js/app.min.js" type="text/javascript"></script>
+<script src="{{ asset('/dist/js/app.min.js') }}" type="text/javascript"></script>
 <!-- Data Table scripts -->
-<script src="../../../plugins/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
-<script src="../../../plugins/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
+<script src="{{ asset('/plugins/datatables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/plugins/datatables/dataTables.bootstrap.min.js') }}" type="text/javascript"></script>
 
 <!-- Demo -->
-<script src="../../../dist/js/demo.js" type="text/javascript"></script>
+<script src="{{ asset('/dist/js/demo.js') }}" type="text/javascript"></script>
+<!-- Table Options -->
 <script type="text/javascript">
-    $(function () {
+    $(function() {
         $("#salas").dataTable({
             "bPaginate": true,
             "bLengthChange": false,
@@ -354,7 +343,7 @@
             "bInfo": true,
             "bAutoWidth": true
         });
-        $("#horario").dataTable({
+        $("#salas-ocupadas").dataTable({
             "bPaginate": true,
             "bLengthChange": false,
             "bFilter": true,
@@ -362,15 +351,7 @@
             "bInfo": true,
             "bAutoWidth": true
         });
-        $("#doc").dataTable({
-            "bPaginate": true,
-            "bLengthChange": false,
-            "bFilter": true,
-            "bSort": true,
-            "bInfo": true,
-            "bAutoWidth": true
-        });
-        $("#est").dataTable({
+        $("#estu").dataTable({
             "bPaginate": true,
             "bLengthChange": false,
             "bFilter": true,
@@ -380,5 +361,49 @@
         });
     });
 </script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.btn-salas').click(function (e) {
+
+            e.preventDefault();
+            var row = $(this).parents('tr');
+            var id = row.data('id');
+            var form = $('#form-delete-sala');
+            var url = form.attr('action').replace(':SALA_ID', id);
+            var data = form.serialize();
+
+            row.fadeOut();
+            $.post(url, data, function (result) {
+                alert(result.message);
+                location.reload();
+            }).fail(function () {
+                alert('El usuario no fue eliminado');
+                row.show();
+            });
+        });
+    });
+    $(document).ready(function () {
+        $('.btn-horario').click(function (e) {
+
+            e.preventDefault();
+            var row = $(this).parents('tr');
+            var id = row.data('id');
+            var form = $('#form-delete-hsala');
+            var url = form.attr('action').replace(':HSALA_ID', id);
+            var data = form.serialize();
+
+            row.fadeOut();
+            $.post(url, data, function (result) {
+                alert(result.message);
+                location.reload();
+            }).fail(function () {
+                alert('El usuario no fue eliminado');
+                row.show();
+            });
+        });
+    });
+</script>
+
 </body>
 </html>

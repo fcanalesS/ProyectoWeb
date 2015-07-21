@@ -1,0 +1,21 @@
+{
+    "name": "utem/utils",
+    "description": "Funciones utilitarias UTEM",
+    "license": "GPLv2",
+    "keywords": ["rut"],
+    "authors": [
+        {
+            "name": "Sebastián Salaza Molina",
+            "email": "ssalazar@orangepeople.cl"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "4.0.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "UTEM\\Utils\\": "src"
+        }
+    }
+}

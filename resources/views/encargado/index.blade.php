@@ -29,11 +29,11 @@
 
     <header class="main-header">
         <!-- Logo -->
-        <a href="#" class="logo">
+        <a href="{{ route('encargado.index', [$rut]) }}" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>U</b>TM</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>UTEM</b>E. Campus</span>
+            <span class="logo-lg"><b>UTEM</b>Encargado</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -58,7 +58,7 @@
                             <li class="user-header">
                                 <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
                                 <p>
-                                    Administrador
+                                    Encargado
                                 </p>
                             </li>
 
@@ -68,14 +68,10 @@
                                     <a href="#" class="btn btn-default btn-flat">Perfil</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="{{ url('/logout') }}" class="btn btn-default btn-flat">Cerrar sesión</a>
+                                    <a href="{{ route('login.logout') }}" class="btn btn-default btn-flat">Cerrar sesión</a>
                                 </div>
                             </li>
                         </ul>
-                    </li>
-                    <!-- Control Sidebar Toggle Button -->
-                    <li>
-                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
                     </li>
                 </ul>
             </div>
@@ -108,11 +104,11 @@
                         <i class="fa fa-th"></i> <span>Link a algún lado</span> <small class="label pull-right bg-red">!</small>
                     </a>
                 </li>
-                <li class="header">Menú</li>
 
-                <li><a href="{{ url('encargado/salas') }}"><i class="fa fa-circle-o"></i><span>Modificar salas</span></a></li>
-                <li><a href="{{ url('encargado/asignar') }}"><i class="fa fa-circle-o"></i><span>Asignar sala a curso/evento</span></a></li>
-                <li><a href="{{ url('encargado/ingreso-datos') }}"><i class="fa fa-circle-o"></i><span>Ingreso de datos academicos</span></a></li>
+                <li class="header"></li>
+                <li><a href="{{ route('encargado.personas.index', [$rut]) }}"><i class="fa fa-user"></i><span>Opciones personas</span></a></li>
+                <li><a href="{{ route('encargado.academicas.index', [$rut]) }}"><i class="fa fa-building"></i><span>Opciones académicas</span></a></li>
+
 
                 <li class="header"></li>
                 <li><a href="#!"><i class="fa fa-circle-o text-green"></i> <span>Contacto</span></a></li>
@@ -134,13 +130,8 @@
         <section class="content-header">
             <h1>
                 Dashboard
-                <small>Administrador</small>
+                <small>Encargado: {{ $rut }}</small>
             </h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
-                <li><a href="#">Dashboard</a></li>
-                <li class="active">Está aquí</li>
-            </ol>
         </section>
 
         <!-- Main content -->
@@ -149,48 +140,68 @@
             <!-- Default box -->
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Listado de salas</h3>
+                    <h3 class="box-title">Mision y Vision</h3>
                     <div class="box-tools pull-right">
                         <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                         <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
                     </div>
                 </div>
                 <div class="box-body">
+                    <h2 class="text-center">Misión</h2>
 
+                    <p class="text-center">La Universidad Tecnológica Metropolitana,
+                        es una Institución de Educación superior estatal y
+                        autónoma socialmente responsable, ubicada en la Región Metropolitana, y tiene como Misión:
+                        Formar personas con altas capacidades académicas y profesionales,
+                        en el ámbito preferentemente tecnológico,
+                        apoyada en la generación, transferencia, aplicación y difusión del conocimiento en las áreas
+                        del saber que le son propias, para contribuir al desarrollo sustentable del país y de la sociedad
+                        de la que forma parte.</p>
+
+                    <h2 class="text-center">Visión</h2>
+
+                    <p class="text-center">La Universidad Tecnológica Metropolitana, será reconocida por
+                        la formación de sus egresados, la calidad de su educación continua,
+                        por la construcción de capacidades de investigación y creación,
+                        innovación y transferencia en algunas áreas del saber, por
+                        la equidad social en su acceso, su tolerancia y pluralismo, por su
+                        cuerpo académico de excelencia y por una gestión institucional
+                        que asegura su sustentabilidad y la práctica de mecanismos de
+                        aseguramiento de la calidad en todo su quehacer.</p>
                 </div><!-- /.box-body -->
+            </div><!-- /.box -->
+
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title text-center">Acceso rápido</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+                        <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1">
+                            <div class="col-md-3">Ope 1</div>
+                            <div class="col-md-3">Ope 2</div>
+                            <div class="col-md-3">Ope 3</div>
+                            <div class="col-md-3">Ope 4</div>
+                        </div>
+                    </div>
+                </div><!-- /.box-body -->
+                <div class="box-footer">
+
+                </div>
             </div><!-- /.box -->
 
             <!-- Main row -->
             <div class="row">
                 <!-- Left col -->
-                <section class="col-lg-8 connectedSortable">
+                <section class="col-lg-6 connectedSortable">
                     <!-- Custom tabs -->
                     <div class="box">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Listado de salas</h3>
-                            <div class="box-tools pull-right">
-                                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <div class="box-body">
-
-                        </div><!-- /.box-body -->
-                    </div><!-- /.box -->
-                    <div class="box-footer">
-                        @if(Session::has('add_sala'))
-                            <div class="callout callout-success">
-                                <p>{{ Session::get('add_sala') }}</p>
-                            </div>
-                        @endif
-                    </div>
-                </section>
-
-                <!-- Right Col -->
-                <section class="col-lg-4 connectedSortable">
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Listado de salas actuales</h3>
+                            <h3 class="box-title">Algo</h3>
                             <div class="box-tools pull-right">
                                 <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                                 <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
@@ -200,41 +211,37 @@
 
                         </div><!-- /.box-body -->
                         <div class="box-footer">
+
+                        </div>
+                    </div><!-- /.box -->
+                </section>
+
+                <!-- Right Col -->
+                <section class="col-lg-6 connectedSortable">
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Otro algo</h3>
+                            <div class="box-tools pull-right">
+                                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+                                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <h1>AQUI VAN LOS ENCARGADOS DE LOS CAMPUS</h1>
+                        </div><!-- /.box-body -->
+                        <div class="box-footer">
+                            ENCARGADOS DE CAMPUS
                         </div><!-- /.box-footer-->
                     </div><!-- /.box -->
 
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Docentes</h3>
-                            <div class="box-tools pull-right">
-                                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <div class="box-body">
 
-                        </div>
-                    </div>
-
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Estudiantes</h3>
-                            <div class="box-tools pull-right">
-                                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <div class="box-body">
-
-                        </div>
-                    </div>
                 </section>
             </div>
         </section>
     </div>
     <footer class="main-footer">
         <div class="pull-right hidden-xs">
-            <b>Version</b> 0.0.0.1
+            <b>Version</b> 0.2
         </div>
         <strong>Copyright &copy; 2015 <a href="#">Felipe Canales</a>.</strong>
     </footer>
@@ -260,41 +267,5 @@
 
 <!-- Demo -->
 <script src="../../dist/js/demo.js" type="text/javascript"></script>
-<script type="text/javascript">
-    $(function () {
-        $("#salas").dataTable({
-            "bPaginate": true,
-            "bLengthChange": false,
-            "bFilter": true,
-            "bSort": true,
-            "bInfo": true,
-            "bAutoWidth": true
-        });
-        $("#horario").dataTable({
-            "bPaginate": true,
-            "bLengthChange": false,
-            "bFilter": true,
-            "bSort": true,
-            "bInfo": true,
-            "bAutoWidth": true
-        });
-        $("#doc").dataTable({
-            "bPaginate": true,
-            "bLengthChange": false,
-            "bFilter": true,
-            "bSort": true,
-            "bInfo": true,
-            "bAutoWidth": true
-        });
-        $("#est").dataTable({
-            "bPaginate": true,
-            "bLengthChange": false,
-            "bFilter": true,
-            "bSort": true,
-            "bInfo": true,
-            "bAutoWidth": true
-        });
-    });
-</script>
 </body>
 </html>

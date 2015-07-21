@@ -136,8 +136,25 @@ return [
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 
-        //Laravel Collective
-        'Collective\Html\HtmlServiceProvider',
+		/*
+		 * Laravel collective Provider
+		 */
+		'Collective\Html\HtmlServiceProvider',
+
+		/*
+		 * DIRDOC Provider
+		 */
+		'UTEM\Dirdoc\Auth\DirdocAuthServiceProvider',
+
+		/*
+		 * Geocoder Provider
+		 */
+		'Toin0u\Geocoder\GeocoderServiceProvider',
+
+		/*
+		 * Excel Provider
+		 */
+		'Maatwebsite\Excel\ExcelServiceProvider',
 
 		/*
 		 * Application Service Providers...
@@ -196,9 +213,21 @@ return [
 		'Validator' => 'Illuminate\Support\Facades\Validator',
 		'View'      => 'Illuminate\Support\Facades\View',
 
-        //Laravel Collective
-        'Form' => 'Collective\Html\FormFacade',
-        'Html' => 'Collective\Html\HtmlFacade',
+		/*
+		 * Geocoder
+		 */
+		'Geocoder' => 'Toin0u\Geocoder\Facade\Geocoder',
+
+		/*
+		 * Excel
+		 */
+		'Excel' => 'Maatwebsite\Excel\Facades\Excel',
+
+		/*
+		 * Laravel Collective
+		 */
+		'Form' => 'Collective\Html\FormFacade',
+		'Html' => 'Collective\Html\HtmlFacade',
 
 	],
 
