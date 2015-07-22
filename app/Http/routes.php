@@ -113,3 +113,9 @@ Route::group(['prefix' => 'encargado', 'namespace' => 'EncargadoCampus'], functi
         Route::post('/archivos', ['as' => 'encargado.archivo.salas', 'uses' => 'SalasController@salaArchivo']);
     });
 });
+
+
+/* Rut de estudiante: 31896711 */
+Route::group(['prefix' => 'estudiante', 'namespace' => 'Estudiante'], function () {
+    Route::get('index/{rut}', ['as' => 'estudiante.index', 'uses' => 'EstudianteController@index']);
+});
