@@ -117,5 +117,7 @@ Route::group(['prefix' => 'encargado', 'namespace' => 'EncargadoCampus'], functi
 
 /* Rut de estudiante: 31896711 */
 Route::group(['prefix' => 'estudiante', 'namespace' => 'Estudiante'], function () {
-    Route::get('index/{rut}', ['as' => 'estudiante.index', 'uses' => 'EstudianteController@index']);
+    Route::get('/inicio/{rut}', ['as' => 'estudiante.index', 'uses' => 'EstudianteController@index']);
+    Route::get('/horario/{rut}', ['as' => 'estudiante.horario', 'uses' => 'EstudianteController@horarioEstudiante']);
+    Route::get('/consultar/{rut}/{id}', ['as' => 'estudiante.consulta', 'uses' => 'EstudianteController@consultaEstudiante']);
 });

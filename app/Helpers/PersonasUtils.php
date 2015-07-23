@@ -20,4 +20,18 @@ class PersonasUtils
         return $p_apellido .' '. $s_apellido;
     }
 
+    public static function separaNombres ($nombres)
+    {
+        $n = explode(" ", $nombres);
+
+        return $n;
+    }
+
+    public static function separaApellidos ($apellidos)
+    {
+        $a = explode(" ", $apellidos);
+
+        return $a;
+    }
+
 }
