@@ -4,24 +4,7 @@
     <meta charset="UTF-8">
     <title>UTEM</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-    <!-- Bootstrap 3.3.4 -->
-    <link href="{{ asset('/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
-    <!-- Font Awesome Icons -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-    <!-- Ionicons -->
-    <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
-    <!-- Theme style -->
-    <link href="{{ asset('/dist/css/AdminLTE.min.css') }}" rel="stylesheet" type="text/css" />
-    <!-- AdminLTE Skins. Choose a skin from the css/skins
-         folder instead of downloading all of them to reduce the load. -->
-    <link href="{{ asset('/dist/css/skins/_all-skins.min.css') }}" rel="stylesheet" type="text/css" />
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    @include('fragmentos.css')
 </head>
 <body class="skin-blue sidebar-mini">
 <!-- Site wrapper -->
@@ -51,7 +34,7 @@
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image"/>
-                            <span class="hidden-xs"></span>
+                            <span class="hidden-xs">{{ $est->nombres }} {{ $est->apellidos }}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
@@ -90,7 +73,7 @@
                     <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image" />
                 </div>
                 <div class="pull-left info">
-                    <p></p>
+                    <p>{{ $nombres[0] }} {{ $apellidos[0] }}</p>
 
                     <a href="#"><i class="fa fa-circle text-success"></i> En linea</a>
                 </div>
@@ -99,15 +82,7 @@
             <ul class="sidebar-menu">
                 <li class="header">MENÚ DE NAVEGACIÓN</li>
 
-                <li>
-                    <a href="">
-                        <i class="fa fa-th"></i> <span>Link a algún lado</span> <small class="label pull-right bg-red">!</small>
-                    </a>
-                </li>
-                <li class="header"></li>
-
-                <li><a href="{{ route('estudiante.horario', $rut) }}"><i class="fa fa-user"></i><span>Revisar horario</span></a></li>
-                <li><a href=""><i class="fa fa-building-o"></i><span>Consultar por salas</span></a></li>
+                <li><a href="{{ route('estudiante.index', [$rut]) }}"><i class="fa fa-user"></i><span>Volver</span></a></li>
 
                 <li class="header"></li>
                 <li><a href="#!"><i class="fa fa-circle-o text-green"></i> <span>Contacto</span></a></li>
@@ -194,55 +169,69 @@
                     <!-- Custom tabs -->
                     <div class="box">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Perfil de estudiante</h3>
+                            <h3 class="box-title">Consultar por sala</h3>
                             <div class="box-tools pull-right">
                                 <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                                 <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
                             </div>
                         </div>
                         <div class="box-body">
-
-                        </div><!-- /.box-body -->
-                        <div class="box-footer">
-
-                        </div>
-                    </div><!-- /.box -->
-                </section>
-
-                <!-- Right Col -->
-                <section class="col-lg-6 connectedSortable">
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Campus : </h3>
-                            <div class="box-tools pull-right">
-                                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <div class="box-body">
+                            {!! Form::open(['route' => ['estudiante.resultado.salas'], 'method' => 'POST']) !!}
                             <div class="row">
-                                <div class="col-md-10 col-lg-10 col-lg-offset-1 col-md-offset-1">
-                                    <div class=" embed-responsive embed-responsive-4by3">
-
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Seleccione Campus</label>
+                                        {!! Form::select('campus_id', (['0' => ''] + $campus ), null, ['class' => 'form-control', 'required']) !!}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Seleccione periodo</label>
+                                        <select name="periodo_id" id="" class="form-control">
+                                            @foreach($periodos as $p)
+                                                <option id="" value="{{ $p->id }}">{{ $p->inicio }} - {{ $p->fin }} - {{ $p->bloque }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Ingrese la fecha</label>
+                                        {!! Form::text('fecha', null,['id' => 'datemask', 'class' => 'form-control', 'data-inputmask' => '"alias": "yyyy-mm-dd"', 'data-mask']) !!}
                                     </div>
                                 </div>
                             </div>
+                            {!! Form::hidden('rut', $rut) !!} {!! Form::hidden('id', $id) !!}
+                            <button type="submit" class="btn btn-success ">Buscar</button>
+                            {!! Form::close() !!}
                         </div><!-- /.box-body -->
                         <div class="box-footer">
-                        </div><!-- /.box-footer-->
+                            <div class="row">
+                                <div class="col-md-7">
+                                    @if(Session::has('error_anio'))
+                                        <div class="alert alert-danger alert-dismissable">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <h4><i class="icon fa fa-info"></i> Alerta!</h4>
+                                            {{ Session::get('error_anio') }}
+                                        </div>
+                                    @endif
+                                    @if(Session::has('vacio'))
+                                        <div class="alert alert-info alert-dismissable">
+                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                            <h4><i class="icon fa fa-info"></i> Información!</h4>
+                                            {{ Session::get('vacio') }}
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
                     </div><!-- /.box -->
-
-
                 </section>
+
             </div>
         </section>
     </div>
-    <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-            <b>Version</b> 0.2
-        </div>
-        <strong>Copyright &copy; 2015 <a href="#">Felipe Canales</a>.</strong>
-    </footer>
+    @include('fragmentos.footer')
     <!-- =============================================== -->
     <!-- =============================================== -->
     <!-- =============================================== -->
@@ -250,25 +239,29 @@
 </div><!-- ./wrapper -->
 
 <!-- jQuery 2.1.4 -->
-<script src="../../plugins/jQuery/jQuery-2.1.4.min.js"></script>
+<script src="{{ asset('/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
 <!-- Bootstrap 3.3.2 JS -->
-<script src="../../bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="{{ asset('/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
 <!-- SlimScroll -->
-<script src="../../plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<script src="{{ asset('/plugins/slimScroll/jquery.slimscroll.min.js') }}" type="text/javascript"></script>
+<!-- InputMask -->
+<script src="{{ asset('/plugins/input-mask/jquery.inputmask.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/plugins/input-mask/jquery.inputmask.date.extensions.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/plugins/input-mask/jquery.inputmask.extensions.js') }}" type="text/javascript"></script>
 <!-- FastClick -->
-<script src='../../plugins/fastclick/fastclick.min.js'></script>
+<script src='{{ asset('/plugins/fastclick/fastclick.min.js') }}'></script>
 <!-- AdminLTE App -->
-<script src="../../dist/js/app.min.js" type="text/javascript"></script>
+<script src="{{ asset('/dist/js/app.min.js') }}" type="text/javascript"></script>
 <!-- Data Table scripts -->
-<script src="../../plugins/datatables/jquery.dataTables.min.js" type="text/javascript"></script>
-<script src="../../plugins/datatables/dataTables.bootstrap.min.js" type="text/javascript"></script>
+<script src="{{ asset('/plugins/datatables/jquery.dataTables.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('/plugins/datatables/dataTables.bootstrap.min.js') }}" type="text/javascript"></script>
 
 <!-- Demo -->
-<script src="../../dist/js/demo.js" type="text/javascript"></script>
+<script src="{{ asset('/dist/js/demo.js') }}" type="text/javascript"></script>
 
 <script type="text/javascript">
     $(function() {
-        $("#horario").dataTable({
+        $("#salas").dataTable({
             "bPaginate": true,
             "bLengthChange": false,
             "bFilter": true,
@@ -276,6 +269,8 @@
             "bInfo": true,
             "bAutoWidth": true
         });
+
+        $("#datemask").inputmask("yyyy-mm-dd", {"placeholder": "yyyy-mm-dd"});
     });
 </script>
 </body>

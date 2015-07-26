@@ -4,24 +4,7 @@
     <meta charset="UTF-8">
     <title>UTEM</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-    <!-- Bootstrap 3.3.4 -->
-    <link href="{{ asset('/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
-    <!-- Font Awesome Icons -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-    <!-- Ionicons -->
-    <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
-    <!-- Theme style -->
-    <link href="{{ asset('/dist/css/AdminLTE.min.css') }}" rel="stylesheet" type="text/css" />
-    <!-- AdminLTE Skins. Choose a skin from the css/skins
-         folder instead of downloading all of them to reduce the load. -->
-    <link href="{{ asset('/dist/css/skins/_all-skins.min.css') }}" rel="stylesheet" type="text/css" />
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    @include('fragmentos.css')
 </head>
 <body class="skin-blue sidebar-mini">
 <!-- Site wrapper -->
@@ -91,7 +74,7 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="../../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
+                    <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image" />
                 </div>
                 <div class="pull-left info">
                     <p>Felipe Canales</p>
@@ -112,7 +95,6 @@
                 <li><a href="#fun"><i class="fa fa-user"></i><span>Editar funcionario</span></a></li>
                 <li><a href="#doc"><i class="fa fa-user"></i><span>Editar docente</span></a></li>
                 <li><a href="#est"><i class="fa fa-user"></i><span>Editar estudiante</span></a></li>
-                <li><a href=""><i class="fa fa-building-o"></i><span>Opciones Campus</span></a></li>
 
                 <li class="header"></li>
                 <li><a href="#"><i class="fa fa-circle-o text-green"></i> <span>Contacto</span></a></li>
@@ -132,10 +114,9 @@
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>
+            <h1 id="inicio">
                 Dashboard
                 <small>Opciones de usuarios</small>
-                <small><strong>Agregar opcion de agregar y agregar por lote</strong></small>
             </h1>
         </section>
 
@@ -145,7 +126,7 @@
             <!-- Default box -->
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title" id="fun">Listado de funcionarios</h3>
+                    <h3 class="box-title" id="fun">Listado de funcionarios <a href="#inicio" class="fa fa-arrow-up"></a></h3>
                     <div class="box-tools pull-right">
                         <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                         <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
@@ -214,7 +195,7 @@
 
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title" id="doc">Listado de docentes</h3>
+                    <h3 class="box-title" id="doc">Listado de docentes <a href="#inicio" class="fa fa-arrow-up"></a></h3>
                     <div class="box-tools pull-right">
                         <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                         <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
@@ -283,7 +264,7 @@
 
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title" id="est">Listado de estudiantes</h3>
+                    <h3 class="box-title" id="est">Listado de estudiantes <a href="#inicio" class="fa fa-arrow-up"></a></h3>
                     <div class="box-tools pull-right">
                         <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                         <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
@@ -358,12 +339,7 @@
 
         </section>
     </div>
-    <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-            <b>Version</b> 0.0.0.1
-        </div>
-        <strong>Copyright &copy; 2015 <a href="#">Felipe Canales</a>.</strong>
-    </footer>
+    @include('fragmentos.footer')
     <!-- =============================================== -->
     <!-- =============================================== -->
     <!-- =============================================== -->

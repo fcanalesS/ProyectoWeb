@@ -4,24 +4,7 @@
     <meta charset="UTF-8">
     <title>UTEM</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-    <!-- Bootstrap 3.3.4 -->
-    <link href="{{ asset('/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
-    <!-- Font Awesome Icons -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-    <!-- Ionicons -->
-    <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
-    <!-- Theme style -->
-    <link href="{{ asset('/dist/css/AdminLTE.min.css') }}" rel="stylesheet" type="text/css" />
-    <!-- AdminLTE Skins. Choose a skin from the css/skins
-         folder instead of downloading all of them to reduce the load. -->
-    <link href="{{ asset('/dist/css/skins/_all-skins.min.css') }}" rel="stylesheet" type="text/css" />
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    @include('fragmentos.css')
 </head>
 <body class="skin-blue sidebar-mini">
 <!-- Site wrapper -->
@@ -33,7 +16,7 @@
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>U</b>TM</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>UTEM</b>Administrador</span>
+            <span class="logo-lg"><b>UTEM</b>Encargado</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -58,7 +41,7 @@
                             <li class="user-header">
                                 <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image" />
                                 <p>
-                                    Administrador
+                                    Encargado
                                 </p>
                             </li>
 
@@ -73,10 +56,7 @@
                             </li>
                         </ul>
                     </li>
-                    <!-- Control Sidebar Toggle Button -->
-                    <li>
-                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                    </li>
+
                 </ul>
             </div>
         </nav>
@@ -101,22 +81,9 @@
             </div>
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
-                <li class="header">MENÚ DE NAVEGACIÓN</li>
+                {{--<li class="header">MENÚ DE NAVEGACIÓN</li>--}}
 
-                <li>
-                    <a href="">
-                        <i class="fa fa-th"></i> <span>Link a algún lado</span> <small class="label pull-right bg-red">!</small>
-                    </a>
-                </li>
-                <li class="header">Menu de Administración</li>
-                <li><a href="#edit"><i class="fa fa-circle-o"></i><span>Editar Alumno</span></a></li>
-                <li><a href="#asig-cursadas"><i class="fa fa-circle-o"></i><span>Listado de asignaturas</span></a></li>
-                <li><a href="#agregar-asig-cur"><i class="fa fa-circle-o"></i><span>Agregar asignaturas</span></a></li>
-                <li><a href="/encargado/personas/{{ $rut }}"><i class="fa fa-circle-o"></i><span>Volver</span></a></li>
-
-                <li class="header"></li>
-                <li><a href="#"><i class="fa fa-circle-o text-green"></i> <span>Contacto</span></a></li>
-                <li class="header"></li>
+                {{--<li><a href="#"><i class="fa fa-circle-o text-green"></i> <span>Contacto</span></a></li>--}}
 
             </ul>
         </section>
@@ -134,13 +101,9 @@
         <section class="content-header">
             <h1>
                 Dashboard
-                <small>Administrador</small>
+                <small>Encargado</small>
             </h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
-                <li><a href="">Dashboard</a></li>
-                <li class="active">Está aquí (Mejorar o implementar de alguna otra forma)</li>
-            </ol>
+
         </section>
 
         <!-- Main content -->
@@ -149,7 +112,7 @@
             <!-- Default box -->
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title" id="edit">Editar estudiante</h3>
+                    <h3 class="box-title" id="edit">Editar estudiante: Nombre del estudiante</h3>
                     <div class="box-tools pull-right">
                         <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                         <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
@@ -321,12 +284,7 @@
 
 
     </div>
-    <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-            <b>Version</b> 0.0.0.1
-        </div>
-        <strong>Copyright &copy; 2015 <a href="#">Felipe Canales</a>.</strong>
-    </footer>
+    @include('fragmentos.footer')
     <!-- =============================================== -->
     <!-- =============================================== -->
     <!-- =============================================== -->

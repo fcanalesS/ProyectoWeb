@@ -4,24 +4,7 @@
     <meta charset="UTF-8">
     <title>UTEM</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-    <!-- Bootstrap 3.3.4 -->
-    <link href="../../bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <!-- Font Awesome Icons -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-    <!-- Ionicons -->
-    <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
-    <!-- Theme style -->
-    <link href="../../dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
-    <!-- AdminLTE Skins. Choose a skin from the css/skins
-         folder instead of downloading all of them to reduce the load. -->
-    <link href="../../dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    @include('fragmentos.css')
 </head>
 <body class="skin-blue sidebar-mini">
 <!-- Site wrapper -->
@@ -106,7 +89,7 @@
                 </li>
                 <li class="header"></li>
 
-                <li><a href="{{ route('estudiante.horario', $rut) }}"><i class="fa fa-user"></i><span>Revisar horario</span></a></li>
+                <li><a href="{{ route('estudiante.horario', [$rut, $estudiante[0]->id]) }}"><i class="fa fa-user"></i><span>Revisar horario</span></a></li>
                 <li><a href="{{ route('estudiante.consulta', [$rut, $estudiante[0]->id]) }}"><i class="fa fa-building-o"></i><span>Consultar por salas</span></a></li>
 
                 <li class="header"></li>
@@ -135,31 +118,6 @@
 
         <!-- Main content -->
         <section class="content">
-
-            <!-- Default box -->
-
-            <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title text-center">Acceso rápido</h3>
-                    <div class="box-tools pull-right">
-                        <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                        <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="box-body">
-                    <div class="row">
-                        <div class="col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1">
-                            <div class="col-md-3">Ope 1</div>
-                            <div class="col-md-3">Ope 2</div>
-                            <div class="col-md-3">Ope 3</div>
-                            <div class="col-md-3">Ope 4</div>
-                        </div>
-                    </div>
-                </div><!-- /.box-body -->
-                <div class="box-footer">
-
-                </div>
-            </div><!-- /.box -->
 
             <!-- Main row -->
             <div class="row">
@@ -283,12 +241,7 @@
             </div>
         </section>
     </div>
-    <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-            <b>Version</b> 0.2
-        </div>
-        <strong>Copyright &copy; 2015 <a href="#">Felipe Canales</a>.</strong>
-    </footer>
+    @include('fragmentos.footer')
     <!-- =============================================== -->
     <!-- =============================================== -->
     <!-- =============================================== -->

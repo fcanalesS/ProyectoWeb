@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use \Illuminate\Contracts\Auth\Guard as Auth;
 use UTEM\Utils\Rut;
 
-class LoginController extends Controller {
+class LoginController extends Controller
+{
 
     /**
      * @var Auth
@@ -19,14 +20,14 @@ class LoginController extends Controller {
         $this->auth = $auth;
     }
 
-	public function index ()
+    public function index()
     {
         return view('login.index');
     }
 
     public function postindex (Request $request)
     {
-        $user_data = $request->only(['rut', 'password']);
+        $user_data = ['rut' => $request->input('rut'), 'password' => $request->input('password')];
         $rut = $request->input('rut');
         $rules =
             [
@@ -35,18 +36,21 @@ class LoginController extends Controller {
             ];
 
         $this->validate($request, $rules);
-        //dd($this->auth->attempt($user_data, $request->has('remember')));
+
         if($this->auth->attempt($user_data, $request->has('remember')))
         {
-            /*
-             * Si el login está correcto, determinar por rut quién es el
-             * encargado de "qué" campus y mostrar los datos referentes a ese rut.
-             *
-             * Mismo procedimiento para los docentes y estudiantes.
-             *
-             * El administrador no importa.
-             */
-            return redirect()->route('admin.index');
+            $rut = $this->auth->user()->rut;
+
+            $rol = \DB::table('roles_usuarios')
+                ->join('roles', 'roles_usuarios.rol_id', '=', 'roles.id')
+                ->where('roles_usuarios.rut', $rut)
+                ->select('roles.nombre')
+                ->get();
+
+            //if($rol->first()->nombre == 'Administrador')
+
+            dd($rol);
+            //return redirect()->route('admin.index');
         }
 
         return redirect()->back()->with('login_error', 'Error. Revise los datos ingresados')->withInput();

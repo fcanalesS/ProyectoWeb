@@ -4,24 +4,7 @@
     <meta charset="UTF-8">
     <title>UTEM</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-    <!-- Bootstrap 3.3.4 -->
-    <link href="{{ asset('/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
-    <!-- Font Awesome Icons -->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-    <!-- Ionicons -->
-    <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
-    <!-- Theme style -->
-    <link href="{{ asset('/dist/css/AdminLTE.min.css') }}" rel="stylesheet" type="text/css" />
-    <!-- AdminLTE Skins. Choose a skin from the css/skins
-         folder instead of downloading all of them to reduce the load. -->
-    <link href="{{ asset('/dist/css/skins/_all-skins.min.css') }}" rel="stylesheet" type="text/css" />
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    @include('fragmentos.css')
 </head>
 <body class="skin-blue sidebar-mini">
 <!-- Site wrapper -->
@@ -183,10 +166,9 @@
                         </div>
                     </div>
                     {!! Form::hidden('id', $id) !!}
-                    <button type="submit" class="btn btn-success ">Actualizar</button>
+                    <button type="submit" class="btn btn-success ">Actualizar</button> <a href="{{ route('admin.campus.index') }}" type="button" class="btn bg-aqua">Volver</a>
                     {!! Form::close() !!}
                     <br>
-                    <a href="{{ url('admin/campus#d') }}" class="btn bg-aqua">Volver</a>
                 </div><!-- /.box-body -->
                 <div class="box-footer">
 
@@ -197,12 +179,7 @@
 
 
     </div>
-    <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-            <b>Version</b> 0.0.0.1
-        </div>
-        <strong>Copyright &copy; 2015 <a href="#">Felipe Canales</a>.</strong>
-    </footer>
+    @include('fragmentos.footer')
     <!-- =============================================== -->
     <!-- =============================================== -->
     <!-- =============================================== -->

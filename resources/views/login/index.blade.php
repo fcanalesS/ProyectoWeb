@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>AdminLTE 2 | Log in</title>
+    <title>UTEM | Log in</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- Bootstrap 3.3.4 -->
     <link href="{{ asset('/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
@@ -23,11 +23,11 @@
 <body class="login-page">
 <div class="login-box">
     <div class="login-logo">
-        <a href="/"><b>Admin</b>LTE</a>
+        <a href="/"><b>UTEM</b>Login</a>
     </div><!-- /.login-logo -->
     <div class="login-box-body">
         <p class="login-box-msg">Ingrese sus datos para iniciar sesión</p>
-        <form action="/" method="post">
+        {!! Form::open(['route' => 'login.post', 'method' => 'POST', 'role' => 'form']) !!}
             <div class="form-group has-feedback">
                 <input name="rut" type="text" class="form-control rut" placeholder="Rut" required rut/>
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -37,7 +37,7 @@
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             <button type="submit" class="btn btn-primary btn-block btn-flat">Iniciar Sesión</button>
-        </form>
+        {!! Form::close() !!}
         <br>
         @if(Session::has('login_error'))
             <div class="alert alert-info">
