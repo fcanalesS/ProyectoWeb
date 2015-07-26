@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers\EncargadoCampus;
 
 use App\AsignaturaCursada;
+use App\Campus;
 use App\Carrera;
 use App\Curso;
 use App\Departamento;
@@ -11,43 +12,68 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class EncargadoController extends Controller {
 
-	public function index ($rut, Request $request)
+	public function index ()
     {
-        $r = $rut;
-        return view('encargado.index', compact('rut'));
+        $campus = Campus::all()
+            ->where('rut_encargado', Auth::user()->rut);
+
+        return view('encargado.index');
     }
-    public function index_personas ($rut)
+    public function index_personas ()
     {
         $estudiantes = \DB::table('estudiantes')
             ->join('carreras', 'estudiantes.carrera_id', '=', 'carreras.id')
             ->join('escuelas', 'carreras.escuela_id', '=', 'escuelas.id')
             ->join('departamentos', 'escuelas.departamento_id', '=', 'departamentos.id')
+            ->join('facultades', 'departamentos.facultad_id', '=', 'facultades.id')
+            ->join('campus', 'facultades.campus_id', '=', 'campus.id')
+            ->where('campus.rut_encargado', Auth::user()->rut)
             ->select('estudiantes.id', 'estudiantes.rut', 'estudiantes.nombres', 'estudiantes.apellidos', 'estudiantes.email',
                 'carreras.nombre as carrera', 'carreras.codigo', 'escuelas.nombre as escuela', 'departamentos.nombre as depto')
             ->get();
 
-        $funcionarios = Funcionario::select('id', 'rut', 'departamento_id', 'nombres', 'apellidos')
-            ->with('funcionario_departamento')
+        $funcionarios = \DB::table('funcionarios')
+            ->join('departamentos', 'funcionarios.departamento_id', '=', 'departamentos.id')
+            ->join('facultades', 'departamentos.facultad_id', '=', 'facultades.id')
+            ->join('campus', 'facultades.campus_id', '=', 'campus.id')
+            ->where('campus.rut_encargado', Auth::user()->rut)
+            ->select('funcionarios.id', 'funcionarios.rut', 'funcionarios.nombres',
+                'funcionarios.apellidos', 'departamentos.nombre as depto')
             ->get();
 
-        $docentes = Docente::select('id', 'departamento_id', 'rut', 'nombres', 'apellidos')
-            ->with('docente_departamento')->orderBy('departamento_id')
+        $docentes = \DB::table('docentes')
+            ->join('departamentos', 'docentes.departamento_id', '=', 'departamentos.id')
+            ->join('facultades', 'departamentos.facultad_id', '=', 'facultades.id')
+            ->join('campus', 'facultades.campus_id', '=', 'campus.id')
+            ->where('campus.rut_encargado', Auth::user()->rut)
+            ->select('docentes.id', 'docentes.rut', 'docentes.nombres',
+                'docentes.apellidos', 'departamentos.nombre as depto')
             ->get();
 
-        $carreras = Carrera::lists('nombre', 'id');
+        $carreras = \DB::table('carreras')
+            ->join('escuelas', 'carreras.escuela_id', '=', 'escuelas.id')
+            ->join('departamentos', 'escuelas.departamento_id', '=', 'departamentos.id')
+            ->join('facultades', 'departamentos.facultad_id', '=', 'facultades.id')
+            ->join('campus', 'facultades.campus_id', '=', 'campus.id')
+            ->where('campus.rut_encargado', Auth::user()->rut)
+            ->select('carreras.id', 'carreras.nombre as carrera')
+            ->get();
+
         $deptos = Departamento::lists('nombre', 'id');
 
-        return view('encargado.personas.index', compact('rut', 'estudiantes', 'docentes', 'funcionarios', 'carreras', 'deptos'));
+        return view('encargado.personas.index', compact('estudiantes', 'docentes', 'funcionarios', 'carreras', 'deptos'));
     }
     /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      *++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
     /* Estudiantes */
-    public function editEstudiante ($id, $rut)
+    public function editEstudiante ($id)
     {
         $est = Estudiante::findOrFail($id);
         $carreras = Carrera::lists('nombre', 'id');
@@ -64,11 +90,15 @@ class EncargadoController extends Controller {
         $cursos = \DB::table('cursos')
             ->join('docentes', 'cursos.docente_id', '=', 'docentes.id')
             ->join('asignaturas', 'cursos.asignatura_id', '=', 'asignaturas.id')
+            ->join('departamentos', 'asignaturas.departamento_id', '=', 'departamentos.id')
+            ->join('facultades', 'departamentos.facultad_id', '=', 'facultades.id')
+            ->join('campus', 'facultades.campus_id', '=', 'campus.id')
+            ->where('campus.rut_encargado', Auth::user()->rut)
             ->select('docentes.nombres', 'docentes.apellidos', 'asignaturas.codigo as cod', 'asignaturas.nombre as asig',
                 'cursos.id','cursos.semestre', 'cursos.anio', 'cursos.seccion')
             ->get();
 
-        return view('encargado.personas.editar.estudiantes', compact('id', 'rut', 'est', 'carreras', 'a_c', 'cursos'));
+        return view('encargado.personas.editar.estudiantes', compact('id', 'est', 'carreras', 'a_c', 'cursos'));
     }
 
     public function a_cEstudiante (Request $request)
@@ -90,24 +120,24 @@ class EncargadoController extends Controller {
      +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
     /* Docentes */
-    public function editDocente ($id, $rut)
+    public function editDocente ($id)
     {
         $doc = Docente::findOrFail($id);
         $depto = Departamento::lists('nombre', 'id');
 
-        return view('encargado.personas.editar.docentes', compact('id', 'rut','doc', 'depto'));
+        return view('encargado.personas.editar.docentes', compact('id','doc', 'depto'));
     }
     /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      *++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
     /* Funcionarios */
-    public function editFuncionario ($id, $rut)
+    public function editFuncionario ($id)
     {
         $fun = Funcionario::findOrFail($id);
         $depto = Departamento::lists('nombre', 'id');
 
-        return view('encargado.personas.editar.funcionarios', compact('id', 'rut', 'fun', 'depto'));
+        return view('encargado.personas.editar.funcionarios', compact('id', 'fun', 'depto'));
     }
     /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
      *++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

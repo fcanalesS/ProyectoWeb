@@ -164,7 +164,7 @@
                         </div>
                     </div>
                     {!! Form::hidden('id', $id) !!}
-                    <button type="submit" class="btn btn-success ">Actualizar</button> <a href="{{ route('encargado.personas.index', $rut) }}" type="button" class="btn bg-aqua">Volver</a>
+                    <button type="submit" class="btn btn-success ">Actualizar</button> <a href="{{ route('encargado.personas.index') }}" type="button" class="btn bg-aqua">Volver</a>
                     {!! Form::close() !!}
                 </div><!-- /.box-body -->
                 <div class="box-footer">
@@ -272,7 +272,7 @@
                         </div>
                     </div>
                     {!! Form::hidden('id', $id) !!} {!! Form::hidden('estudiante_id', $est->id) !!}
-                    <button type="submit" class="btn btn-success ">Agregar asignatura</button> <a href="{{ route('encargado.personas.index', $rut) }}" type="button" class="btn bg-aqua">Volver</a>
+                    <button type="submit" class="btn btn-success ">Agregar asignatura</button> <a href="{{ route('encargado.personas.index') }}" type="button" class="btn bg-aqua">Volver</a>
                     {!! Form::close() !!}
                 </div><!-- /.box-body -->
                 <div class="box-footer">

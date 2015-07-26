@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 
 class SalasController extends Controller {
 
-	public function index ($rut)
+	public function index ()
     {
         $salas = Sala::select()
             ->with('sala_campus', 'sala_tipoS')
@@ -44,7 +44,7 @@ class SalasController extends Controller {
         return redirect()->back()->with('sala_add', 'Se ha agregado correctamente la sala');
     }
 
-    public function salaEdit ($id, $rut)
+    public function salaEdit ($id)
     {
         $sala = Sala::findOrFail($id);
 
@@ -59,7 +59,7 @@ class SalasController extends Controller {
             ->orderBy('cursos.seccion')
             ->get();
 
-        return view('encargado.salas.edit_s', compact('id', 'rut', 'campus', 'tiposala', 'sala', 'periodos', 'cursos'));
+        return view('encargado.salas.edit_s', compact('id', 'campus', 'tiposala', 'sala', 'periodos', 'cursos'));
     }
 
     public function salasAddCurso(Request $request)

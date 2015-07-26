@@ -12,7 +12,7 @@
 
     <header class="main-header">
         <!-- Logo -->
-        <a href="{{ route('encargado.index', [$rut]) }}" class="logo">
+        <a href="" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>U</b>TM</span>
             <!-- logo for regular state and mobile devices -->
@@ -156,10 +156,10 @@
                                 <label for="">Descripción</label>
                                 {!! Form::textarea('descripcion', null,['class' => 'form-control', 'required', ' ']) !!}
                             </div>
-                            {!! Form::hidden('id', $id) !!} {!! Form::hidden('rut', $rut) !!}
+                            {!! Form::hidden('id', $id) !!}
                             <button type="submit" class="btn btn-success ">Agregar</button>
                             {!! Form::close() !!}
-                            <a href="/encargado/salas/index/{{$rut}}" type="button" class="btn bg-aqua">Volver</a>
+                            <a href="/encargado/salas/index/" type="button" class="btn bg-aqua">Volver</a>
                         </div>
                         <div class="col-md-5">
                             @if(Session::has('sala_update'))
@@ -244,10 +244,10 @@
                                     </table>
                                 </div>
                             </div>
-                            {!! Form::hidden('id', $id) !!} {!! Form::hidden('sala_id', $sala->id) !!}
+                            {!! Form::hidden('id', $id) !!}
                             <button type="submit" class="btn btn-success ">Agregar</button>
                             {!! Form::close() !!}
-                            <a href="/encargado/salas/index/{{$rut}}" type="button" class="btn bg-aqua">Volver</a>
+                            <a href="{{ route('encargado.salas.index') }}" type="button" class="btn bg-aqua">Volver</a>
                         </div>
                         <div class="col-md-5">
                             @if(Session::has('horario_add'))

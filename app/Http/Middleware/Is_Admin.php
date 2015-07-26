@@ -24,7 +24,28 @@ class Is_Admin {
     }
 	public function handle($request, Closure $next)
 	{
-		return $next($request);
+        $rut = $this->auth->user()->rut;
+
+        $rol = RolUsuario::join('roles','roles_usuarios.rol_id','=','roles.id')
+            ->where('roles_usuarios.rut','=',$rut)
+            ->select('roles.nombre')
+            ->get();
+        $admin = false;
+
+        foreach ($rol as $r)
+        {
+            if ($r->nombre == 'ADMINISTRADOR')
+                $admin = true;
+        }
+
+        if ($admin == false)
+        {
+            $this->auth->logout();
+
+            return redirect()->to('/login');
+        }
+
+        return $next($request);
 	}
 
 }

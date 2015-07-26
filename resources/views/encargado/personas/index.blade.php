@@ -12,7 +12,7 @@
 
     <header class="main-header">
         <!-- Logo -->
-        <a href="{{ route('encargado.index', [$rut]) }}" class="logo">
+        <a href="{{ route('encargado.index') }}" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>U</b>TM</span>
             <!-- logo for regular state and mobile devices -->
@@ -87,7 +87,7 @@
                 <li class="header">MENÚ DE NAVEGACIÓN</li>
 
                 <li>
-                    <a href="{{ route('encargado.index', [$rut]) }}">
+                    <a href="{{ route('encargado.index') }}">
                         <i class="fa fa-th"></i> <span>Inicio</span> <small class="label pull-right bg-red">!</small>
                     </a>
                 </li>
@@ -157,7 +157,7 @@
                             <td>{{ $e->escuela }}</td>
                             <td>{{ $e->depto }}</td>
                             <td>
-                                <a href="{{ route('encargado.estudiante.editar', [$e->id, $rut]) }}" class="btn btn-xs bg-olive">Editar</a>
+                                <a href="{{ route('encargado.estudiante.editar', [$e->id]) }}" class="btn btn-xs bg-olive">Editar</a>
                                 <a href="" class="btn btn-xs btn-danger">Eliminar</a>
                             </td>
                         </tr>
@@ -221,7 +221,11 @@
                             </div>
                             <div class="form-group">
                                 <label>Seleccione una carrera</label>
-                                {!! Form::select('carrera_id', (['0' => ''] + $carreras ), null, ['class' => 'form-control', 'required']) !!}
+                                <select name="carrera_id" id="" class="form-control" required>
+                                    @foreach($carreras as $c)
+                                        <option value="{{ $c->id }}">{{ $c->carrera }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <button type="submit" class="btn btn-success ">Agregar</button>
                             {!! Form::close() !!}
@@ -270,8 +274,13 @@
                                 <div class="box-body">
                                     {!! Form::open(['route' => 'encargado.archivo.estudiante', 'method' => 'POST', 'role' => 'form', 'files' => 'true']) !!}
                                     <div class="form-group">
-                                        <label for="">Seleccione una carrera</label>
-                                        {!! Form::select('carrera_id', (['0' => ''] + $carreras ), null, ['class' => 'form-control', 'required']) !!}
+                                        <label>Seleccione una carrera</label>
+                                        <select name="carrera_id" id="" class="form-control" required>
+                                            @foreach($carreras as $c)
+                                                <option value="{{ $c->id }}">{{ $c->carrera }}</option>
+                                            @endforeach
+                                        </select>
+
                                     </div>
                                     <div class="form-group">
                                         <label for="fileInput">Seleccione el archivo</label>
@@ -312,9 +321,9 @@
                                 <td>{{ $d->rut }}</td>
                                 <td>{{ $d->nombres }}</td>
                                 <td>{{ $d->apellidos }}</td>
-                                <td>{{ $d->docente_departamento->nombre }}</td>
+                                <td>{{ $d->depto }}</td>
                                 <td>
-                                    <a href="{{ route('encargado.docente.editar', [$d->id, $rut]) }}" class="btn btn-xs bg-olive">Editar</a>
+                                    <a href="{{ route('encargado.docente.editar', [$d->id]) }}" class="btn btn-xs bg-olive">Editar</a>
                                     <a href="" class="btn btn-xs btn-danger">Eliminar</a>
                                 </td>
                             </tr>
@@ -458,9 +467,9 @@
                                 <td>{{ $f->rut }}</td>
                                 <td>{{ $f->nombres }}</td>
                                 <td>{{ $f->apellidos }}</td>
-                                <td>{{ $f->funcionario_departamento->nombre }}</td>
+                                <td>{{ $f->depto }}</td>
                                 <td>
-                                    <a href="{{ route('encargado.funcionario.editar', [$f->id, $rut]) }}" class="btn btn-xs bg-olive">Editar</a>
+                                    <a href="{{ route('encargado.funcionario.editar', [$f->id]) }}" class="btn btn-xs bg-olive">Editar</a>
                                     <a href="" class="btn btn-xs btn-danger">Eliminar</a>
                                 </td>
                             </tr>
@@ -561,8 +570,8 @@
                                 <div class="box-body">
                                     {!! Form::open(['route' => 'encargado.archivo.funcionario', 'method' => 'POST', 'role' => 'form', 'files' => 'true']) !!}
                                     <div class="form-group">
-                                        <label for="">Seleccione una carrera:</label>
-                                        {!! Form::select('carrera_id', (['0' => ''] + $carreras ), null, ['class' => 'form-control', 'required']) !!}
+                                        <label for="">Seleccione una departamento:</label>
+                                        {!! Form::select('departamento_id', (['0' => ''] + $deptos ), null, ['class' => 'form-control', 'required']) !!}
                                     </div>
                                     <div class="form-group">
                                         <label for="fileInput">Seleccione el archivo</label>

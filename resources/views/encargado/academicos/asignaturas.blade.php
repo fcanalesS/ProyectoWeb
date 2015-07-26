@@ -12,7 +12,7 @@
 
     <header class="main-header">
         <!-- Logo -->
-        <a href="{{ url('/encargado/index/'.$rut) }}" class="logo">
+        <a href="{{ route('encargado.index') }}" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>U</b>TM</span>
             <!-- logo for regular state and mobile devices -->
@@ -161,10 +161,9 @@
                                 {!! Form::select('departamento_id', (['0' => ''] + $departamentos ), null, ['class' => 'form-control', 'required', 'required']) !!}
                             </div>
                             {!! Form::hidden('id', $id) !!}
-                            {!! Form::hidden('rut', $rut) !!}
                             <button type="submit" class="btn btn-success ">Actualizar</button>
                             {!! Form::close() !!}
-                            <a href="/encargado/academicos/{{$rut}}#asig" type="button" class="btn bg-aqua">Volver</a>
+                            <a href="{{ route('encargado.academicas.index') }}" type="button" class="btn bg-aqua">Volver</a>
                         </div>
                         <div class="col-md-5">
                             @if(Session::has('asignatura_update'))

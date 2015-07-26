@@ -161,10 +161,9 @@
                                 {!! Form::select('escuela_id', (['0' => ''] + $escuelas ), null, ['class' => 'form-control', 'required', 'required']) !!}
                             </div>
                             {!! Form::hidden('id', $id) !!}
-                            {!! Form::hidden('rut', $rut) !!}
                             <button type="submit" class="btn btn-success ">Actualizar</button>
                             {!! Form::close() !!}
-                            <a href="/encargado/academicos/{{$rut}}#car" type="button" class="btn bg-aqua">Volver</a>
+                            <a href="{{ route('encargado.academicas.index') }}" type="button" class="btn bg-aqua">Volver</a>
                         </div>
                         <div class="col-md-5">
                             @if(Session::has('carrera_update'))

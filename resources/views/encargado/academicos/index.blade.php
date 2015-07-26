@@ -11,7 +11,7 @@
 
     <header class="main-header">
         <!-- Logo -->
-        <a href="{{ route('encargado.index', [$rut]) }}" class="logo">
+        <a href="{{ route('encargado.index') }}" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>U</b>TM</span>
             <!-- logo for regular state and mobile devices -->
@@ -94,7 +94,7 @@
                 <li><a href="#car"><i class="fa fa-book"></i><span>Agregar/Editar carreras</span></a></li>
                 <li><a href="#asig"><i class="fa fa-tasks"></i><span>Agregar/Editar asignaturas</span></a></li>
                 <li><a href="#cur"><i class="fa fa-users"></i><span>Agregar/Editar cursos</span></a></li>
-                <li><a href="{{route('encargado.salas.index', [$rut])}}"><i class="fa fa-pencil"></i><span>Agregar/Editar salas</span></a></li>
+                <li><a href="{{route('encargado.salas.index')}}"><i class="fa fa-pencil"></i><span>Agregar/Editar salas</span></a></li>
 
                 <li class="header"></li>
                 <li><a href="#"><i class="fa fa-circle-o text-green"></i> <span>Contacto</span></a></li>
@@ -156,7 +156,7 @@
                                 <td>{{ $c->facultad }}</td>
                                 <td>{{ $c->campus }}</td>
                                 <td>
-                                    <a href="{{ route('encargado.academicos.edit_carrera', [$rut, $c->id]) }}" class="btn btn-xs bg-olive">Editar</a>
+                                    <a href="{{ route('encargado.academicos.edit_carrera', [$c->id]) }}" class="btn btn-xs bg-olive">Editar</a>
                                     <a href="" class="btn btn-xs btn-danger">Eliminar</a>
                                 </td>
                             </tr>
@@ -256,7 +256,7 @@
                                 <td>{{ $a->descripcion }}</td>
                                 <td>{{ $a->asignaturas_departamentos->nombre }}</td>
                                 <td>
-                                    <a href="{{ route('encargado.academicos.edit_asignatura', [$rut, $a->id]) }}" class="btn btn-xs bg-olive">Editar</a>
+                                    <a href="{{ route('encargado.academicos.edit_asignatura', [$a->id]) }}" class="btn btn-xs bg-olive">Editar</a>
                                     <a href="" class="btn btn-xs btn-danger">Eliminar</a>
                                 </td>
                             </tr>
@@ -356,7 +356,7 @@
                                 <td>{{ $c->seccion }}</td>
                                 <td>{{ $c->apellidos }}, {{ $c->nombres }}</td>
                                 <td>
-                                    <a href="{{ route('encargado.academicos.edit_curso', [$rut, $c->id]) }}" class="btn btn-xs bg-olive">Editar</a>
+                                    <a href="{{ route('encargado.academicos.edit_curso', [$c->id]) }}" class="btn btn-xs bg-olive">Editar</a>
                                     <a href="" class="btn btn-xs btn-danger">Eliminar</a>
                                 </td>
                             </tr>

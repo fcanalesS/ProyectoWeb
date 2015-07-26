@@ -89,8 +89,8 @@
                 </li>
                 <li class="header"></li>
 
-                <li><a href="{{ route('estudiante.horario', [$rut, $estudiante[0]->id]) }}"><i class="fa fa-user"></i><span>Revisar horario</span></a></li>
-                <li><a href="{{ route('estudiante.consulta', [$rut, $estudiante[0]->id]) }}"><i class="fa fa-building-o"></i><span>Consultar por salas</span></a></li>
+                <li><a href="{{ route('estudiante.horario', [$estudiante[0]->id]) }}"><i class="fa fa-user"></i><span>Revisar horario</span></a></li>
+                <li><a href="{{ route('estudiante.consulta', [$estudiante[0]->id]) }}"><i class="fa fa-building-o"></i><span>Consultar por salas</span></a></li>
 
                 <li class="header"></li>
                 <li><a href="#!"><i class="fa fa-circle-o text-green"></i> <span>Contacto</span></a></li>

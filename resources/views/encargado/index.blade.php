@@ -82,8 +82,8 @@
             <ul class="sidebar-menu">
                 <li class="header">MENÚ DE NAVEGACIÓN</li>
 
-                <li><a href="{{ route('encargado.personas.index', [$rut]) }}"><i class="fa fa-user"></i><span>Opciones de usuarios</span></a></li>
-                <li><a href="{{ route('encargado.academicas.index', [$rut]) }}"><i class="fa fa-building"></i><span>Opciones académicas</span></a></li>
+                <li><a href="{{ route('encargado.personas.index') }}"><i class="fa fa-user"></i><span>Opciones de usuarios</span></a></li>
+                <li><a href="{{ route('encargado.academicas.index') }}"><i class="fa fa-building"></i><span>Opciones académicas</span></a></li>
 
 
                 <li class="header"></li>
@@ -106,7 +106,7 @@
         <section class="content-header">
             <h1>
                 Dashboard
-                <small>Encargado: {{ $rut }}</small>
+                <small>Encargado</small>
             </h1>
         </section>
 
@@ -122,7 +122,7 @@
                         <div class="icon">
                             <i class="ion ion-ios-people"></i>
                         </div>
-                        <a href="{{ route('encargado.personas.index', [$rut]) }}" class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="{{ route('encargado.personas.index') }}" class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -134,7 +134,7 @@
                         <div class="icon">
                             <i class="ion ion-ios-book"></i>
                         </div>
-                        <a href="{{ route('encargado.academicas.index', [$rut]) }}" class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="{{ route('encargado.academicas.index') }}" class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
             </div>

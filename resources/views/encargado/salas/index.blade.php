@@ -12,11 +12,11 @@
 
     <header class="main-header">
         <!-- Logo -->
-        <a href="{{ route('encargado.index', [$rut]) }}" class="logo">
+        <a href="{{ route('encargado.index') }}" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>U</b>TM</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>UTEM</b>Administrador</span>
+            <span class="logo-lg"><b>UTEM</b>Encargado</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -152,7 +152,7 @@
                                 <td>{{ $s->sala_campus->nombre }}</td>
                                 <td>
                                     <a href=
-                                       "{{ route('encargado.edit.sala', [$s->id, $rut])  }}"
+                                       "{{ route('encargado.edit.sala', [$s->id])  }}"
                                        type="button" class="btn btn-xs bg-olive">Editar</a>
                                     <a href="" type="button" class="btn btn-xs btn-danger btn-salas">Eliminar</a>
                                 </td>

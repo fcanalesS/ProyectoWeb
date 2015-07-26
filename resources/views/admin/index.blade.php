@@ -138,35 +138,14 @@
                     </div>
                 </div>
             </div>
-            <!-- Default box -->
-            <div class="box">
-                <div class="box-header with-border">
-                    <h3 class="box-title text-center">Esta sección está en construcción . . .</h3>
-                    <div class="box-tools pull-right">
-                        <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                        <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
-                    </div>
-                </div>
-                <div class="box-body">
-                    <div class="row">
-                        <div class="col-md-8 col-md-offset-2">
-                            <img src="{{ asset('/dist/img/under-construction.png') }}" class="img-responsive" alt="User Image" />
-                        </div>
-                    </div>
-                </div><!-- /.box-body -->
-                <div class="box-footer">
-
-                </div>
-            </div><!-- /.box -->
-
             <!-- Main row -->
             <div class="row">
                 <!-- Left col -->
                 <section class="col-lg-6 connectedSortable">
                     <!-- Custom tabs -->
-                    {{--<div class="box">
+                    <div class="box">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Algo</h3>
+                            <h3 class="box-title">Perfil</h3>
                             <div class="box-tools pull-right">
                                 <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                                 <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
@@ -178,7 +157,7 @@
                         <div class="box-footer">
 
                         </div>
-                    </div><!-- /.box -->--}}
+                    </div><!-- /.box -->
                 </section>
 
                 <!-- Right Col -->
@@ -200,6 +179,29 @@
 
                 </section>
             </div>
+
+            <!-- Default box -->
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title text-center">Esta sección está en construcción . . .</h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+                        <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2">
+                            <img src="{{ asset('/dist/img/under-construction.png') }}" class="img-responsive" alt="User Image" />
+                        </div>
+                    </div>
+                </div><!-- /.box-body -->
+                <div class="box-footer">
+
+                </div>
+            </div><!-- /.box -->
+
+
         </section>
     </div>
     @include('fragmentos.footer')

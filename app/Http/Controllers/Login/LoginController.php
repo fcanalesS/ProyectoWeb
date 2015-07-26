@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use App\RolUsuario;
 use Illuminate\Http\Request;
 use \Illuminate\Contracts\Auth\Guard as Auth;
 use UTEM\Utils\Rut;
@@ -41,16 +42,20 @@ class LoginController extends Controller
         {
             $rut = $this->auth->user()->rut;
 
-            $rol = \DB::table('roles_usuarios')
-                ->join('roles', 'roles_usuarios.rol_id', '=', 'roles.id')
-                ->where('roles_usuarios.rut', $rut)
+            $rol = RolUsuario::join('roles', 'roles_usuarios.rol_id', '=', 'roles.id')
+                ->where('roles_usuarios.rut','=',$rut)
                 ->select('roles.nombre')
                 ->get();
 
-            //if($rol->first()->nombre == 'Administrador')
-
-            dd($rol);
-            //return redirect()->route('admin.index');
+            //dd($rol->first()->nombre);
+            if($rol->first()->nombre == 'ADMINISTRADOR')
+                return redirect()->route('admin.index');
+            if($rol->first()->nombre == 'ENCARGADO_CAMPUS')
+                return redirect()->route('encargado.index');
+            if($rol->first()->nombre == 'DOCENTE')
+                return redirect()->route('docente.index');
+            if($rol->first()->nombre = 'ESTUDIANTE')
+                return redirect()->route('estudiante.index');
         }
 
         return redirect()->back()->with('login_error', 'Error. Revise los datos ingresados')->withInput();
@@ -60,7 +65,7 @@ class LoginController extends Controller
     {
         $this->auth->logout();
 
-        return redirect('/')->with('logout', 'Ha cerrado su sesión')->withInput();
+        return redirect('/login')->with('logout', 'Ha cerrado su sesión')->withInput();
     }
 
 }

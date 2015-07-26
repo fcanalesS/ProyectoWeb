@@ -12,7 +12,7 @@
 
     <header class="main-header">
         <!-- Logo -->
-        <a href="{{ route('estudiante.index', [$rut]) }}" class="logo">
+        <a href="{{ route('estudiante.index') }}" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>U</b>TM</span>
             <!-- logo for regular state and mobile devices -->
@@ -84,7 +84,7 @@
 
 
 
-                <li><a href="{{ route('estudiante.horario', [$rut, $id]) }}"><i class="fa fa-user"></i><span>Volver</span></a></li>
+                <li><a href="{{ route('estudiante.horario', [$id]) }}"><i class="fa fa-user"></i><span>Volver</span></a></li>
 
                 <li class="header"></li>
                 <li><a href="#!"><i class="fa fa-circle-o text-green"></i> <span>Contacto</span></a></li>

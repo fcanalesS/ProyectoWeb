@@ -82,24 +82,7 @@
                     <a href="#"><i class="fa fa-circle text-success"></i> En linea</a>
                 </div>
             </div>
-            <!-- sidebar menu: : style can be found in sidebar.less -->
-            <ul class="sidebar-menu">
-                <li class="header">MENÚ DE NAVEGACIÓN</li>
-
-                <li>
-                    <a href="">
-                        <i class="fa fa-th"></i> <span>Link a algún lado</span> <small class="label pull-right bg-red">!</small>
-                    </a>
-                </li>
-                <li class="header">Menu de Administración</li>
-                <li><a href=""><i class="fa fa-circle-o"></i><span>Perfiles de Campus</span></a></li>
-                <li><a href=""><i class="fa fa-circle-o"></i><span>Perfiles de Usuarios</span></a></li>
-
-                <li class="header"></li>
-                <li><a href="#"><i class="fa fa-circle-o text-green"></i> <span>Contacto</span></a></li>
-                <li class="header"></li>
-
-            </ul>
+            
         </section>
         <!-- /.sidebar -->
     </aside>
@@ -201,6 +184,7 @@
                     {!! Form::hidden('id', $id) !!}
                     {!! Form::hidden('tipo', 'funcionario') !!}
                     <button type="submit" class="btn btn-success ">Actualizar</button>
+                    <a href="{{ route('admin.usuarios.index') }}" class="btn bg-aqua" role="button">Volver</a>
                     {!! Form::close() !!}
                 </div><!-- /.box-body -->
                 <div class="box-footer">

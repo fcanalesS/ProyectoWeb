@@ -133,7 +133,7 @@
                             </div>
                         </div>
                         <div class="box-body">
-
+                            <img src="{{ asset('/dist/img/under-construction.png') }}" class="img-responsive" alt="User Image" />
                         </div><!-- /.box-body -->
                         <div class="box-footer">
 
@@ -155,7 +155,7 @@
                             <div class="row">
                                 <div class="col-md-10 col-lg-10 col-lg-offset-1 col-md-offset-1">
                                     <div class=" embed-responsive embed-responsive-4by3">
-                                        <iframe class="embed-responsive-item" src='http://3planeta.com/map.html?17,-33.5639766,-70.56911869999999,1,1' width=600 height=600 frameborder=no > </iframe>
+                                        <iframe class="embed-responsive-item" src='http://3planeta.com/map.html?17,-63.215067,-55.825653,1,1' width=600 height=600 frameborder=no > </iframe>
                                     </div>
                                 </div>
                             </div>

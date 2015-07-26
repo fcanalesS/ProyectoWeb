@@ -8,11 +8,12 @@ use App\Http\Controllers\Controller;
 
 use App\Periodo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class EstudianteController extends Controller {
 
-	public function index ($rut)
+	public function index ()
     {
         $estudiante = \DB::table('estudiantes')
             ->join('carreras', 'estudiantes.carrera_id', '=', 'carreras.id')
@@ -20,7 +21,7 @@ class EstudianteController extends Controller {
             ->join('departamentos', 'escuelas.departamento_id', '=', 'departamentos.id')
             ->join('facultades', 'departamentos.facultad_id', '=', 'facultades.id')
             ->join('campus', 'facultades.campus_id', '=', 'campus.id')
-            ->where('estudiantes.rut', $rut)
+            ->where('estudiantes.rut', 31896711)
             ->select('estudiantes.id', 'estudiantes.nombres', 'estudiantes.apellidos', 'estudiantes.rut', 'estudiantes.email',
                 'carreras.codigo as cod', 'carreras.nombre as carrera', 'escuelas.nombre as escuela',
                 'departamentos.nombre as depto', 'facultades.nombre as facultad', 'campus.nombre as campus',
@@ -33,7 +34,7 @@ class EstudianteController extends Controller {
         return view('estudiante.index', compact('rut', 'estudiante', 'nombres', 'apellidos'));
     }
 
-    public function horarioEstudiante ($rut, $id)
+    public function horarioEstudiante ($id)
     {
         $est = Estudiante::findOrFail($id);
         $nombres = PersonasUtils::separaNombres($est->nombres);
@@ -66,7 +67,6 @@ class EstudianteController extends Controller {
     public function consultaEstudiante (Request $request)
     {
         $fecha = explode('-', $request->input('fecha'));
-        $rut = $request->input('rut');
         $id = $request->input('id');
         $est = Estudiante::findOrFail($id);
         $nombres = PersonasUtils::separaNombres($est->nombres);
@@ -80,7 +80,7 @@ class EstudianteController extends Controller {
                 ->join('periodos', 'horarios.periodo_id', '=', 'periodos.id')
                 ->where('periodos.id', $request->input('periodo_id'))
                 ->join('campus', 'salas.campus_id', '=', 'campus.id')
-                //->where('campus_id', $request->input('campus_id'))
+                ->where('campus_id', $request->input('campus_id'))
                 ->select('horarios.fecha', 'salas.nombre as sala', 'periodos.bloque', 'periodos.inicio', 'periodos.fin',
                     'campus.nombre as campus')
                 ->get();
@@ -94,7 +94,7 @@ class EstudianteController extends Controller {
                 ->get();
 
             if (!empty($salas))
-                return view('estudiante.consulta', compact('id', 'rut', 'salas', 'nombres', 'apellidos', 'est', 'todas'));
+                return view('estudiante.consulta', compact('id', 'salas', 'nombres', 'apellidos', 'est', 'todas'));
             else
                 return redirect()->back()
                     ->with('vacio', 'No se encontraron salas, según los parámetros ingresados')
