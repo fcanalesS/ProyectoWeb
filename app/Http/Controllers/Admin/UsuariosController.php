@@ -45,6 +45,7 @@ class UsuariosController extends Controller {
         {
             $func = Funcionario::findOrFail($id);
             $depto = Departamento::lists('nombre', 'id');
+
             $rut = $func['rut'];
 
             $rol = \DB::table('roles_usuarios')

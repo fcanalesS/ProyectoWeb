@@ -24,6 +24,7 @@ class Is_Encargado {
 		{
 			if ($r->nombre == 'ENCARGADO_CAMPUS')
 			{
+				$tipo = 'encargado';
 				$encargado = true;
 			}
 		}

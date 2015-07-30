@@ -34,7 +34,7 @@
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="../../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
-                            <span class="hidden-xs">Felipe Sebastian Canales Saavedra</span>
+                            <span class="hidden-xs">Administrador</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
@@ -77,7 +77,7 @@
                     <img src="../../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
                 </div>
                 <div class="pull-left info">
-                    <p>Felipe Canales</p>
+                    <p>Administrador</p>
 
                     <a href="#"><i class="fa fa-circle text-success"></i> En linea</a>
                 </div>
@@ -199,6 +199,13 @@
                                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                                     <h4><i class="icon fa fa-info"></i> Alerta!</h4>
                                     {{ Session::get('error_direccion') }}
+                                </div>
+                            @endif
+                            @if(Session::has('error_rut'))
+                                <div class="alert alert-danger alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h4><i class="icon fa fa-info"></i> Alerta!</h4>
+                                    {{ Session::get('error_rut') }}
                                 </div>
                             @endif
                         </div>

@@ -34,7 +34,7 @@
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
-                            <span class="hidden-xs">Felipe Sebastian Canales Saavedra</span>
+                            <span class="hidden-xs">{{ $datos[0]->nombres }} {{ $datos[0]->apellidos }}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
@@ -73,7 +73,8 @@
                     <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
                 </div>
                 <div class="pull-left info">
-                    <p>Felipe Canales</p>
+                    <p>{{ \App\Helpers\PersonasUtils::separaNombres($datos[0]->nombres)[0] }}
+                       {{ \App\Helpers\PersonasUtils::separaApellidos($datos[0]->apellidos)[0] }}</p>
 
                     <a href="#"><i class="fa fa-circle text-success"></i> En linea</a>
                 </div>
@@ -83,7 +84,8 @@
                 <li class="header">MENÚ DE NAVEGACIÓN</li>
 
                 <li><a href="{{ route('encargado.personas.index') }}"><i class="fa fa-user"></i><span>Opciones de usuarios</span></a></li>
-                <li><a href="{{ route('encargado.academicas.index') }}"><i class="fa fa-building"></i><span>Opciones académicas</span></a></li>
+                <li><a href="{{ route('encargado.academicas.index') }}"><i class="ion ion-ios-book"></i><span>Opciones académicas</span></a></li>
+                <li><a href="{{ route('encargado.salas.index') }}"><i class="fa fa-building"></i><span>Modificar salas</span></a></li>
 
 
                 <li class="header"></li>
@@ -113,7 +115,7 @@
         <!-- Main content -->
         <section class="content">
             <div class="row">
-                <div class="col-md-4 col-md-offset-2">
+                <div class="col-md-4">
                     <div class="small-box bg-aqua">
                         <div class="inner">
                             <h3>Usuarios</h3>
@@ -137,6 +139,18 @@
                         <a href="{{ route('encargado.academicas.index') }}" class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
+                <div class="col-md-4">
+                    <div class="small-box bg-green">
+                        <div class="inner">
+                            <h3>Salas</h3>
+                            <p>Agregar, modificar, agendar, etc...</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-building"></i>
+                        </div>
+                        <a href="{{ route('encargado.salas.index') }}" class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
             </div>
             <!-- Main row -->
             <div class="row">
@@ -145,14 +159,33 @@
                     <!-- Custom tabs -->
                     <div class="box">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Datos del encargado de campus</h3>
+                            <h3 class="box-title">Encargado : N° {{ $datos[0]->rut }}</h3>
                             <div class="box-tools pull-right">
                                 <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                                 <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
                             </div>
                         </div>
                         <div class="box-body">
-                            Aquí van todos los datos de encargado de campus
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <label for="">Rut Encargado:</label>
+                                        <input type="text" class="form-control" value="{{ $datos[0]->rut }}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="">Nombres</label>
+                                        <input type="text" class="form-control" value="{{ $datos[0]->nombres }}" disabled>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="">Apellidos</label>
+                                        <input type="text" class="form-control" value="{{ $datos[0]->apellidos }}" disabled>
+                                    </div>
+                                </div>
+                            </div>
                         </div><!-- /.box-body -->
                         <div class="box-footer">
 
@@ -171,13 +204,13 @@
                             </div>
                         </div>
                         <div class="box-body">
-                            Aquí va el mapa del campus al que es responsable
+                            <div class=" embed-responsive embed-responsive-4by3">
+                                <iframe class="embed-responsive-item" src='http://3planeta.com/map.html?17,{{ $campus[0]->latitud }},{{ $campus[0]->longitud }},1,1' width=600 height=600 frameborder=no > </iframe>
+                            </div>
                         </div><!-- /.box-body -->
                         <div class="box-footer">
                         </div><!-- /.box-footer-->
                     </div><!-- /.box -->
-
-
                 </section>
             </div>
 

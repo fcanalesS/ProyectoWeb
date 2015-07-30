@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use Toin0u\Geocoder\Facade\Geocoder;
+use UTEM\Utils\Rut;
 
 class CampusController extends Controller {
 
@@ -47,23 +48,32 @@ class CampusController extends Controller {
     public function store (Request $request)
     {
         //dd($request->all());
-        try
+
+        //dd(Rut::isRut($request->input('rut_encargado')));
+
+        if (Rut::isRut($request->input('rut_encargado')) != false)
         {
-            $geocode = Geocoder::geocode($request->input('direccion'));
-            $datos_c = ['nombre' => $request->input('nombre'), 'direccion' => $request->input('direccion'),
-                'latitud' => $geocode['latitude'], 'longitud' => $geocode['longitude'],
-                'descripcion' => $request->input('descripcion'), 'rut_encargado' => $request->input('rut_encargado')];
+            try
+            {
+                $geocode = Geocoder::geocode($request->input('direccion'));
+                $datos_c = ['nombre' => $request->input('nombre'), 'direccion' => $request->input('direccion'),
+                    'latitud' => $geocode['latitude'], 'longitud' => $geocode['longitude'],
+                    'descripcion' => $request->input('descripcion'), 'rut_encargado' => $request->input('rut_encargado')];
 
-            $campus = new Campus($datos_c);
-            $campus->save();
+                $campus = new Campus($datos_c);
+                $campus->save();
 
-            return redirect()->back()->with('campus_add', 'Se a agregado correctamente el campus');
+                return redirect()->back()->with('campus_add', 'Se a agregado correctamente el campus');
+            }
+            catch(\Exception $e)
+            {
+                return redirect()->back()->withInput()
+                    ->with('error_direccion', 'Error al ingresar la dirección. Tiene que ser de la forma: "Calle Número, comuna"');
+            }
         }
-        catch(\Exception $e)
-        {
+        else
             return redirect()->back()->withInput()
-                ->with('error_direccion', 'Error al ingresar la dirección, tiene que ser de la forma: "Calle número, comuna"');
-        }
+                ->with('error_rut', 'Error. El rut ingresado no es válido');
     }
 
     public function update ($id, Request $request)

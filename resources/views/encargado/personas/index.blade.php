@@ -12,7 +12,7 @@
 
     <header class="main-header">
         <!-- Logo -->
-        <a href="{{ route('encargado.index') }}" class="logo">
+        <a href="" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>U</b>TM</span>
             <!-- logo for regular state and mobile devices -->
@@ -56,10 +56,7 @@
                             </li>
                         </ul>
                     </li>
-                    <!-- Control Sidebar Toggle Button -->
-                    <li>
-                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                    </li>
+
                 </ul>
             </div>
         </nav>
@@ -74,7 +71,7 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="../../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
+                    <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image" />
                 </div>
                 <div class="pull-left info">
                     <p>Felipe Canales</p>
@@ -171,12 +168,12 @@
                         <div class="col-md-7">
                             <label for="">Rut</label>
                             <div class="row">
-                                <div class="col-md-2">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         {!! Form::number('rut_num', null,['class' => 'form-control', 'required', 'id' => 'rut_num']) !!}
                                     </div>
                                 </div>
-                                <div class="col-md-1">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <select name="dig_veri" id="" class="form-control">
                                             @for($i = 0; $i <= 9; $i++)
@@ -188,7 +185,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-5">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="">E-mail</label>
                                         {!! Form::email('email', null,['class' => 'form-control', 'required', ' ']) !!}
@@ -274,15 +271,6 @@
                                 <div class="box-body">
                                     {!! Form::open(['route' => 'encargado.archivo.estudiante', 'method' => 'POST', 'role' => 'form', 'files' => 'true']) !!}
                                     <div class="form-group">
-                                        <label>Seleccione una carrera</label>
-                                        <select name="carrera_id" id="" class="form-control" required>
-                                            @foreach($carreras as $c)
-                                                <option value="{{ $c->id }}">{{ $c->carrera }}</option>
-                                            @endforeach
-                                        </select>
-
-                                    </div>
-                                    <div class="form-group">
                                         <label for="fileInput">Seleccione el archivo</label>
                                         {!! Form::file('file') !!}
                                         <p class="help-block">Solo archivos con extension: *.xlsx; *.xls</p>
@@ -337,12 +325,12 @@
                         <div class="col-md-7">
                             <label for="">Rut</label>
                             <div class="row">
-                                <div class="col-md-2">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         {!! Form::number('rut_num', null,['class' => 'form-control', 'required', 'id' => 'rut_num']) !!}
                                     </div>
                                 </div>
-                                <div class="col-md-1">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <select name="dig_veri" id="" class="form-control">
                                             @for($i = 0; $i <= 9; $i++)
@@ -379,7 +367,11 @@
                             </div>
                             <div class="form-group">
                                 <label>Seleccione un departamento</label>
-                                {!! Form::select('departamento_id', (['0' => ''] + $deptos ), null, ['class' => 'form-control', 'required']) !!}
+                                <select name="departamento_id" id="" class="form-control">
+                                    @foreach($deptos as $d)
+                                        <option value="{{ $d->id }}">{{ $d->nombre }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <button type="submit" class="btn btn-success ">Agregar</button>
                             {!! Form::close() !!}
@@ -423,10 +415,6 @@
                                 </div>
                                 <div class="box-body">
                                     {!! Form::open(['route' => 'encargado.archivo.docente', 'method' => 'POST', 'role' => 'form', 'files' => 'true']) !!}
-                                    <div class="form-group">
-                                        <label for="">Seleccione un departamento</label>
-                                        {!! Form::select('depto_id', (['0' => ''] + $deptos ), null, ['class' => 'form-control', '']) !!}
-                                    </div>
                                     <div class="form-group">
                                         <label for="fileInput">Seleccione el archivo</label>
                                         {!! Form::file('file') !!}
@@ -483,12 +471,12 @@
                         <div class="col-md-7">
                             <label for="">Rut</label>
                             <div class="row">
-                                <div class="col-md-2">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         {!! Form::number('rut_num', null,['class' => 'form-control', 'required', 'id' => 'rut_num']) !!}
                                     </div>
                                 </div>
-                                <div class="col-md-1">
+                                <div class="col-md-2">
                                     <div class="form-group">
                                         <select name="dig_veri" id="" class="form-control">
                                             @for($i = 0; $i <= 9; $i++)
@@ -525,7 +513,11 @@
                             </div>
                             <div class="form-group">
                                 <label>Seleccione un departamento</label>
-                                {!! Form::select('departamento_id', (['0' => ''] + $deptos ), null, ['class' => 'form-control', 'required']) !!}
+                                <select name="departamento_id" id="" class="form-control">
+                                    @foreach($deptos as $d)
+                                        <option value="{{ $d->id }}">{{ $d->nombre }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <button type="submit" class="btn btn-success ">Agregar</button>
                             {!! Form::close() !!}
@@ -569,10 +561,6 @@
                                 </div>
                                 <div class="box-body">
                                     {!! Form::open(['route' => 'encargado.archivo.funcionario', 'method' => 'POST', 'role' => 'form', 'files' => 'true']) !!}
-                                    <div class="form-group">
-                                        <label for="">Seleccione una departamento:</label>
-                                        {!! Form::select('departamento_id', (['0' => ''] + $deptos ), null, ['class' => 'form-control', 'required']) !!}
-                                    </div>
                                     <div class="form-group">
                                         <label for="fileInput">Seleccione el archivo</label>
                                         {!! Form::file('file') !!}

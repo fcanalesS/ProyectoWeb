@@ -34,7 +34,7 @@
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image"/>
-                            <span class="hidden-xs">Felipe Sebastian Canales Saavedra</span>
+                            <span class="hidden-xs">Administrador</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
@@ -77,29 +77,12 @@
                     <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image" />
                 </div>
                 <div class="pull-left info">
-                    <p>Felipe Canales</p>
+                    <p>Administrador</p>
 
                     <a href="#"><i class="fa fa-circle text-success"></i> En linea</a>
                 </div>
             </div>
-            <!-- sidebar menu: : style can be found in sidebar.less -->
-            {{--<ul class="sidebar-menu">
-                <li class="header">MENÚ DE NAVEGACIÓN</li>
 
-                <li>
-                    <a href="">
-                        <i class="fa fa-th"></i> <span>Link a algún lado</span> <small class="label pull-right bg-red">!</small>
-                    </a>
-                </li>
-                <li class="header">Menu de Administración</li>
-                <li><a href=""><i class="fa fa-circle-o"></i><span>Perfiles de Campus</span></a></li>
-                <li><a href=""><i class="fa fa-circle-o"></i><span>Perfiles de Usuarios</span></a></li>
-
-                <li class="header"></li>
-                <li><a href="#"><i class="fa fa-circle-o text-green"></i> <span>Contacto</span></a></li>
-                <li class="header"></li>
-
-            </ul>--}}
         </section>
         <!-- /.sidebar -->
     </aside>

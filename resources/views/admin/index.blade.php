@@ -34,7 +34,7 @@
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
-                            <span class="hidden-xs">Felipe Sebastian Canales Saavedra</span>
+                            <span class="hidden-xs">Administrador</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
@@ -73,7 +73,7 @@
                     <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
                 </div>
                 <div class="pull-left info">
-                    <p>Felipe Canales</p>
+                    <p>Administrador</p>
 
                     <a href="#"><i class="fa fa-circle text-success"></i> En linea</a>
                 </div>
@@ -143,38 +143,52 @@
                 <!-- Left col -->
                 <section class="col-lg-6 connectedSortable">
                     <!-- Custom tabs -->
-                    <div class="box">
+                    <!-- DONUT CHART -->
+                    <div class="box box-danger">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Perfil</h3>
+                            <h3 class="box-title">Total de personas</h3>
                             <div class="box-tools pull-right">
-                                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+                                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                             </div>
                         </div>
                         <div class="box-body">
-
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <canvas id="pieChart" height="250"></canvas>
+                                </div>
+                                <div class="col-md-4">
+                                    <ul class="chart-legend clearfix">
+                                        <li><fa class="fa-circle-o text-red">Estudiantes</fa></li>
+                                        <li><fa class="fa-circle-o text-green">Docentes</fa></li>
+                                        <li><fa class="fa-circle-o text-yellow">Funcionarios</fa></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div><!-- /.box-body -->
-                        <div class="box-footer">
-
-                        </div>
                     </div><!-- /.box -->
                 </section>
 
                 <!-- Right Col -->
                 <section class="col-lg-6 connectedSortable">
-                    {{--<div class="box">
+                    <div class="box">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Otro algo</h3>
+                            <h3 class="box-title">Esta sección está en construcción . . .</h3>
                             <div class="box-tools pull-right">
                                 <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                                 <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
                             </div>
                         </div>
                         <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-8 col-md-offset-2">
+                                    <img src="{{ asset('/dist/img/under-construction.png') }}" class="img-responsive" alt="User Image" />
+                                </div>
+                            </div>
                         </div><!-- /.box-body -->
                         <div class="box-footer">
                         </div><!-- /.box-footer-->
-                    </div><!-- /.box -->--}}
+                    </div><!-- /.box -->
 
 
                 </section>
@@ -219,6 +233,8 @@
 <script src="../../plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
 <!-- FastClick -->
 <script src='../../plugins/fastclick/fastclick.min.js'></script>
+<!-- ChartJS 1.0.1 -->
+<script src="{{ asset('plugins/chartjs/Chart.min.js') }}" type="text/javascript"></script>
 <!-- AdminLTE App -->
 <script src="../../dist/js/app.min.js" type="text/javascript"></script>
 <!-- Data Table scripts -->
@@ -227,5 +243,67 @@
 
 <!-- Demo -->
 <script src="../../dist/js/demo.js" type="text/javascript"></script>
+
+<script>
+    $(function () {
+        //-------------
+        //- PIE CHART -
+        //-------------
+        // Get context with jQuery - using jQuery's .get() method.
+        var pieChartCanvas = $("#pieChart").get(0).getContext("2d");
+        var pieChart = new Chart(pieChartCanvas);
+        var estudiantes = "<?php echo $estudiantes ?>";
+        var docentes = "<?php echo $docentes ?>";
+        var funcionarios = "<?php echo $funcionarios ?>";
+        var PieData = [
+            {
+                value: parseInt(estudiantes),
+                color: "#f56954",
+                highlight: "#f56954",
+                label: "Estudiantes"
+            },
+            {
+                value: parseInt(funcionarios),
+                color: "#00a65a",
+                highlight: "#00a65a",
+                label: "Docentes"
+            },
+            {
+                value: parseInt(docentes),
+                color: "#f39c12",
+                highlight: "#f39c12",
+                label: "Funcionarios"
+            },
+
+        ];
+        var pieOptions = {
+            //Boolean - Whether we should show a stroke on each segment
+            segmentShowStroke: true,
+            //String - The colour of each segment stroke
+            segmentStrokeColor: "#fff",
+            //Number - The width of each segment stroke
+            segmentStrokeWidth: 2,
+            //Number - The percentage of the chart that we cut out of the middle
+            percentageInnerCutout: 50, // This is 0 for Pie charts
+            //Number - Amount of animation steps
+            animationSteps: 100,
+            //String - Animation easing effect
+            animationEasing: "easeOutBounce",
+            //Boolean - Whether we animate the rotation of the Doughnut
+            animateRotate: true,
+            //Boolean - Whether we animate scaling the Doughnut from the centre
+            animateScale: false,
+            //Boolean - whether to make the chart responsive to window resizing
+            responsive: true,
+            // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+            maintainAspectRatio: false,
+            //String - A legend template
+            legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>"
+        };
+        //Create pie or douhnut chart
+        // You can switch between pie and douhnut using the method below.
+        pieChart.Doughnut(PieData, pieOptions);
+    })
+</script>
 </body>
 </html>

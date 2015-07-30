@@ -1,5 +1,8 @@
 <?php namespace App\Http\Controllers\Admin;
 
+use App\Docente;
+use App\Estudiante;
+use App\Funcionario;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -11,7 +14,14 @@ class AdminController extends Controller {
 
 	public function index ()
     {
-        return view('admin.index');
+        $rut = Auth::user()->rut;
+
+        $estudiantes = Estudiante::all()->count();
+        $funcionarios = Funcionario::all()->count();
+        $docentes = Docente::all()->count();
+
+
+        return view('admin.index', compact('rut', 'estudiantes', 'docentes', 'funcionarios'));
     }
 
 }

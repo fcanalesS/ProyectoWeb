@@ -26,7 +26,7 @@ Route::group(['namespace' => 'Login'], function() {
     Route::get('/logout', ['as' => 'login.logout', 'uses' => 'LoginController@logout']);
 });
 
-Route::group(['middleware' => ['auth', 'is_admin'], 'prefix' => 'admin', 'namespace' => 'Admin'], function() {
+Route::group(['middleware' => [/*'auth', 'is_admin'*/], 'prefix' => 'admin', 'namespace' => 'Admin'], function() {
     Route::get('/index', ['as' => 'admin.index', 'uses' => 'AdminController@index']);
     Route::group(['prefix' => 'usuarios'], function () {
         Route::get('/', ['as' => 'admin.usuarios.index', 'uses' => 'UsuariosController@index']);
