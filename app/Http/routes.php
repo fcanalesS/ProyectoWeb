@@ -11,14 +11,10 @@
 |
 */
 
-/*Route::get('/', 'WelcomeController@index');
-
-Route::get('home', 'HomeController@index');
-
-Route::controllers([
-	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
-]);*/
+Route::get('/', function()
+{
+    return redirect()->route('login.index');
+});
 
 Route::group(['namespace' => 'Login'], function() {
     Route::get('/login', ['as' => 'login.index', 'uses' => 'LoginController@index']);
@@ -26,8 +22,8 @@ Route::group(['namespace' => 'Login'], function() {
     Route::get('/logout', ['as' => 'login.logout', 'uses' => 'LoginController@logout']);
 });
 
-Route::group(['middleware' => [/*'auth', 'is_admin'*/], 'prefix' => 'admin', 'namespace' => 'Admin'], function() {
-    Route::get('/index', ['as' => 'admin.index', 'uses' => 'AdminController@index']);
+Route::group(['middleware' => ['auth', 'is_admin'], 'prefix' => 'admin', 'namespace' => 'Admin'], function() {
+    Route::get('/inicio', ['as' => 'admin.index', 'uses' => 'AdminController@index']);
     Route::group(['prefix' => 'usuarios'], function () {
         Route::get('/', ['as' => 'admin.usuarios.index', 'uses' => 'UsuariosController@index']);
         Route::get('/editar/{id}/funcionarios', ['as' => 'admin.usuarios.edit_func', 'uses' => 'UsuariosController@edit']);
@@ -36,6 +32,9 @@ Route::group(['middleware' => [/*'auth', 'is_admin'*/], 'prefix' => 'admin', 'na
         Route::put('/actualizar/{id}/docentes', ['as' => 'admin.usuarios.update', 'uses' => 'UsuariosController@update']);
         Route::get('/editar/{id}/estudiantes', ['as' => 'admin.usuarios.edit_est', 'uses' => 'UsuariosController@edit']);
         Route::put('/actualizar/{id}/estudiantes', ['as' => 'admin.usuarios.update', 'uses' => 'UsuariosController@update']);
+        Route::delete('/borrar/funcionario/{id}', ['as' => 'admin.funcionario.delete', 'uses' => 'UsuariosController@deleteFuncionario']);
+        Route::delete('/borrar/docente/{id}', ['as' => 'admin.docente.delete', 'uses' => 'UsuariosController@deleteDocente']);
+        Route::delete('/borrar/estudiante/{id}', ['as' => 'admin.estudiante.delete', 'uses' => 'UsuariosController@deleteEstudiante']);
 
     });
     Route::group(['prefix' => 'guardar'], function () {
@@ -48,31 +47,31 @@ Route::group(['middleware' => [/*'auth', 'is_admin'*/], 'prefix' => 'admin', 'na
         Route::post('/guardar', ['as' => 'admin.campus.store', 'uses' => 'CampusController@store']);
         Route::get('/editar/{id}', ['as' => 'admin.campus.edit_campus', 'uses' => 'CampusController@edit']);
         Route::put('/actualizar/{id}', ['as' => 'admin.campus.update_campus', 'uses' => 'CampusController@update']);
+        Route::delete('/borrar/campus/{id}', ['as' => 'admin.campus.delete', 'uses' => 'CampusController@deleteCampus']);
     });
     Route::group(['prefix' => 'facultad'], function () {
         Route::get('/editar/{id}', ['as' => 'admin.campus.edit_f', 'uses' => 'FacultadController@edit']);
         Route::post('/guardar', ['as' => 'admin.campus.store_f', 'uses' => 'FacultadController@store']);
         Route::put('/actualizar/{id}', ['as' => 'admin.campus.update_f', 'uses' => 'FacultadController@update']);
+        Route::delete('/borrar/facultad/{id}', ['as' => 'admin.facultad.delete', 'uses' => 'FacultadController@deleteFacultad']);
     });
     Route::group(['prefix' => 'departamento'], function () {
         Route::get('/editar/{id}', ['as' => 'admin.campus.edit_d', 'uses' => 'DepartamentosController@edit']);
         Route::post('/guardar', ['as' => 'admin.campus.store_d', 'uses' => 'DepartamentosController@store']);
         Route::put('/actualizar/{id}', ['as' => 'admin.campus.update_d', 'uses' => 'DepartamentosController@update']);
+        Route::delete('/borrar/departamento/{id}', ['as' => 'admin.departamentos.delete', 'uses' => 'DepartamentosController@deleteDepartamento']);
     });
     Route::group(['prefix' => 'escuela'], function () {
         Route::get('/editar/{id}', ['as' => 'admin.campus.edit_e', 'uses' => 'EscuelasController@edit']);
         Route::post('/guardar', ['as' => 'admin.campus.store_e', 'uses' => 'EscuelasController@store']);
         Route::post('/guardar/archivo', ['as' => 'admin.campus.file_e', 'uses' => 'EscuelasController@file_escuelas']);
         Route::put('/actualizar/{id}', ['as' => 'admin.campus.update_e', 'uses' => 'EscuelasController@update']);
+        Route::delete('/borrar/escuela/{id}', ['as' => 'admin.escuelas.delete', 'uses' => 'EscuelasController@deleteEscuela']);
     });
 });
 
-/*
- * Rut de encargado para probar: 30111969  -  70399590  -  72661190
- */
-
 Route::group(['middleware' => ['auth', 'is_encargado'],'prefix' => 'encargado', 'namespace' => 'EncargadoCampus'], function () {
-    Route::get('/index/', ['as' => 'encargado.index', 'uses' => 'EncargadoController@index']);
+    Route::get('/inicio/', ['as' => 'encargado.index', 'uses' => 'EncargadoController@index']);
     Route::get('/personas/', ['as' => 'encargado.personas.index', 'uses' => 'EncargadoController@index_personas']);
 
     Route::get('/editar/estudiante/{id}', ['as' => 'encargado.estudiante.editar', 'uses' => 'EncargadoController@editEstudiante']);
@@ -80,16 +79,19 @@ Route::group(['middleware' => ['auth', 'is_encargado'],'prefix' => 'encargado', 
     Route::put('/actualizar/estudiante/{id}', ['as' => 'encargado.estudiante.update', 'uses' => 'PersonasController@updateEstudiante']);
     Route::post('/guardar/archivo/estudiante/', ['as' => 'encargado.archivo.estudiante', 'uses' => 'UsuarioArchivoController@archivosEstudiantes']);
     Route::post('/guardar/asignatura-cursada', ['as' => 'encargado.estudiante.ac', 'uses' => 'EncargadoController@a_cEstudiante']);
+    Route::delete('/borrar/estudiante/{id}', ['as' => 'encargado.estudiante.delete', 'uses' => 'PersonasController@deleteEstudiante']);
 
     Route::get('/editar/docente/{id}', ['as' => 'encargado.docente.editar', 'uses' => 'EncargadoController@editDocente']);
     Route::post('/guardar/docente', ['as' => 'encargado.add.docente', 'uses' => 'PersonasController@addDocente']);
     Route::put('/actualizar/docente/{id}', ['as' => 'encargado.docente.update', 'uses' => 'PersonasController@updateDocente']);
     Route::post('/guardar/archivo/docente/', ['as' => 'encargado.archivo.docente', 'uses' => 'UsuarioArchivoController@archivosDocentes']);
+    Route::delete('/borrar/docente/{id}', ['as' => 'encargado.docente.delete', 'uses' => 'PersonasController@deleteDocente']);
 
     Route::get('/editar/funcionario/{id}', ['as' => 'encargado.funcionario.editar', 'uses' => 'EncargadoController@editFuncionario']);
     Route::post('/guardar/funcionario', ['as' => 'encargado.add.funcionario', 'uses' => 'PersonasController@addFuncionario']);
     Route::put('/actualizar/funcionario/{id}', ['as' => 'encargado.funcionario.update', 'uses' => 'PersonasController@updateFuncionario']);
     Route::post('/guardar/archivo/funcionario/', ['as' => 'encargado.archivo.funcionario', 'uses' => 'UsuarioArchivoController@archivosFuncionarios']);
+    Route::delete('/borrar/funcionario/{id}', ['as' => 'encargado.funcionario.delete', 'uses' => 'PersonasController@deleteFuncionario']);
 
 
     Route::get('/academicos', ['as' => 'encargado.academicas.index', 'uses' => 'AcademicosController@index']);
@@ -109,8 +111,12 @@ Route::group(['middleware' => ['auth', 'is_encargado'],'prefix' => 'encargado', 
     Route::put('/actualizar/curso/', ['as' => 'encargado.actualizar.curso', 'uses' => 'AcademicosController@updateCurso']);
     Route::post('/academicos/archivo/curso', ['as' => 'encargado.archivo.curso', 'uses' => 'ArchivosController@cursoArchivo']);
 
+    Route::delete('/borrar/carrera/{id}', ['as' => 'encargado.carrera.delete', 'uses' => 'AcademicosController@deleteCarrera']);
+    Route::delete('/borrar/asignatura/{id}', ['as' => 'encargado.asignatura.delete', 'uses' => 'AcademicosController@deleteAsignatura']);
+    Route::delete('/borrar/curso/{id}', ['as' => 'encargado.curso.delete', 'uses' => 'AcademicosController@deleteCurso']);
+
     Route::group(['prefix' => 'salas'], function() {
-        Route::get('/index', ['as' => 'encargado.salas.index', 'uses' => 'SalasController@index']);
+        Route::get('/inicio', ['as' => 'encargado.salas.index', 'uses' => 'SalasController@index']);
         Route::post('/guardar', ['as' => 'encargado.add.sala', 'uses' => 'SalasController@salaAdd']);
         Route::get('/editar/{id}', ['as' => 'encargado.edit.sala', 'uses' => 'SalasController@salaEdit']);
         Route::put('/actualizar/', ['as' => 'encargado.update.sala', 'uses' => 'SalasController@salaUpdate']);
@@ -122,14 +128,14 @@ Route::group(['middleware' => ['auth', 'is_encargado'],'prefix' => 'encargado', 
 });
 
 
-/* Rut de estudiante: 31896711 */
-Route::group(['prefix' => 'estudiante', 'namespace' => 'Estudiante'], function () {
+Route::group(['middleware' => ['auth'], 'prefix' => 'estudiante', 'namespace' => 'Estudiante'], function () {
     Route::get('/inicio', ['as' => 'estudiante.index', 'uses' => 'EstudianteController@index']);
-    Route::get('/horario/{id}', ['as' => 'estudiante.horario', 'uses' => 'EstudianteController@horarioEstudiante']);
-    Route::get('/consultar/{id}', ['as' => 'estudiante.consulta', 'uses' => 'EstudianteController@consultaEstudiante']);
+    Route::get('/horario/', ['as' => 'estudiante.horario', 'uses' => 'EstudianteController@horarioEstudiante']);
     Route::post('/resultado/horarios/', ['as' => 'estudiante.resultado.salas', 'uses' => 'EstudianteController@consultaEstudiante']);
 });
 
-Route::group(['prefix' => 'docente', 'namespace' => 'Docente'], function () {
+Route::group(['middleware' => ['auth', 'isdocente'], 'prefix' => 'docente', 'namespace' => 'Docente'], function () {
     Route::get('/inicio/', ['as' => 'docente.index', 'uses' => 'DocenteController@index']);
+    Route::get('/horario', ['as' => 'docente.horario', 'uses' => 'DocenteController@revisarHorario']);
+    Route::post('/resultado/horarios/', ['as' => 'docente.resultado.salas', 'uses' => 'DocenteController@consultaDocente']);
 });

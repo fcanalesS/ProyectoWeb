@@ -16,7 +16,7 @@
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>U</b>TM</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>UTEM</b>Administrador</span>
+            <span class="logo-lg"><b>UTEM</b>Encargado</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -34,14 +34,14 @@
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image"/>
-                            <span class="hidden-xs">Felipe Sebastian Canales Saavedra</span>
+                            <span class="hidden-xs">{{ $datos[0]->nombres }} {{ $datos[0]->apellidos }}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
                                 <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image" />
                                 <p>
-                                    Encargado Campus
+                                    Encargado
                                 </p>
                             </li>
 
@@ -55,10 +55,6 @@
                                 </div>
                             </li>
                         </ul>
-                    </li>
-                    <!-- Control Sidebar Toggle Button -->
-                    <li>
-                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
                     </li>
                 </ul>
             </div>
@@ -77,27 +73,19 @@
                     <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image" />
                 </div>
                 <div class="pull-left info">
-                    <p>Felipe Canales</p>
+                    <p>{{ \App\Helpers\PersonasUtils::separaNombres($datos[0]->nombres)[0] }}
+                        {{ \App\Helpers\PersonasUtils::separaApellidos($datos[0]->apellidos)[0] }}</p>
 
                     <a href="#"><i class="fa fa-circle text-success"></i> En linea</a>
                 </div>
             </div>
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
-                <li class="header">MENÚ DE NAVEGACIÓN</li>
 
-                <li>
-                    <a href="{{ route('admin.index') }}">
-                        <i class="fa fa-th"></i> <span>Inicio</span> <small class="label pull-right bg-red">!</small>
-                    </a>
-                </li>
                 <li class="header">Opciones</li>
                 <li><a href="#editar-sala"><i class="fa fa-user"></i><span>Editar sala</span></a></li>
                 <li><a href="#agendar-sala"><i class="fa fa-user"></i><span>Agendar sala</span></a></li>
 
-                <li class="header"></li>
-                <li><a href="#"><i class="fa fa-circle-o text-green"></i> <span>Contacto</span></a></li>
-                <li class="header"></li>
 
             </ul>
         </section>
@@ -115,8 +103,7 @@
         <section class="content-header">
             <h1 id="p">
                 Dashboard
-                <small>Opciones de usuarios</small>
-                <small><strong>Agregar opcion de agregar y agregar por lote</strong></small>
+                <small>Editar salas</small>
             </h1>
         </section>
 
@@ -140,7 +127,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Campus</label>
-                                        {!! Form::select('campus_id', (['0' => ''] + $campus ), null, ['class' => 'form-control', 'required']) !!}
+                                        {!! Form::select('campus_id', (['0' => ''] + $campus ), null, ['class' => 'form-control', 'disabled']) !!}
                                     </div>
                                 </div>
                             </div>
@@ -157,7 +144,7 @@
                                 {!! Form::textarea('descripcion', null,['class' => 'form-control', 'required', ' ']) !!}
                             </div>
                             {!! Form::hidden('id', $id) !!}
-                            <button type="submit" class="btn btn-success ">Agregar</button>
+                            <button type="submit" class="btn btn-success ">Actualizar</button>
                             {!! Form::close() !!}
                             <a href="/encargado/salas/index/" type="button" class="btn bg-aqua">Volver</a>
                         </div>
@@ -244,7 +231,7 @@
                                     </table>
                                 </div>
                             </div>
-                            {!! Form::hidden('id', $id) !!}
+                            {!! Form::hidden('sala_id', $id) !!}
                             <button type="submit" class="btn btn-success ">Agregar</button>
                             {!! Form::close() !!}
                             <a href="{{ route('encargado.salas.index') }}" type="button" class="btn bg-aqua">Volver</a>

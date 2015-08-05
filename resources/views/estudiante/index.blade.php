@@ -34,7 +34,7 @@
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image"/>
-                            <span class="hidden-xs">{{ $estudiante[0]->nombres }} {{ $estudiante[0]->apellidos }}</span>
+                            <span class="hidden-xs">{{ $datos[0]->nombres }} {{ $datos[0]->apellidos }}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
@@ -73,7 +73,8 @@
                     <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image" />
                 </div>
                 <div class="pull-left info">
-                    <p>{{ $nombres[0] }} {{ $apellidos[0] }}</p>
+                    <p>{{ \App\Helpers\PersonasUtils::separaNombres($datos[0]->nombres)[0] }}
+                        {{ \App\Helpers\PersonasUtils::separaApellidos($datos[0]->apellidos)[0] }}</p>
 
                     <a href="#"><i class="fa fa-circle text-success"></i> En linea</a>
                 </div>
@@ -90,7 +91,6 @@
                 <li class="header"></li>
 
                 <li><a href="{{ route('estudiante.horario', [$estudiante[0]->id]) }}"><i class="fa fa-user"></i><span>Revisar horario</span></a></li>
-                <li><a href="{{ route('estudiante.consulta', [$estudiante[0]->id]) }}"><i class="fa fa-building-o"></i><span>Consultar por salas</span></a></li>
 
                 <li class="header"></li>
                 <li><a href="#!"><i class="fa fa-circle-o text-green"></i> <span>Contacto</span></a></li>

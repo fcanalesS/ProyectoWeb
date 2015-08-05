@@ -2,6 +2,9 @@
 
 use App\Campus;
 use App\Curso;
+use App\Docente;
+use App\Estudiante;
+use App\Funcionario;
 use App\Horario;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -9,14 +12,41 @@ use App\Http\Controllers\Controller;
 use App\Periodo;
 use App\Sala;
 use App\TipoSala;
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SalasController extends Controller {
 
+    /**
+     * @var Guard
+     */
+    private $guard;
+
+    public function __construct(Guard $guard)
+    {
+        $this->guard = $guard;
+
+        if ($this->guard->check())
+        {
+            if(Docente::all()->where('rut', $this->guard->user()->rut))
+                $this->datos = Docente::select('id', 'rut', 'nombres', 'apellidos')->where('rut', $this->guard->user()->rut)->get();
+            elseif(Funcionario::all()->where('rut', $this->guard->user()->rut))
+                $this->datos = Funcionario::select('id', 'rut', 'nombres', 'apellidos')->where('rut', $this->guard->user()->rut)->get();
+            else
+                $this->datos = Estudiante::select('id', 'rut', 'nombres', 'apellidos')->where('rut', $this->guard->user()->rut)->get();
+        }
+    }
+
 	public function index ()
     {
-        $salas = Sala::select()
-            ->with('sala_campus', 'sala_tipoS')
+        $datos = $this->datos;
+
+        $salas = Sala::join('tipos_salas', 'salas.tipo_sala_id', '=', 'tipos_salas.id')
+            ->join('campus', 'salas.campus_id', '=', 'campus.id')
+            ->where('campus.rut_encargado', '=', Auth::user()->rut)
+            ->select('salas.id', 'salas.nombre as sala', 'salas.descripcion', 'tipos_salas.nombre as tipo',
+                'campus.nombre as campus')
             ->get();
 
         $h_salas = \DB::table('horarios')
@@ -26,14 +56,15 @@ class SalasController extends Controller {
             ->join('asignaturas', 'cursos.asignatura_id', '=', 'asignaturas.id')
             ->join('docentes', 'cursos.docente_id', '=', 'docentes.id')
             ->join('campus', 'salas.campus_id', '=', 'campus.id')
+            ->where('campus.rut_encargado', Auth::user()->rut)
             ->select('horarios.id', 'horarios.fecha', 'salas.nombre as sala', 'asignaturas.nombre as asig', 'docentes.nombres', 'docentes.apellidos',
                 'cursos.semestre', 'cursos.anio', 'cursos.seccion', 'campus.nombre as campus')
             ->get();
 
-        $campus = Campus::lists('nombre', 'id');
+        $campus = Campus::select('id', 'nombre')->where('rut_encargado', Auth::user()->rut)->get();
         $tiposala = TipoSala::lists('nombre', 'id');
 
-        return view('encargado.salas.index', compact('rut', 'salas', 'h_salas', 'campus', 'tiposala'));
+        return view('encargado.salas.index', compact('datos', 'salas', 'h_salas', 'campus', 'tiposala'));
     }
 
     public function salaAdd (Request $request)
@@ -47,23 +78,32 @@ class SalasController extends Controller {
     public function salaEdit ($id)
     {
         $sala = Sala::findOrFail($id);
+        $datos = $this->datos;
 
         $campus = Campus::lists('nombre', 'id');
         $tiposala = TipoSala::lists('nombre', 'id');
         $periodos = Periodo::all();
 
+
+
         $cursos = \DB::table('cursos')
             ->join('asignaturas', 'cursos.asignatura_id', '=', 'asignaturas.id')
             ->join('docentes', 'cursos.docente_id', '=', 'docentes.id')
+            ->join('departamentos', 'docentes.departamento_id', '=', 'departamentos.id')
+            ->join('facultades', 'departamentos.facultad_id', '=', 'facultades.id')
+            ->join('campus', 'facultades.campus_id', '=', 'campus.id')
+            ->where('campus.rut_encargado', Auth::user()->rut)
             ->select('cursos.id','cursos.semestre', 'cursos.anio', 'cursos.seccion', 'docentes.nombres', 'docentes.apellidos', 'asignaturas.nombre as asig')
             ->orderBy('cursos.seccion')
             ->get();
 
-        return view('encargado.salas.edit_s', compact('id', 'campus', 'tiposala', 'sala', 'periodos', 'cursos'));
+        return view('encargado.salas.edit_s', compact('id', 'campus', 'tiposala', 'sala', 'periodos', 'cursos', 'datos'));
     }
 
     public function salasAddCurso(Request $request)
     {
+        //dd($request->all());
+
         $horario = new Horario($request->all());
         $horario->save();
 

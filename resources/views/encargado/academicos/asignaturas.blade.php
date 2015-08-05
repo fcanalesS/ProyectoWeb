@@ -12,11 +12,11 @@
 
     <header class="main-header">
         <!-- Logo -->
-        <a href="{{ route('encargado.index') }}" class="logo">
+        <a href="" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>U</b>TM</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>UTEM</b>Administrador</span>
+            <span class="logo-lg"><b>UTEM</b>Encargado</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -34,14 +34,14 @@
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image"/>
-                            <span class="hidden-xs">Felipe Sebastian Canales Saavedra</span>
+                            <span class="hidden-xs">{{ $datos[0]->nombres }} {{ $datos[0]->apellidos }}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
                                 <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image" />
                                 <p>
-                                    Administrador
+                                    Encargado
                                 </p>
                             </li>
 
@@ -55,10 +55,6 @@
                                 </div>
                             </li>
                         </ul>
-                    </li>
-                    <!-- Control Sidebar Toggle Button -->
-                    <li>
-                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
                     </li>
                 </ul>
             </div>
@@ -77,29 +73,12 @@
                     <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image" />
                 </div>
                 <div class="pull-left info">
-                    <p>Felipe Canales</p>
+                    <p>{{ \App\Helpers\PersonasUtils::separaNombres($datos[0]->nombres)[0] }}
+                        {{ \App\Helpers\PersonasUtils::separaApellidos($datos[0]->apellidos)[0] }}</p>
 
                     <a href="#"><i class="fa fa-circle text-success"></i> En linea</a>
                 </div>
             </div>
-            <!-- sidebar menu: : style can be found in sidebar.less -->
-            <ul class="sidebar-menu">
-                <li class="header">MENÚ DE NAVEGACIÓN</li>
-
-                <li>
-                    <a href="">
-                        <i class="fa fa-th"></i> <span>Link a algún lado</span> <small class="label pull-right bg-red">!</small>
-                    </a>
-                </li>
-                <li class="header">Menu de Administración</li>
-                <li><a href=""><i class="fa fa-circle-o"></i><span>Perfiles de Campus</span></a></li>
-                <li><a href=""><i class="fa fa-circle-o"></i><span>Perfiles de Usuarios</span></a></li>
-
-                <li class="header"></li>
-                <li><a href="#"><i class="fa fa-circle-o text-green"></i> <span>Contacto</span></a></li>
-                <li class="header"></li>
-
-            </ul>
         </section>
         <!-- /.sidebar -->
     </aside>
@@ -117,11 +96,6 @@
                 Dashboard
                 <small>Editar asignatura</small>
             </h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
-                <li><a href="">Dashboard</a></li>
-                <li class="active">Está aquí (Mejorar o implementar de alguna otra forma)</li>
-            </ol>
         </section>
 
         <!-- Main content -->
@@ -144,21 +118,25 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <label for="">Código</label>
-                                        {!! Form::text('codigo', null,['class' => 'form-control', '']) !!}
+                                        {!! Form::text('codigo', null,['class' => 'form-control', 'required']) !!}
                                     </div>
                                     <div class="col-md-8">
                                         <label for="">Nombre</label>
-                                        {!! Form::text('nombre', null,['class' => 'form-control', '']) !!}
+                                        {!! Form::text('nombre', null,['class' => 'form-control', 'required']) !!}
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="">Descripción</label>
-                                {!! Form::textarea('descripcion', null,['class' => 'form-control', '']) !!}
+                                {!! Form::textarea('descripcion', null,['class' => 'form-control', 'required']) !!}
                             </div>
                             <div class="form-group">
                                 <label for="">Departamento</label>
-                                {!! Form::select('departamento_id', (['0' => ''] + $departamentos ), null, ['class' => 'form-control', 'required', 'required']) !!}
+                                <select name="departamento_id" id="" class="form-control">
+                                    @foreach($departamentos as $d)
+                                        <option value="{{ $d->id }}">{{ $d->nombre }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             {!! Form::hidden('id', $id) !!}
                             <button type="submit" class="btn btn-success ">Actualizar</button>

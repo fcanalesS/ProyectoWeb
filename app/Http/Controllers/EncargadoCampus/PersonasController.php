@@ -118,4 +118,44 @@ class PersonasController extends Controller {
             return redirect()->back()->with('funcionario_error', 'El rut ingresado no es válido. Intente nuevamente')->withInput();
         }
     }
+
+    /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+     *++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+     +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+    public function deleteFuncionario ($id, Request $request)
+    {
+        $funcionario = Funcionario::findOrFail($id);
+        $mensaje = 'Se ha borrado el funcionario: ' . $funcionario->nombres .' '. $funcionario->apellidos;
+        $funcionario->delete();
+        if($request->ajax())
+            return response()->json([
+                'id'        => $funcionario->id,
+                'message'   => $mensaje
+            ]);
+    }
+
+    public function deleteDocente ($id, Request $request)
+    {
+        $docente = Docente::findOrFail($id);
+        $mensaje = 'Se ha borrado el docente: ' . $docente->nombres .' '. $docente->apellidos;
+        $docente->delete();
+        if($request->ajax())
+            return response()->json([
+                'id'        => $docente->id,
+                'message'   => $mensaje
+            ]);
+    }
+
+    public function deleteEstudiante ($id, Request $request)
+    {
+        $estudiante = Estudiante::findOrFail($id);
+        $mensaje = 'Se ha borrado el estudiante: ' . $estudiante->nombres .' '. $estudiante->apellidos;
+        $estudiante->delete();
+        if($request->ajax())
+            return response()->json([
+                'id'        => $estudiante->id,
+                'message'   => $mensaje
+            ]);
+    }
 }

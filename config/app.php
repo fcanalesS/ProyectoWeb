@@ -142,6 +142,11 @@ return [
 		'Collective\Html\HtmlServiceProvider',
 
 		/*
+		 * Captcha
+		 */
+        'Anhskohbo\NoCaptcha\NoCaptchaServiceProvider',
+
+		/*
 		 * DIRDOC Provider
 		 */
 		'UTEM\Dirdoc\Auth\DirdocAuthServiceProvider',

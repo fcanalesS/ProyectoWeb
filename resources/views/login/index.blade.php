@@ -30,23 +30,32 @@
         {!! Form::open(['route' => 'login.post', 'method' => 'POST', 'role' => 'form']) !!}
             <div class="form-group has-feedback">
                 <input name="rut" type="text" class="form-control rut" placeholder="Rut" required rut/>
-                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
                 <input name="password" type="password" class="form-control" placeholder="Password" required/>
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
+            <div class="form-group center-block">
+                {!! app('captcha')->display() !!}
+            </div>
             <button type="submit" class="btn btn-primary btn-block btn-flat">Iniciar Sesión</button>
         {!! Form::close() !!}
         <br>
+        <br>
         @if(Session::has('login_error'))
-            <div class="alert alert-info">
-                <p class="">{{ Session::get('login_error') }}</p>
+            <div class="alert alert-danger">
+                <p class="text-center">{{ Session::get('login_error') }}</p>
             </div>
         @endif
         @if(Session::has('logout'))
-            <div class="alert alert-info">
-                <p class="">{{ Session::get('logout') }}</p>
+            <div class="alert alert-success bg-green-gradient">
+                <p class="text-center">{{ Session::get('logout') }}</p>
+            </div>
+        @endif
+        @if(Session::has('no'))
+            <div class="alert alert-success bg-maroon-gradient">
+                <p class="text-center">{{ Session::get('no') }}</p>
             </div>
         @endif
 

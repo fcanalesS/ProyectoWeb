@@ -2,19 +2,45 @@
 
 use App\Campus;
 use App\Departamento;
+use App\Docente;
 use App\Escuela;
+use App\Estudiante;
 use App\Facultad;
+use App\Funcionario;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 use Toin0u\Geocoder\Facade\Geocoder;
 use UTEM\Utils\Rut;
 
 class CampusController extends Controller {
 
+    /**
+     * @var Guard
+     */
+    private $guard;
+
+    public function __construct(Guard $guard)
+    {
+        $this->guard = $guard;
+
+        if ($this->guard->check())
+        {
+            if(Docente::all()->where('rut', $this->guard->user()->rut))
+                $this->datos = Docente::select('id', 'rut', 'nombres', 'apellidos')->where('rut', $this->guard->user()->rut)->get();
+            elseif(Funcionario::all()->where('rut', $this->guard->user()->rut))
+                $this->datos = Funcionario::select('id', 'rut', 'nombres', 'apellidos')->where('rut', $this->guard->user()->rut)->get();
+            else
+                $this->datos = Estudiante::select('id', 'rut', 'nombres', 'apellidos')->where('rut', $this->guard->user()->rut)->get();
+        }
+    }
+
 	public function index ()
     {
+        $datos = $this->datos;
+
         $campus = Campus::all();
         $facultades = Facultad::select('id', 'nombre', 'campus_id', 'descripcion')
             ->with('campus')
@@ -35,22 +61,19 @@ class CampusController extends Controller {
         $d_lists = Departamento::lists('nombre', 'id');
 
         return view('admin.campus.index', compact('campus', 'facultades', 'deptos', 'escuelas',
-            'c_lists', 'd_lists', 'f_lists'));
+            'c_lists', 'd_lists', 'f_lists', 'datos'));
     }
 
     public function edit ($id)
     {
         $campus= Campus::findOrFail($id);
+        $datos = $this->datos;
 
-        return view('admin.campus.edit', compact('campus', 'id'));
+        return view('admin.campus.edit', compact('campus', 'id', 'datos'));
     }
 
     public function store (Request $request)
     {
-        //dd($request->all());
-
-        //dd(Rut::isRut($request->input('rut_encargado')));
-
         if (Rut::isRut($request->input('rut_encargado')) != false)
         {
             try
@@ -95,6 +118,18 @@ class CampusController extends Controller {
         {
             dd($e->getMessage());
         }
+    }
+
+    public function deleteCampus ($id, Request $request)
+    {
+        $campus = Campus::findOrFail($id);
+        $mensaje = 'Se ha borrado el campus: ' . $campus->nombre;
+        $campus->delete();
+        if($request->ajax())
+            return response()->json([
+                'id'        => $campus->id,
+                'message'   => $mensaje
+            ]);
     }
 
 }

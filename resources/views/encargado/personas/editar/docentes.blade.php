@@ -16,7 +16,7 @@
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>U</b>TM</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>UTEM</b>Docente</span>
+            <span class="logo-lg"><b>UTEM</b>Encargado</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -34,7 +34,7 @@
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image"/>
-                            <span class="hidden-xs">Felipe Sebastian Canales Saavedra</span>
+                            <span class="hidden-xs">{{ $datos[0]->nombres }} {{ $datos[0]->apellidos }}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
@@ -73,7 +73,8 @@
                     <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image" />
                 </div>
                 <div class="pull-left info">
-                    <p>Felipe Canales</p>
+                    <p>{{ \App\Helpers\PersonasUtils::separaNombres($datos[0]->nombres)[0] }}
+                        {{ \App\Helpers\PersonasUtils::separaApellidos($datos[0]->apellidos)[0] }}</p>
 
                     <a href="#"><i class="fa fa-circle text-success"></i> En linea</a>
                 </div>
@@ -104,7 +105,7 @@
             <!-- Default box -->
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Editar Docente: {Nombre del docente}</h3>
+                    <h3 class="box-title"></h3>
                     <div class="box-tools pull-right">
                         <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                         <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
@@ -126,19 +127,23 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="">Nombres</label>
-                                        {!! Form::text('nombres', null,['class' => 'form-control', '']) !!}
+                                        {!! Form::text('nombres', null,['class' => 'form-control', 'required']) !!}
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="">Apellidos</label>
-                                        {!! Form::text('apellidos', null,['class' => 'form-control', '']) !!}
+                                        {!! Form::text('apellidos', null,['class' => 'form-control', 'required']) !!}
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label>Seleccione un departamento</label>
-                                {!! Form::select('departamento_id', (['0' => ''] + $depto ), null, ['class' => 'form-control', 'required']) !!}
+                                <select name="departamento_id" id="" class="form-control">
+                                    @foreach($depto as $d)
+                                        <option value="{{ $d->id }}">{{ $d->nombre }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-5">

@@ -12,7 +12,7 @@
 
     <header class="main-header">
         <!-- Logo -->
-        <a href="{{ route('encargado.index') }}" class="logo">
+        <a href="" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>U</b>TM</span>
             <!-- logo for regular state and mobile devices -->
@@ -33,15 +33,15 @@
                     <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="../../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
+                            <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image"/>
                             <span class="hidden-xs">Felipe Sebastian Canales Saavedra</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="../../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
+                                <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image" />
                                 <p>
-                                    Encargado Campus
+                                    Encargado
                                 </p>
                             </li>
 
@@ -55,10 +55,6 @@
                                 </div>
                             </li>
                         </ul>
-                    </li>
-                    <!-- Control Sidebar Toggle Button -->
-                    <li>
-                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
                     </li>
                 </ul>
             </div>
@@ -74,7 +70,7 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="../../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
+                    <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image" />
                 </div>
                 <div class="pull-left info">
                     <p>Felipe Canales</p>
@@ -115,8 +111,7 @@
         <section class="content-header">
             <h1 id="p">
                 Dashboard
-                <small>Opciones de usuarios</small>
-                <small><strong>Agregar opcion de agregar y agregar por lote</strong></small>
+                <small>Opciones de salas</small>
             </h1>
         </section>
 
@@ -146,10 +141,10 @@
                         <tbody>
                         @foreach($salas as $s)
                             <tr data-id="{{ $s->id }}">
-                                <td>{{ $s->nombre }}</td>
+                                <td>{{ $s->sala }}</td>
                                 <td>{{ $s->descripcion }}</td>
-                                <td>{{ $s->sala_tipoS->nombre }}</td>
-                                <td>{{ $s->sala_campus->nombre }}</td>
+                                <td>{{ $s->tipo }}</td>
+                                <td>{{ $s->campus }}</td>
                                 <td>
                                     <a href=
                                        "{{ route('encargado.edit.sala', [$s->id])  }}"
@@ -169,7 +164,11 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Campus</label>
-                                        {!! Form::select('campus_id', (['0' => ''] + $campus ), null, ['class' => 'form-control', 'required']) !!}
+                                        <select name="campus_id" id="" class="form-control" readonly>
+                                            @foreach($campus as $c)
+                                                <option value="{{ $c->id }}">{{ $c->nombre }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -179,7 +178,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Tipo de sala</label>
-                                {!! Form::select('tipo_sala_id', (['0' => ''] + $tiposala), null, ['class' => 'form-control', 'required']) !!}
+                                {!! Form::select('tipo_sala_id', ( $tiposala ), null, ['class' => 'form-control', 'required']) !!}
                             </div>
                             <div class="form-group">
                                 <label for="">Descripción</label>
@@ -258,19 +257,19 @@
                         </tr>
                         </thead>
                         <tbody>
-                            @foreach($h_salas as $h)
-                                <tr data-id="{{ $h->id }}">
-                                    <td>{{ $h->fecha }}</td>
-                                    <td>{{ $h->sala }}</td>
-                                    <td>{{ $h->nombres }} {{ $h->apellidos }}</td>
-                                    <td>{{ $h->asig }}</td>
-                                    <td>{{ $h->seccion }}</td>
-                                    <td>{{ $h->semestre }}</td>
-                                    <td>{{ $h->anio }}</td>
-                                    <td>{{ $h->campus }}</td>
-                                    <td><a href="" type="button" class="btn btn-horario btn-xs btn-danger">Eliminar</a></td>
-                                </tr>
-                            @endforeach
+                        @foreach($h_salas as $h)
+                            <tr data-id="{{ $h->id }}">
+                                <td>{{ $h->fecha }}</td>
+                                <td>{{ $h->sala }}</td>
+                                <td>{{ $h->nombres }} {{ $h->apellidos }}</td>
+                                <td>{{ $h->asig }}</td>
+                                <td>{{ $h->seccion }}</td>
+                                <td>{{ $h->semestre }}</td>
+                                <td>{{ $h->anio }}</td>
+                                <td>{{ $h->campus }}</td>
+                                <td><a href="" type="button" class="btn btn-horario btn-xs btn-danger">Eliminar</a></td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
                 </div><!-- /.box-body -->
@@ -282,7 +281,7 @@
         </section>
     </div>
     @include('fragmentos.footer')
-    <!-- =============================================== -->
+            <!-- =============================================== -->
     <!-- =============================================== -->
     <!-- =============================================== -->
     <!-- =============================================== -->
@@ -294,7 +293,7 @@
 {!! Form::open(['route' => ['encargado.hsalas.delete', ':HSALA_ID'], 'method' => 'DELETE', 'id' => 'form-delete-hsala']) !!}
 {!! Form::close() !!}
 
-<!-- jQuery 2.1.4 -->
+        <!-- jQuery 2.1.4 -->
 <script src="{{ asset('/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
 <!-- Bootstrap 3.3.2 JS -->
 <script src="{{ asset('/bootstrap/js/bootstrap.min.js') }}" type="text/javascript"></script>
@@ -310,6 +309,50 @@
 
 <!-- Demo -->
 <script src="{{ asset('/dist/js/demo.js') }}" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.btn-salas').click(function (e) {
+
+            e.preventDefault();
+            var row = $(this).parents('tr');
+            var id = row.data('id');
+            var form = $('#form-delete-sala');
+            var url = form.attr('action').replace(':SALA_ID', id);
+            var data = form.serialize();
+
+            row.fadeOut();
+            $.post(url, data, function (result) {
+                alert(result.message);
+                location.reload();
+            }).fail(function () {
+                alert('La al no fue eliminado');
+                row.show();
+            });
+        });
+    });
+    $(document).ready(function () {
+        $('.btn-horario').click(function (e) {
+
+            e.preventDefault();
+            var row = $(this).parents('tr');
+            var id = row.data('id');
+            var form = $('#form-delete-hsala');
+            var url = form.attr('action').replace(':HSALA_ID', id);
+            var data = form.serialize();
+
+            row.fadeOut();
+            $.post(url, data, function (result) {
+                alert(result.message);
+                location.reload();
+            }).fail(function () {
+                alert('El usuario no fue eliminado');
+                row.show();
+            });
+        });
+    });
+</script>
+
 <!-- Table Options -->
 <script type="text/javascript">
     $(function() {
@@ -336,49 +379,6 @@
             "bSort": true,
             "bInfo": true,
             "bAutoWidth": true
-        });
-    });
-</script>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('.btn-salas').click(function (e) {
-
-            e.preventDefault();
-            var row = $(this).parents('tr');
-            var id = row.data('id');
-            var form = $('#form-delete-sala');
-            var url = form.attr('action').replace(':SALA_ID', id);
-            var data = form.serialize();
-
-            row.fadeOut();
-            $.post(url, data, function (result) {
-                alert(result.message);
-                location.reload();
-            }).fail(function () {
-                alert('El usuario no fue eliminado');
-                row.show();
-            });
-        });
-    });
-    $(document).ready(function () {
-        $('.btn-horario').click(function (e) {
-
-            e.preventDefault();
-            var row = $(this).parents('tr');
-            var id = row.data('id');
-            var form = $('#form-delete-hsala');
-            var url = form.attr('action').replace(':HSALA_ID', id);
-            var data = form.serialize();
-
-            row.fadeOut();
-            $.post(url, data, function (result) {
-                alert(result.message);
-                location.reload();
-            }).fail(function () {
-                alert('El usuario no fue eliminado');
-                row.show();
-            });
         });
     });
 </script>

@@ -9,14 +9,39 @@ use App\Http\Controllers\Controller;
 
 use App\Rol;
 use App\RolUsuario;
+use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 use Storage;
 
 class UsuariosController extends Controller {
+    /**
+     * @var Guard
+     */
+    private $guard;
+
+    public function __construct(Guard $guard)
+    {
+        $this->guard = $guard;
+
+        if ($this->guard->check())
+        {
+            if(Docente::all()->where('rut', $this->guard->user()->rut))
+                $this->datos = Docente::select('id', 'rut', 'nombres', 'apellidos')->where('rut', $this->guard->user()->rut)->get();
+            elseif(Funcionario::all()->where('rut', $this->guard->user()->rut))
+                $this->datos = Funcionario::select('id', 'rut', 'nombres', 'apellidos')->where('rut', $this->guard->user()->rut)->get();
+            else
+                $this->datos = Estudiante::select('id', 'rut', 'nombres', 'apellidos')->where('rut', $this->guard->user()->rut)->get();
+        }
+    }
 
 	public function index ()
     {
+        $datos = $this->datos;
+
         $funcionarios = Funcionario::select('id', 'rut', 'departamento_id', 'nombres', 'apellidos')
             ->with('funcionario_departamento')
             ->get();
@@ -33,75 +58,81 @@ class UsuariosController extends Controller {
                 'carreras.nombre as carrera', 'carreras.codigo', 'escuelas.nombre as escuela', 'departamentos.nombre')
             ->get();
 
-        return view('admin.usuarios.index', compact('funcionarios', 'docentes', 'estudiantes'));
+        return view('admin.usuarios.index', compact('funcionarios', 'docentes', 'estudiantes', 'datos'));
     }
 
     public function edit (Request $request)
     {
         $id = $request->segment(4);
         $tipo = $request->segment(5);
+        $datos = $this->datos;
 
-        if ($tipo == 'funcionarios')
+        if (is_numeric($id))
         {
-            $func = Funcionario::findOrFail($id);
-            $depto = Departamento::lists('nombre', 'id');
+            if ($tipo == 'funcionarios')
+            {
+                $func = Funcionario::findOrFail($id);
+                $depto = Departamento::lists('nombre', 'id');
 
-            $rut = $func['rut'];
+                $rut = $func['rut'];
 
-            $rol = \DB::table('roles_usuarios')
-                ->join('roles', 'roles_usuarios.rol_id', '=', 'roles.id')
-                ->where('roles_usuarios.rut', $rut)
-                ->select('roles.nombre', 'roles.id as rol_id')
-                ->get();
+                $rol = \DB::table('roles_usuarios')
+                    ->join('roles', 'roles_usuarios.rol_id', '=', 'roles.id')
+                    ->where('roles_usuarios.rut', $rut)
+                    ->select('roles.nombre', 'roles.id as rol_id')
+                    ->get();
 
-            $tipo_rol = Rol::all();
+                $tipo_rol = Rol::all();
 
-            return view('admin.usuarios.edit_func', compact('id', 'func', 'depto', 'rol', 'tipo_rol'));
+                return view('admin.usuarios.edit_func', compact('id', 'func', 'depto', 'rol', 'tipo_rol', 'datos'));
+            }
+
+            elseif ($tipo == 'docentes')
+            {
+                $doc = Docente::findOrFail($id);
+                $depto = Departamento::lists('nombre', 'id');
+                $rut = $doc['rut'];
+
+                $rol = \DB::table('roles_usuarios')
+                    ->join('roles', 'roles_usuarios.rol_id', '=', 'roles.id')
+                    ->where('roles_usuarios.rut', $rut)
+                    ->select('roles.nombre', 'roles.id as rol_id')
+                    ->get();
+
+                $tipo_rol = Rol::all();
+
+                return view('admin.usuarios.edit_doc', compact('id', 'doc', 'depto', 'rol', 'tipo_rol', 'datos'));
+            }
+
+            elseif ($tipo == 'estudiantes')
+            {
+                $est = \DB::table('estudiantes')
+                    ->join('carreras', 'estudiantes.carrera_id', '=', 'carreras.id')
+                    ->join('escuelas', 'carreras.escuela_id', '=', 'escuelas.id')
+                    ->join('departamentos', 'escuelas.departamento_id', '=', 'departamentos.id')
+                    ->where('estudiantes.id', $id)
+                    ->select('estudiantes.id', 'estudiantes.rut', 'estudiantes.nombres', 'estudiantes.apellidos',
+                        'estudiantes.email', 'carreras.nombre as carrera', 'carreras.codigo',
+                        'escuelas.nombre as escuela', 'departamentos.nombre')
+                    ->get();
+
+                $rut = $est[0]->rut;
+
+                $rol = \DB::table('roles_usuarios')
+                    ->join('roles', 'roles_usuarios.rol_id', '=', 'roles.id')
+                    ->where('roles_usuarios.rut', $rut)
+                    ->select('roles.nombre', 'roles.id as rol_id')
+                    ->get();
+
+                $tipo_rol = Rol::all();
+
+                return view('admin.usuarios.edit_est', compact('id', 'est', 'rol', 'tipo_rol', 'datos'));
+            }
+            else
+                return redirect()->back();
         }
-
-        if ($tipo == 'docentes')
-        {
-            $doc = Docente::findOrFail($id);
-            $depto = Departamento::lists('nombre', 'id');
-            $rut = $doc['rut'];
-
-            $rol = \DB::table('roles_usuarios')
-                ->join('roles', 'roles_usuarios.rol_id', '=', 'roles.id')
-                ->where('roles_usuarios.rut', $rut)
-                ->select('roles.nombre', 'roles.id as rol_id')
-                ->get();
-
-            $tipo_rol = Rol::all();
-
-            return view('admin.usuarios.edit_doc', compact('id', 'doc', 'depto', 'rol', 'tipo_rol'));
-        }
-
-        if ($tipo == 'estudiantes')
-        {
-            $est = \DB::table('estudiantes')
-                ->join('carreras', 'estudiantes.carrera_id', '=', 'carreras.id')
-                ->join('escuelas', 'carreras.escuela_id', '=', 'escuelas.id')
-                ->join('departamentos', 'escuelas.departamento_id', '=', 'departamentos.id')
-                ->where('estudiantes.id', $id)
-                ->select('estudiantes.id', 'estudiantes.rut', 'estudiantes.nombres', 'estudiantes.apellidos',
-                    'estudiantes.email', 'carreras.nombre as carrera', 'carreras.codigo',
-                    'escuelas.nombre as escuela', 'departamentos.nombre')
-                ->get();
-
-            $rut = $est[0]->rut;
-
-            $rol = \DB::table('roles_usuarios')
-                ->join('roles', 'roles_usuarios.rol_id', '=', 'roles.id')
-                ->where('roles_usuarios.rut', $rut)
-                ->select('roles.nombre', 'roles.id as rol_id')
-                ->get();
-
-            $tipo_rol = Rol::all();
-
-            return view('admin.usuarios.edit_est', compact('id', 'est', 'rol', 'tipo_rol'));
-        }
-
-
+        else
+            abort(404);
 
     }
 
@@ -110,32 +141,63 @@ class UsuariosController extends Controller {
         if($request->input('tipo') == 'funcionario')
         {
             $datos_func = ['departamento_id' => $request->input('departamento_id')];
+            $rules = ['departamento_id' => 'required|not_in:0', 'rol_id_add' => 'in:1, 2, 3, 4'];
+
+            $v = Validator::make($request->all(), $rules);
+
+            if($v->fails())
+            {
+                return redirect()->back()
+                    ->withErrors($v->errors());
+            }
+
             $u_f = Funcionario::findOrFail($id);
             $u_f->fill($datos_func);
             $u_f->save();
 
             if($request->input('rol_id_add') != 0)
             {
-                $rol_func = ['rol_id' => $request->input('rol_id_add'), 'rut' => $request->input('rut')];
-                $u_r = new RolUsuario($rol_func);
-                $u_r->save();
+                try{
+                    $rol_func = ['rol_id' => $request->input('rol_id_add'), 'rut' => $request->input('rut')];
+                    $u_r = new RolUsuario($rol_func);
+                    $u_r->save();
+                }
+                catch(QueryException $e)
+                {
+                    return redirect()->back()->with('doble', 'Error. Está ingresando el mismo rol para el usuario, otra vez');
+                }
             }
-
             return redirect()->back()->with('promoted', 'Se a actualizado correctamente el usuario');
         }
 
         if($request->input('tipo') == 'docente')
         {
             $datos_doc = ['departamento_id' => $request->input('departamento_id')];
+            $rules = ['departamento_id' => 'required|not_in:0', 'rol_id_add' => 'in:1, 2, 3, 4'];
+
+            $v = Validator::make($request->all(), $rules);
+
+            if($v->fails())
+            {
+                return redirect()->back()
+                    ->withErrors($v->errors());
+            }
+
             $u_d = Docente::findOrFail($id);
             $u_d->fill($datos_doc);
             $u_d->save();
 
             if($request->input('rol_id_add') != 0)
             {
-                $rol_func = ['rol_id' => $request->input('rol_id_add'), 'rut' => $request->input('rut')];
-                $u_r = new RolUsuario($rol_func);
-                $u_r->save();
+                try{
+                    $rol_func = ['rol_id' => $request->input('rol_id_add'), 'rut' => $request->input('rut')];
+                    $u_r = new RolUsuario($rol_func);
+                    $u_r->save();
+                }
+                catch(QueryException $e)
+                {
+                    return redirect()->back()->with('doble', 'Error. Está ingresando el mismo rol para el usuario, otra vez');
+                }
             }
 
             return redirect()->back()->with('promoted', 'Se a actualizado correctamente el usuario');
@@ -144,15 +206,31 @@ class UsuariosController extends Controller {
         if ($request->input('tipo') == 'estudiante')
         {
             $datos_est = ['email' => $request->input('email')];
+            $rules = ['email' => 'required|email', 'rol_id_add' => 'in:1, 2, 3, 4'];
+
+            $v = Validator::make($request->all(), $rules);
+
+            if($v->fails())
+            {
+                return redirect()->back()
+                    ->withErrors($v->errors());
+            }
+
             $u_e = Estudiante::findOrFail($id);
             $u_e->fill($datos_est);
             $u_e->save();
 
             if($request->input('rol_id_add') != 0)
             {
-                $rol_func = ['rol_id' => $request->input('rol_id_add'), 'rut' => $request->input('rut')];
-                $u_r = new RolUsuario($rol_func);
-                $u_r->save();
+                try{
+                    $rol_func = ['rol_id' => $request->input('rol_id_add'), 'rut' => $request->input('rut')];
+                    $u_r = new RolUsuario($rol_func);
+                    $u_r->save();
+                }
+                catch(QueryException $e)
+                {
+                    return redirect()->back()->with('doble', 'Error. Está ingresando el mismo rol para el usuario, otra vez');
+                }
             }
 
             return redirect()->back()->with('promoted', 'Se a actualizado correctamente el usuario');
@@ -246,6 +324,43 @@ class UsuariosController extends Controller {
         }
     }
 
+    /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*
+     *+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*
+     ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++**/
 
+    public function deleteFuncionario ($id, Request $request)
+    {
+        $funcionario = Funcionario::findOrFail($id);
+        $mensaje = 'Se ha borrado el funcionario: ' . $funcionario->nombres .' '. $funcionario->apellidos;
+        $funcionario->delete();
+        if($request->ajax())
+            return response()->json([
+                'id'        => $funcionario->id,
+                'message'   => $mensaje
+            ]);
+    }
 
+    public function deleteDocente ($id, Request $request)
+    {
+        $docente = Docente::findOrFail($id);
+        $mensaje = 'Se ha borrado el docente: ' . $docente->nombres .' '. $docente->apellidos;
+        $docente->delete();
+        if($request->ajax())
+            return response()->json([
+                'id'        => $docente->id,
+                'message'   => $mensaje
+            ]);
+    }
+
+    public function deleteEstudiante ($id, Request $request)
+    {
+        $estudiante = Estudiante::findOrFail($id);
+        $mensaje = 'Se ha borrado el estudiante: ' . $estudiante->nombres .' '. $estudiante->apellidos;
+        $estudiante->delete();
+        if($request->ajax())
+            return response()->json([
+                'id'        => $estudiante->id,
+                'message'   => $mensaje
+            ]);
+    }
 }

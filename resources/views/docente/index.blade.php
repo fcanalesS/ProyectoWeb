@@ -16,7 +16,7 @@
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>U</b>TM</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>UTEM</b>Estudiante</span>
+            <span class="logo-lg"><b>UTEM</b>Docente</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -34,14 +34,14 @@
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image"/>
-                            <span class="hidden-xs">Aquí van los nombres</span>
+                            <span class="hidden-xs">{{ $datos[0]->nombres }} {{ $datos[0]->apellidos }}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
                                 <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image" />
                                 <p>
-                                    Estudiante
+                                    Docente
                                 </p>
                             </li>
 
@@ -73,7 +73,8 @@
                     <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image" />
                 </div>
                 <div class="pull-left info">
-                    <p>Aqui van los nombres</p>
+                    <p>{{ \App\Helpers\PersonasUtils::separaNombres($datos[0]->nombres)[0] }}
+                        {{ \App\Helpers\PersonasUtils::separaApellidos($datos[0]->apellidos)[0] }}</p>
 
                     <a href="#"><i class="fa fa-circle text-success"></i> En linea</a>
                 </div>
@@ -82,15 +83,8 @@
             <ul class="sidebar-menu">
                 <li class="header">MENÚ DE NAVEGACIÓN</li>
 
-                <li>
-                    <a href="">
-                        <i class="fa fa-th"></i> <span>Link a algún lado</span> <small class="label pull-right bg-red">!</small>
-                    </a>
-                </li>
-                <li class="header"></li>
 
-                <li><a href=""><i class="fa fa-user"></i><span>Revisar horario</span></a></li>
-                <li><a href=""><i class="fa fa-building-o"></i><span>Consultar por salas</span></a></li>
+                <li><a href="{{ route('docente.horario') }}"><i class="fa fa-user"></i><span>Revisar horario</span></a></li>
 
                 <li class="header"></li>
                 <li><a href="#!"><i class="fa fa-circle-o text-green"></i> <span>Contacto</span></a></li>
@@ -133,7 +127,56 @@
                             </div>
                         </div>
                         <div class="box-body">
-                            <img src="{{ asset('/dist/img/under-construction.png') }}" class="img-responsive" alt="User Image" />
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label for="">Rut</label>
+                                        <input type="text" class="form-control" value="{{ $datos[0]->rut }}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="">Nombres</label>
+                                        <input type="text" class="form-control" value="{{ $datos[0]->nombres }}" disabled>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="">Apellidos</label>
+                                        <input type="text" class="form-control" value="{{ $datos[0]->apellidos }}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">E-mail</label>
+                                <input type="text" class="form-control" value="{{ $datos[0]->email }}" disabled>
+                            </div>
+                            <hr>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="">Departamento</label>
+                                        <input type="text" class="form-control" value="{{ $campus[0]->depto }}" disabled>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="">Facultad</label>
+                                        <input type="text" class="form-control" value="{{ $campus[0]->fac }}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="">Campus</label>
+                                        <input type="text" class="form-control" value="{{ $campus[0]->campus }}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="">Dirección</label>
+                                <input type="text" class="form-control" value="{{ $campus[0]->direccion }}" disabled>
+                            </div>
+
                         </div><!-- /.box-body -->
                         <div class="box-footer">
 
@@ -145,7 +188,7 @@
                 <section class="col-lg-6 connectedSortable">
                     <div class="box">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Campus : </h3>
+                            <h3 class="box-title">Campus : {{ $campus[0]->campus }}</h3>
                             <div class="box-tools pull-right">
                                 <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                                 <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
@@ -155,7 +198,7 @@
                             <div class="row">
                                 <div class="col-md-10 col-lg-10 col-lg-offset-1 col-md-offset-1">
                                     <div class=" embed-responsive embed-responsive-4by3">
-                                        <iframe class="embed-responsive-item" src='http://3planeta.com/map.html?17,-63.215067,-55.825653,1,1' width=600 height=600 frameborder=no > </iframe>
+                                        <iframe class="embed-responsive-item" src='http://3planeta.com/map.html?17,{{ $campus[0]->latitud }},{{ $campus[0]->longitud }},1,1' width=600 height=600 frameborder=no > </iframe>
                                     </div>
                                 </div>
                             </div>

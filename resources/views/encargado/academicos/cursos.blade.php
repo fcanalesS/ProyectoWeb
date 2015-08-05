@@ -16,7 +16,7 @@
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>U</b>TM</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>UTEM</b>Administrador</span>
+            <span class="logo-lg"><b>UTEM</b>Encargado</span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -34,14 +34,14 @@
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image"/>
-                            <span class="hidden-xs">Felipe Sebastian Canales Saavedra</span>
+                            <span class="hidden-xs">{{ $datos[0]->nombres }} {{ $datos[0]->apellidos }}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
                                 <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image" />
                                 <p>
-                                    Administrador
+                                    Encargado
                                 </p>
                             </li>
 
@@ -55,10 +55,6 @@
                                 </div>
                             </li>
                         </ul>
-                    </li>
-                    <!-- Control Sidebar Toggle Button -->
-                    <li>
-                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
                     </li>
                 </ul>
             </div>
@@ -77,29 +73,12 @@
                     <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image" />
                 </div>
                 <div class="pull-left info">
-                    <p>Felipe Canales</p>
+                    <p>{{ \App\Helpers\PersonasUtils::separaNombres($datos[0]->nombres)[0] }}
+                        {{ \App\Helpers\PersonasUtils::separaApellidos($datos[0]->apellidos)[0] }}</p>
 
                     <a href="#"><i class="fa fa-circle text-success"></i> En linea</a>
                 </div>
             </div>
-            <!-- sidebar menu: : style can be found in sidebar.less -->
-            <ul class="sidebar-menu">
-                <li class="header">MENÚ DE NAVEGACIÓN</li>
-
-                <li>
-                    <a href="">
-                        <i class="fa fa-th"></i> <span>Link a algún lado</span> <small class="label pull-right bg-red">!</small>
-                    </a>
-                </li>
-                <li class="header">Menu de Administración</li>
-                <li><a href=""><i class="fa fa-circle-o"></i><span>Perfiles de Campus</span></a></li>
-                <li><a href=""><i class="fa fa-circle-o"></i><span>Perfiles de Usuarios</span></a></li>
-
-                <li class="header"></li>
-                <li><a href="#"><i class="fa fa-circle-o text-green"></i> <span>Contacto</span></a></li>
-                <li class="header"></li>
-
-            </ul>
         </section>
         <!-- /.sidebar -->
     </aside>
@@ -115,13 +94,8 @@
         <section class="content-header">
             <h1>
                 Dashboard
-                <small>Editar asignatura</small>
+                <small>Editar curso</small>
             </h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
-                <li><a href="">Dashboard</a></li>
-                <li class="active">Está aquí (Mejorar o implementar de alguna otra forma)</li>
-            </ol>
         </section>
 
         <!-- Main content -->
@@ -144,14 +118,19 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="">Asignatura</label>
-                                        {!! Form::select('asignatura_id', (['0' => ''] + $asignaturas ), null, ['class' => 'form-control', '']) !!}
+                                        <select name="asignatura_id" id="" class="form-control">
+                                            @foreach($asignaturas as $a)
+                                                <option value="{{ $a->id }}"> {{ $a->nombre }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="">Docente</label>
                                         <select name="docente_id" id="" class="form-control">
                                             @foreach($docentes as $d)
-                                                <option name value="{{ $d->id }}">{{ $d->apellidos }}, {{ $d->nombres }} //
-                                                    <strong>{{ $d->rut }}</strong></option>
+                                                <option name value="{{ $d->id }}">{{ $d->apellidos }},
+                                                    {{ \App\Helpers\PersonasUtils::separaNombres($d->nombres)[0]  }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>

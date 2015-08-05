@@ -24,7 +24,6 @@ class Is_Encargado {
 		{
 			if ($r->nombre == 'ENCARGADO_CAMPUS')
 			{
-				$tipo = 'encargado';
 				$encargado = true;
 			}
 		}
@@ -33,7 +32,7 @@ class Is_Encargado {
 		{
 			$this->auth->logout();
 
-			return redirect()->to('/login');
+			return redirect()->to('/login')->with('no', 'No está autorizado para ver este contenido');;
 		}
 
 		return $next($request);

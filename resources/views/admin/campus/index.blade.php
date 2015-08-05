@@ -12,7 +12,7 @@
 
     <header class="main-header">
         <!-- Logo -->
-        <a href="{{ url('/admin/index') }}" class="logo">
+        <a href="" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>U</b>TM</span>
             <!-- logo for regular state and mobile devices -->
@@ -34,7 +34,7 @@
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="../../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
-                            <span class="hidden-xs">Administrador</span>
+                            <span class="hidden-xs">{{ $datos[0]->nombres }} {{ $datos[0]->apellidos }}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
@@ -56,10 +56,6 @@
                             </li>
                         </ul>
                     </li>
-                    <!-- Control Sidebar Toggle Button -->
-                    <li>
-                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                    </li>
                 </ul>
             </div>
         </nav>
@@ -77,7 +73,8 @@
                     <img src="../../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
                 </div>
                 <div class="pull-left info">
-                    <p>Administrador</p>
+                    <p>{{ \App\Helpers\PersonasUtils::separaNombres($datos[0]->nombres)[0] }}
+                        {{ \App\Helpers\PersonasUtils::separaApellidos($datos[0]->apellidos)[0] }}</p>
 
                     <a href="#"><i class="fa fa-circle text-success"></i> En linea</a>
                 </div>
@@ -147,7 +144,7 @@
                         </thead>
                         <tbody>
                             @foreach($campus as $c)
-                                <tr>
+                                <tr data-id="{{ $c->id }}">
                                     <td>{{ $c->id }}</td>
                                     <td>{{ $c->nombre }}</td>
                                     <td>{{ $c->direccion }}</td>
@@ -155,7 +152,7 @@
                                     <td>{{ $c->rut_encargado }}</td>
                                     <td>
                                         <a href="{{ route('admin.campus.edit_campus', [$c->id]) }}" class="btn btn-xs bg-olive">Editar</a>
-                                        <a href="" class="btn btn-xs btn-danger">Eliminar</a>
+                                        <a href="" class="btn btn-xs btn-danger btn-campus">Eliminar</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -234,14 +231,14 @@
                         </thead>
                         <tbody>
                         @foreach($facultades as $f)
-                            <tr>
+                            <tr data-id="{{ $f->id }}">
                                 <td>{{ $f->id }}</td>
                                 <td>{{ $f->nombre }}</td>
                                 <td>{{ $f->descripcion }}</td>
                                 <td>{{ $f->campus->nombre }}</td>
                                 <td>
                                     <a href="{{ route('admin.campus.edit_f', [$f->id]) }}" class="btn btn-xs bg-olive">Editar</a>
-                                    <a href="" class="btn btn-xs btn-danger">Eliminar</a>
+                                    <a href="" class="btn btn-xs btn-danger btn-fac">Eliminar</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -262,7 +259,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="">Seleccione un campus</label>
-                                {!! Form::select('campus_id', (['0' => 'Seleccione un Campus'] + $c_lists ), null, ['class' => 'form-control', 'required']) !!}
+                                {!! Form::select('campus_id', ($c_lists ), null, ['class' => 'form-control', 'required']) !!}
                             </div>
                             <button type="submit" class="btn btn-success ">Agregar facultad</button>
                             {!! Form::close() !!}
@@ -301,14 +298,14 @@
                         </thead>
                         <tbody>
                         @foreach($deptos as $d)
-                            <tr>
+                            <tr data-id="{{ $d->id }}">
                                 <td>{{ $d->id }}</td>
                                 <td>{{ $d->nombre }}</td>
                                 <td>{{ $d->descripcion }}</td>
                                 <td>{{ $d->dep_facultades->nombre }}</td>
                                 <td>
                                     <a href="{{ route('admin.campus.edit_d', [$d->id]) }}" class="btn btn-xs bg-olive">Editar</a>
-                                    <a href="" class="btn btn-xs btn-danger">Eliminar</a>
+                                    <a href="" class="btn btn-xs btn-danger btn-dep">Eliminar</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -368,14 +365,14 @@
                         </thead>
                         <tbody>
                         @foreach($escuelas as $e)
-                            <tr>
+                            <tr data-id="{{ $e->id }}">
                                 <td>{{ $e->id }}</td>
                                 <td>{{ $e->nombre }}</td>
                                 <td>{{ $e->descripcion }}</td>
                                 <td>{{ $e->escuela_departamento->nombre }}</td>
                                 <td>
                                     <a href="{{ route('admin.campus.edit_e', [$e->id]) }}" class="btn btn-xs bg-olive">Editar</a>
-                                    <a href="" class="btn btn-xs btn-danger">Eliminar</a>
+                                    <a href="" class="btn btn-xs btn-danger btn-esc">Eliminar</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -402,14 +399,6 @@
                             {!! Form::close() !!}
                         </div>
                         <div class="col-md-5">
-                            {!! Form::open(['route' => 'admin.campus.file_e', 'method' => 'POST', 'role' => 'form', 'files' => 'true']) !!}
-                            <div class="form-group">
-                                <label for="">Seleccione el archivo</label>
-                                {!! Form::file('office') !!}
-                            </div>
-
-                            <button type="submit" class="btn btn-success ">Subir archivo</button>
-                            {!! Form::close() !!}
                             @if(Session::has('escuela_add'))
                                 <hr>
                                 <div class="alert alert-info alert-dismissable">
@@ -437,6 +426,16 @@
     <!-- =============================================== -->
 </div><!-- ./wrapper -->
 
+{!! Form::open(['route' => ['admin.campus.delete', ':CAMP_ID'], 'method' => 'DELETE', 'id' => 'form-delete-campus']) !!}
+{!! Form::close() !!}
+{!! Form::open(['route' => ['admin.facultad.delete', ':FAC_ID'], 'method' => 'DELETE', 'id' => 'form-delete-fac']) !!}
+{!! Form::close() !!}
+{!! Form::open(['route' => ['admin.departamentos.delete', ':DEP_ID'], 'method' => 'DELETE', 'id' => 'form-delete-dep']) !!}
+{!! Form::close() !!}
+{!! Form::open(['route' => ['admin.escuelas.delete', ':ESC_ID'], 'method' => 'DELETE', 'id' => 'form-delete-esc']) !!}
+{!! Form::close() !!}
+
+
 <!-- jQuery 2.1.4 -->
 <script src="{{ asset('/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
 <!-- Bootstrap 3.3.2 JS -->
@@ -453,6 +452,81 @@
 
 <!-- Demo -->
 <script src="{{ asset('/dist/js/demo.js') }}" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.btn-campus').click(function (e) {
+            e.preventDefault();
+            var row = $(this).parents('tr');
+            var id = row.data('id');
+            var form = $('#form-delete-campus');
+            var url = form.attr('action').replace(':CAMP_ID', id);
+            var data = form.serialize();
+
+            row.fadeOut();
+            $.post(url, data, function (result) {
+                alert(result.message);
+                location.reload();
+            }).fail(function () {
+                alert('El campus no fue eliminado');
+                row.show();
+            });
+        });
+        $('.btn-fac').click(function (e) {
+            e.preventDefault();
+            var row = $(this).parents('tr');
+            var id = row.data('id');
+            var form = $('#form-delete-fac');
+            var url = form.attr('action').replace(':FAC_ID', id);
+            var data = form.serialize();
+
+            row.fadeOut();
+            $.post(url, data, function (result) {
+                alert(result.message);
+                location.reload();
+            }).fail(function () {
+                alert('La facultad no fue eliminada');
+                row.show();
+            });
+        });
+        $('.btn-dep').click(function (e) {
+            e.preventDefault();
+            var row = $(this).parents('tr');
+            var id = row.data('id');
+            var form = $('#form-delete-dep');
+            var url = form.attr('action').replace(':DEP_ID', id);
+            var data = form.serialize();
+
+            row.fadeOut();
+            $.post(url, data, function (result) {
+                alert(result.message);
+                location.reload();
+            }).fail(function () {
+                alert('El departamento no fue eliminada');
+                row.show();
+            });
+        });
+        $('.btn-esc').click(function (e) {
+            e.preventDefault();
+            var row = $(this).parents('tr');
+            var id = row.data('id');
+            var form = $('#form-delete-esc');
+            var url = form.attr('action').replace(':ESC_ID', id);
+            var data = form.serialize();
+
+            row.fadeOut();
+            $.post(url, data, function (result) {
+                alert(result.message);
+                location.reload();
+            }).fail(function () {
+                alert('La escuela no fue eliminada');
+                row.show();
+            });
+        });
+    });
+</script>
+
+
+
 <!-- Table Options -->
 <script type="text/javascript">
     $(function() {
@@ -462,7 +536,31 @@
             "bFilter": true,
             "bSort": true,
             "bInfo": true,
-            "bAutoWidth": true
+            "bAutoWidth": true,
+            "language" : {
+                "sProcessing":     "Procesando...",
+                "sLengthMenu":     "Mostrar _MENU_ registros",
+                "sZeroRecords":    "No se encontraron resultados",
+                "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":    "",
+                "sSearch":         "Buscar:",
+                "sUrl":            "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":     "Último",
+                    "sNext":     "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }
         });
         $("#fac").dataTable({
             "bPaginate": true,
@@ -470,7 +568,31 @@
             "bFilter": true,
             "bSort": true,
             "bInfo": true,
-            "bAutoWidth": true
+            "bAutoWidth": true,
+            "language" : {
+                "sProcessing":     "Procesando...",
+                "sLengthMenu":     "Mostrar _MENU_ registros",
+                "sZeroRecords":    "No se encontraron resultados",
+                "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":    "",
+                "sSearch":         "Buscar:",
+                "sUrl":            "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":     "Último",
+                    "sNext":     "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }
         });
         $("#dep").dataTable({
             "bPaginate": true,
@@ -478,7 +600,31 @@
             "bFilter": true,
             "bSort": true,
             "bInfo": true,
-            "bAutoWidth": true
+            "bAutoWidth": true,
+            "language" : {
+                "sProcessing":     "Procesando...",
+                "sLengthMenu":     "Mostrar _MENU_ registros",
+                "sZeroRecords":    "No se encontraron resultados",
+                "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":    "",
+                "sSearch":         "Buscar:",
+                "sUrl":            "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":     "Último",
+                    "sNext":     "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }
         });
         $("#esc").dataTable({
             "bPaginate": true,
@@ -486,7 +632,31 @@
             "bFilter": true,
             "bSort": true,
             "bInfo": true,
-            "bAutoWidth": true
+            "bAutoWidth": true,
+            "language" : {
+                "sProcessing":     "Procesando...",
+                "sLengthMenu":     "Mostrar _MENU_ registros",
+                "sZeroRecords":    "No se encontraron resultados",
+                "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":    "",
+                "sSearch":         "Buscar:",
+                "sUrl":            "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":     "Último",
+                    "sNext":     "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }
         });
     });
 </script>

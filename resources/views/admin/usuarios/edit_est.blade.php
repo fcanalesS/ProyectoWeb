@@ -202,6 +202,22 @@
                                     {{ Session::get('promoted') }}
                                 </div>
                             @endif
+                                @if(Session::has('promoted'))
+                                    <div class="alert alert-info alert-dismissable">
+                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                        <h4><i class="icon fa fa-info"></i> Información!</h4>
+                                        {{ Session::get('promoted') }}
+                                    </div>
+                                @endif
+                            @if($errors->any())
+                            <div class="alert alert-danger alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <h4><i class="icon fa fa-info"></i> Alerta!</h4>
+                                @foreach($errors->all() as $error)
+                                    {{ $error }}
+                                @endforeach
+                            </div>
+                            @endif
                         </div>
                     </div>
                     {!! Form::hidden('id', $id) !!}

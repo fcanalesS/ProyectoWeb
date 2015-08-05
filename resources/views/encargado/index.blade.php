@@ -186,6 +186,11 @@
                                     </div>
                                 </div>
                             </div>
+                            <hr>
+                            <div class="form-group">
+                                    <label for="">Campus</label>
+                                    <input type="text" class="form-control" value="{{ $campus[0]->direccion }}" disabled>
+                            </div>
                         </div><!-- /.box-body -->
                         <div class="box-footer">
 
@@ -197,7 +202,7 @@
                 <section class="col-lg-6 connectedSortable">
                     <div class="box">
                         <div class="box-header with-border">
-                            <h3 class="box-title">Nombre del campus del que es responsable</h3>
+                            <h3 class="box-title">Campus : {{ $campus[0]->nombre }}</h3>
                             <div class="box-tools pull-right">
                                 <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                                 <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>

@@ -12,7 +12,7 @@
 
     <header class="main-header">
         <!-- Logo -->
-        <a href="{{ url('/admin/index') }}" class="logo">
+        <a href="" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>U</b>TM</span>
             <!-- logo for regular state and mobile devices -->
@@ -34,7 +34,7 @@
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image"/>
-                            <span class="hidden-xs">Felipe Sebastian Canales Saavedra</span>
+                            <span class="hidden-xs">{{ $datos[0]->nombres }} {{ $datos[0]->apellidos }}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
@@ -74,7 +74,8 @@
                     <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image" />
                 </div>
                 <div class="pull-left info">
-                    <p>Felipe Canales</p>
+                    <p>{{ \App\Helpers\PersonasUtils::separaNombres($datos[0]->nombres)[0] }}
+                        {{ \App\Helpers\PersonasUtils::separaApellidos($datos[0]->apellidos)[0] }}</p>
 
                     <a href="#"><i class="fa fa-circle text-success"></i> En linea</a>
                 </div>
@@ -112,7 +113,7 @@
             <!-- Default box -->
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title" id="edit">Editar estudiante: Nombre del estudiante</h3>
+                    <h3 class="box-title" id="edit"></h3>
                     <div class="box-tools pull-right">
                         <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
                         <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
@@ -134,19 +135,19 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="">Nombres</label>
-                                        {!! Form::text('nombres', null,['class' => 'form-control', '']) !!}
+                                        {!! Form::text('nombres', null,['class' => 'form-control', 'required']) !!}
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="">Apellidos</label>
-                                        {!! Form::text('apellidos', null,['class' => 'form-control', '']) !!}
+                                        {!! Form::text('apellidos', null,['class' => 'form-control', 'required']) !!}
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="">E-mail</label>
-                                {!! Form::text('email', null,['class' => 'form-control', '']) !!}
+                                {!! Form::email('email', null,['class' => 'form-control', 'required']) !!}
                             </div>
                             <div class="form-group">
                                 <label>Carrera</label>

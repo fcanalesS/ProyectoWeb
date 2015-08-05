@@ -34,7 +34,7 @@
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image"/>
-                            <span class="hidden-xs">Administrador</span>
+                            <span class="hidden-xs">{{ $datos[0]->nombres }} {{ $datos[0]->apellidos }}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
@@ -56,10 +56,6 @@
                             </li>
                         </ul>
                     </li>
-                    <!-- Control Sidebar Toggle Button -->
-                    <li>
-                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                    </li>
                 </ul>
             </div>
         </nav>
@@ -77,7 +73,8 @@
                     <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image" />
                 </div>
                 <div class="pull-left info">
-                    <p>Administrador</p>
+                    <p>{{ \App\Helpers\PersonasUtils::separaNombres($datos[0]->nombres)[0] }}
+                        {{ \App\Helpers\PersonasUtils::separaApellidos($datos[0]->apellidos)[0] }}</p>
 
                     <a href="#"><i class="fa fa-circle text-success"></i> En linea</a>
                 </div>
@@ -146,7 +143,7 @@
                         </thead>
                         <tbody>
                         @foreach($funcionarios as $f)
-                            <tr>
+                            <tr data-id="{{ $f->id }}">
                                 <td>{{ $f->id }}</td>
                                 <td>{{ $f->rut }}</td>
                                 <td>{{ $f->nombres }}</td>
@@ -154,7 +151,7 @@
                                 <td>{{ $f->funcionario_departamento->nombre }}</td>
                                 <td>
                                     <a href="{{ route('admin.usuarios.edit_func', [$f->id]) }}" class="btn btn-xs bg-olive">Editar</a>
-                                    <a href="" class="btn btn-xs btn-danger">Eliminar</a>
+                                    <a href="" class="btn btn-xs btn-danger btn-delete">Eliminar</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -215,7 +212,7 @@
                         </thead>
                         <tbody>
                         @foreach($docentes as $d)
-                            <tr>
+                            <tr data-id="{{ $d->id }}">
                                 <td>{{ $d->id }}</td>
                                 <td>{{ $d->rut }}</td>
                                 <td>{{ $d->nombres }}</td>
@@ -223,7 +220,7 @@
                                 <td>{{ $d->docente_departamento->nombre }}</td>
                                 <td>
                                     <a href="{{ route('admin.usuarios.edit_doc', [$d->id]) }}" class="btn btn-xs bg-olive">Editar</a>
-                                    <a href="" class="btn btn-xs btn-danger">Eliminar</a>
+                                    <a href="" class="btn btn-xs btn-danger btn-doc">Eliminar</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -287,7 +284,7 @@
                         </thead>
                         <tbody>
                         @foreach($estudiantes as $e)
-                            <tr>
+                            <tr data-id="{{ $e->id }}">
                                 <td>{{ $e->id }}</td>
                                 <td>{{ $e->rut }}</td>
                                 <td>{{ $e->nombres }}</td>
@@ -298,7 +295,7 @@
                                 <td>{{ $e->nombre }}</td>
                                 <td>
                                     <a href="{{ route('admin.usuarios.edit_est', [$e->id]) }}" class="btn btn-xs bg-olive">Editar</a>
-                                    <a href="" class="btn btn-xs btn-danger">Eliminar</a>
+                                    <a href="" class="btn btn-xs btn-danger btn-est">Eliminar</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -346,6 +343,14 @@
     <!-- =============================================== -->
 </div><!-- ./wrapper -->
 
+{!! Form::open(['route' => ['admin.funcionario.delete', ':FUNC_ID'], 'method' => 'DELETE', 'id' => 'form-delete-func']) !!}
+{!! Form::close() !!}
+{!! Form::open(['route' => ['admin.docente.delete', ':DOC_ID'], 'method' => 'DELETE', 'id' => 'form-delete-doc']) !!}
+{!! Form::close() !!}
+{!! Form::open(['route' => ['admin.estudiante.delete', ':EST_id'], 'method' => 'DELETE', 'id' => 'form-delete-est']) !!}
+{!! Form::close() !!}
+
+
 <!-- jQuery 2.1.4 -->
 <script src="{{ asset('/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
 <!-- Bootstrap 3.3.2 JS -->
@@ -363,6 +368,66 @@
 <!-- Demo -->
 <script src="{{ asset('/dist/js/demo.js') }}" type="text/javascript"></script>
 <!-- Table Options -->
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.btn-delete').click(function (e) {
+
+            e.preventDefault();
+            var row = $(this).parents('tr');
+            var id = row.data('id');
+            var form = $('#form-delete-func');
+            var url = form.attr('action').replace(':FUNC_ID', id);
+            var data = form.serialize();
+
+            row.fadeOut();
+            $.post(url, data, function (result) {
+                alert(result.message);
+                location.reload();
+            }).fail(function () {
+                alert('El funcionario no fue eliminado');
+                row.show();
+            });
+        });
+        $('.btn-doc').click(function (e) {
+
+            e.preventDefault();
+            var row = $(this).parents('tr');
+            var id = row.data('id');
+            var form = $('#form-delete-doc');
+            var url = form.attr('action').replace(':DOC_ID', id);
+            var data = form.serialize();
+
+            row.fadeOut();
+            $.post(url, data, function (result) {
+                alert(result.message);
+                location.reload();
+            }).fail(function () {
+                alert('El docente no fue eliminado');
+                row.show();
+            });
+        });
+        $('.btn-est').click(function (e) {
+
+            e.preventDefault();
+            var row = $(this).parents('tr');
+            var id = row.data('id');
+            var form = $('#form-delete-est');
+            var url = form.attr('action').replace(':EST_id', id);
+            var data = form.serialize();
+
+            row.fadeOut();
+            $.post(url, data, function (result) {
+                alert(result.message);
+                location.reload();
+            }).fail(function () {
+                alert('El estudiante no fue eliminado');
+                row.show();
+            });
+        });
+    });
+</script>
+
 <script type="text/javascript">
     $(function() {
         $("#func").dataTable({
@@ -371,7 +436,31 @@
             "bFilter": true,
             "bSort": true,
             "bInfo": true,
-            "bAutoWidth": true
+            "bAutoWidth": true,
+            "language" : {
+                "sProcessing":     "Procesando...",
+                "sLengthMenu":     "Mostrar _MENU_ registros",
+                "sZeroRecords":    "No se encontraron resultados",
+                "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":    "",
+                "sSearch":         "Buscar:",
+                "sUrl":            "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":     "Último",
+                    "sNext":     "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }
         });
         $("#docen").dataTable({
             "bPaginate": true,
@@ -379,7 +468,31 @@
             "bFilter": true,
             "bSort": true,
             "bInfo": true,
-            "bAutoWidth": true
+            "bAutoWidth": true,
+            "language" : {
+                "sProcessing":     "Procesando...",
+                "sLengthMenu":     "Mostrar _MENU_ registros",
+                "sZeroRecords":    "No se encontraron resultados",
+                "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":    "",
+                "sSearch":         "Buscar:",
+                "sUrl":            "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":     "Último",
+                    "sNext":     "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }
         });
         $("#estu").dataTable({
             "bPaginate": true,
@@ -387,7 +500,31 @@
             "bFilter": true,
             "bSort": true,
             "bInfo": true,
-            "bAutoWidth": true
+            "bAutoWidth": true,
+            "language" : {
+                "sProcessing":     "Procesando...",
+                "sLengthMenu":     "Mostrar _MENU_ registros",
+                "sZeroRecords":    "No se encontraron resultados",
+                "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+                "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                "sInfoPostFix":    "",
+                "sSearch":         "Buscar:",
+                "sUrl":            "",
+                "sInfoThousands":  ",",
+                "sLoadingRecords": "Cargando...",
+                "oPaginate": {
+                    "sFirst":    "Primero",
+                    "sLast":     "Último",
+                    "sNext":     "Siguiente",
+                    "sPrevious": "Anterior"
+                },
+                "oAria": {
+                    "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }
         });
     });
 </script>

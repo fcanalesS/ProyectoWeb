@@ -28,12 +28,14 @@ class LoginController extends Controller
 
     public function postindex (Request $request)
     {
-        $user_data = ['rut' => $request->input('rut'), 'password' => $request->input('password')];
-        $rut = $request->input('rut');
+        $r = $request->input('rut') .'-'. Rut::dv($request->input('rut'));
+
+        $user_data = ['rut' => $r, 'password' => $request->input('password')];
         $rules =
             [
                 'rut' => 'required',
-                'password' => 'required'
+                'password' => 'required',
+                'g-recaptcha-response' => 'required|captcha'
             ];
 
         $this->validate($request, $rules);

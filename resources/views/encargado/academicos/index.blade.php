@@ -11,15 +11,11 @@
 
     <header class="main-header">
         <!-- Logo -->
-        <a href="{{ route('encargado.index') }}" class="logo">
-            <!-- mini logo for sidebar mini 50x50 pixels -->
+        <a href="" class="logo">
             <span class="logo-mini"><b>U</b>TM</span>
-            <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>UTEM</b>Administrador</span>
+            <span class="logo-lg"><b>UTEM</b>Encargado</span>
         </a>
-        <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
-            <!-- Sidebar toggle button-->
             <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
@@ -29,16 +25,15 @@
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
 
-                    <!-- User Account: style can be found in dropdown.less -->
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="../../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
-                            <span class="hidden-xs">Felipe Sebastian Canales Saavedra</span>
+                            <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image"/>
+                            <span class="hidden-xs">{{ $datos[0]->nombres }} {{ $datos[0]->apellidos }}</span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="../../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
+                                <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image" />
                                 <p>
                                     Encargado Campus
                                 </p>
@@ -55,10 +50,6 @@
                             </li>
                         </ul>
                     </li>
-                    <!-- Control Sidebar Toggle Button -->
-                    <li>
-                        <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
-                    </li>
                 </ul>
             </div>
         </nav>
@@ -73,10 +64,11 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="../../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" />
+                    <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image" />
                 </div>
                 <div class="pull-left info">
-                    <p>Felipe Canales</p>
+                    <p>{{ \App\Helpers\PersonasUtils::separaNombres($datos[0]->nombres)[0] }}
+                        {{ \App\Helpers\PersonasUtils::separaApellidos($datos[0]->apellidos)[0] }}</p>
 
                     <a href="#"><i class="fa fa-circle text-success"></i> En linea</a>
                 </div>
@@ -86,7 +78,7 @@
                 <li class="header">MENÚ DE NAVEGACIÓN</li>
 
                 <li>
-                    <a href="{{ route('admin.index') }}">
+                    <a href="{{ route('encargado.index') }}">
                         <i class="fa fa-th"></i> <span>Inicio</span> <small class="label pull-right bg-red">!</small>
                     </a>
                 </li>
@@ -94,7 +86,6 @@
                 <li><a href="#car"><i class="fa fa-book"></i><span>Agregar/Editar carreras</span></a></li>
                 <li><a href="#asig"><i class="fa fa-tasks"></i><span>Agregar/Editar asignaturas</span></a></li>
                 <li><a href="#cur"><i class="fa fa-users"></i><span>Agregar/Editar cursos</span></a></li>
-                <li><a href="{{route('encargado.salas.index')}}"><i class="fa fa-pencil"></i><span>Agregar/Editar salas</span></a></li>
 
                 <li class="header"></li>
                 <li><a href="#"><i class="fa fa-circle-o text-green"></i> <span>Contacto</span></a></li>
@@ -116,8 +107,7 @@
         <section class="content-header">
             <h1 id="p">
                 Dashboard
-                <small>Opciones de usuarios</small>
-                <small><strong>Agregar opcion de agregar y agregar por lote</strong></small>
+                <small>Opciones académicas</small>
             </h1>
         </section>
 
@@ -148,7 +138,7 @@
                         </thead>
                         <tbody>
                         @foreach($carreras as $c)
-                            <tr>
+                            <tr data-id="{{ $c->id }}">
                                 <td>{{ $c->cod }}</td>
                                 <td>{{ $c->carrera }}</td>
                                 <td>{{ $c->desc }}</td>
@@ -157,7 +147,7 @@
                                 <td>{{ $c->campus }}</td>
                                 <td>
                                     <a href="{{ route('encargado.academicos.edit_carrera', [$c->id]) }}" class="btn btn-xs bg-olive">Editar</a>
-                                    <a href="" class="btn btn-xs btn-danger">Eliminar</a>
+                                    <a href="" class="btn btn-xs btn-danger btn-car">Eliminar</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -188,7 +178,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="">Seleccione una escuela</label>
-                                {!! Form::select('escuela_id', (['0' => ''] + $escuelas ), null, ['class' => 'form-control', 'required', 'required']) !!}
+                                <select name="escuela_id" id="" class="form-control">
+                                    @foreach($escuelas as $e)
+                                        <option value="{{ $e->id }}">{{ $e->nombre }}</option>
+                                    @endforeach
+                                </select>
 
                             </div>
                             <button type="submit" class="btn btn-success ">Agregar carrera</button>
@@ -250,14 +244,14 @@
                         </thead>
                         <tbody>
                         @foreach($asignaturas as $a)
-                            <tr>
+                            <tr data-id="{{ $a->id }}">
                                 <td>{{ $a->codigo }}</td>
                                 <td>{{ $a->nombre }}</td>
                                 <td>{{ $a->descripcion }}</td>
-                                <td>{{ $a->asignaturas_departamentos->nombre }}</td>
+                                <td>{{ $a->depto }}</td>
                                 <td>
                                     <a href="{{ route('encargado.academicos.edit_asignatura', [$a->id]) }}" class="btn btn-xs bg-olive">Editar</a>
-                                    <a href="" class="btn btn-xs btn-danger">Eliminar</a>
+                                    <a href="" class="btn btn-xs btn-danger btn-asi">Eliminar</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -287,7 +281,11 @@
                         </div>
                         <div class="form-group">
                             <label for="">Seleccione un departamento</label>
-                            {!! Form::select('departamento_id', (['0' => ''] + $depto ), null, ['class' => 'form-control', 'required', 'required']) !!}
+                            <select name="departamento_id" id="" class="form-control">
+                                @foreach($depto as $d)
+                                    <option value="{{ $d->id }}">{{ $d->nombre }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <button type="submit" class="btn btn-success ">Agregar asignatura</button>
                         {!! Form::close() !!}
@@ -349,7 +347,7 @@
                         </thead>
                         <tbody>
                         @foreach($cursos as $c)
-                            <tr>
+                            <tr data-id="{{ $c->id }}">
                                 <td>{{ $c->cod }} // <strong>{{ $c->ramo }}</strong></td>
                                 <td>{{ $c->semestre }}</td>
                                 <td>{{ $c->anio }}</td>
@@ -357,7 +355,7 @@
                                 <td>{{ $c->apellidos }}, {{ $c->nombres }}</td>
                                 <td>
                                     <a href="{{ route('encargado.academicos.edit_curso', [$c->id]) }}" class="btn btn-xs bg-olive">Editar</a>
-                                    <a href="" class="btn btn-xs btn-danger">Eliminar</a>
+                                    <a href="" class="btn btn-xs btn-danger btn-cur">Eliminar</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -369,16 +367,17 @@
                         {!! Form::open(['route' => 'encargado.add.curso', 'method' => 'POST', 'role' => 'form']) !!}
                         <div class="form-group">
                             <label for="">Docente</label>
-                            <select name="docente_id" id="" class="form-control">
+                            <select name="docente_id" id="" class="form-control" required>
                                 @foreach($docentes as $d)
-                                    <option value="{{ $d->id }}">{{ $d->apellidos }}, {{ $d->nombres }} //
-                                    <strong>{{ $d->rut }}</strong></option>
+                                    <option value="{{ $d->id }}">
+                                        {{ $d->apellidos }}, {{ \App\Helpers\PersonasUtils::separaNombres($d->nombres)[0] }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="">Asginatura</label>
-                            <select name="asignatura_id" id="" class="form-control">
+                            <select name="asignatura_id" id="" class="form-control" required>
                                 @foreach($asignaturas as $a)
                                     <option value="{{ $a->id }}">{{ $a->codigo }} - {{ $a->nombre}}</option>
                                 @endforeach
@@ -448,6 +447,13 @@
     <!-- =============================================== -->
 </div><!-- ./wrapper -->
 
+{!! Form::open(['route' => ['encargado.carrera.delete', ':CAR_ID'], 'method' => 'DELETE', 'id' => 'form-delete-car']) !!}
+{!! Form::close() !!}
+{!! Form::open(['route' => ['encargado.asignatura.delete', ':ASI_ID'], 'method' => 'DELETE', 'id' => 'form-delete-asi']) !!}
+{!! Form::close() !!}
+{!! Form::open(['route' => ['encargado.curso.delete', ':CUR_ID'], 'method' => 'DELETE', 'id' => 'form-delete-cur']) !!}
+{!! Form::close() !!}
+
 <!-- jQuery 2.1.4 -->
 <script src="{{ asset('/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
 <!-- Bootstrap 3.3.2 JS -->
@@ -464,6 +470,66 @@
 
 <!-- Demo -->
 <script src="{{ asset('/dist/js/demo.js') }}" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.btn-car').click(function (e) {
+
+            e.preventDefault();
+            var row = $(this).parents('tr');
+            var id = row.data('id');
+            var form = $('#form-delete-car');
+            var url = form.attr('action').replace(':CAR_ID', id);
+            var data = form.serialize();
+
+            row.fadeOut();
+            $.post(url, data, function (result) {
+                alert(result.message);
+                location.reload();
+            }).fail(function () {
+                alert('La carrera no fue eliminada');
+                row.show();
+            });
+        });
+        $('.btn-asi').click(function (e) {
+
+            e.preventDefault();
+            var row = $(this).parents('tr');
+            var id = row.data('id');
+            var form = $('#form-delete-asi');
+            var url = form.attr('action').replace(':ASI_ID', id);
+            var data = form.serialize();
+
+            row.fadeOut();
+            $.post(url, data, function (result) {
+                alert(result.message);
+                location.reload();
+            }).fail(function () {
+                alert('La asignatura no fue eliminada');
+                row.show();
+            });
+        });
+        $('.btn-cur').click(function (e) {
+
+            e.preventDefault();
+            var row = $(this).parents('tr');
+            var id = row.data('id');
+            var form = $('#form-delete-cur');
+            var url = form.attr('action').replace(':CUR_ID', id);
+            var data = form.serialize();
+
+            row.fadeOut();
+            $.post(url, data, function (result) {
+                alert(result.message);
+                location.reload();
+            }).fail(function () {
+                alert('El curso no fue eliminado');
+                row.show();
+            });
+        });
+    });
+</script>
+
 <!-- Table Options -->
 <script type="text/javascript">
     $(function() {
@@ -563,16 +629,6 @@
                 }
             }
         });
-    });
-</script>
-
-<script>
-    var northwind ="{{ $docentes }}" ;
-
-    $(function () {
-        $("#buscar").autocomplete({
-            source: northwind
-        })
     });
 </script>
 
