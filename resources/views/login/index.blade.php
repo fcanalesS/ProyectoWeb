@@ -22,6 +22,11 @@
 </head>
 <body class="login-page">
 <div class="login-box">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <img src="{{ asset('dist/img/utem.png') }}" alt="" class="img img-responsive">
+        </div>
+    </div>
     <div class="login-logo">
         <a href="/"><b>UTEM</b>Login</a>
     </div><!-- /.login-logo -->
@@ -36,12 +41,12 @@
                 <input name="password" type="password" class="form-control" placeholder="Password" required/>
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
-            <div class="form-group center-block">
-                {!! app('captcha')->display() !!}
-            </div>
+        <div class="form-group ">
+            {!! app('captcha')->display() !!}
+        </div>
+
             <button type="submit" class="btn btn-primary btn-block btn-flat">Iniciar Sesión</button>
         {!! Form::close() !!}
-        <br>
         <br>
         @if(Session::has('login_error'))
             <div class="alert alert-danger">

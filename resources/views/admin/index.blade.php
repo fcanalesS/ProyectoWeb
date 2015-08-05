@@ -141,6 +141,54 @@
             </div>
             <!-- Main row -->
             <div class="row">
+                <!-- Right col -->
+                <section class="col-lg-6 connectedSortable">
+                    <div class="box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Perfil</h3>
+                            <div class="box-tools pull-right">
+                                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
+                                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Rut</label>
+                                        <input type="text" class="form-control" value="{{ $datos[0]->rut }}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Nombres</label>
+                                        <input type="text" class="form-control" value="{{ $datos[0]->nombres }}" disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Apellidos</label>
+                                        <input type="text" class="form-control" value="{{ $datos[0]->apellidos }}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input type="text" class="form-control" value="{{ $datos[0]->email }}" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- /.box-body -->
+                        <div class="box-footer">
+                        </div><!-- /.box-footer-->
+                    </div><!-- /.box -->
+
+
+                </section>
                 <!-- Left col -->
                 <section class="col-lg-6 connectedSortable">
                     <!-- Custom tabs -->
@@ -170,29 +218,6 @@
                     </div><!-- /.box -->
                 </section>
 
-                <!-- Right Col -->
-                <section class="col-lg-6 connectedSortable">
-                    <div class="box">
-                        <div class="box-header with-border">
-                            <h3 class="box-title">Esta sección está en construcción . . .</h3>
-                            <div class="box-tools pull-right">
-                                <button class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse"><i class="fa fa-minus"></i></button>
-                                <button class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove"><i class="fa fa-times"></i></button>
-                            </div>
-                        </div>
-                        <div class="box-body">
-                            <div class="row">
-                                <div class="col-md-8 col-md-offset-2">
-                                    <img src="{{ asset('/dist/img/under-construction.png') }}" class="img-responsive" alt="User Image" />
-                                </div>
-                            </div>
-                        </div><!-- /.box-body -->
-                        <div class="box-footer">
-                        </div><!-- /.box-footer-->
-                    </div><!-- /.box -->
-
-
-                </section>
             </div>
 
             <!-- Default box -->

@@ -34,6 +34,7 @@
 	<body>
 		<div class="container">
 			<div class="content">
+				<h1 class="title">Error 404.</h1>
 				<div class="title">Ocurrió un error, no encontramos lo que buscas</div>
 			</div>
 		</div>

@@ -31,10 +31,6 @@ class AdminController extends Controller {
             else
                 $this->datos = Estudiante::select('id', 'rut', 'nombres', 'apellidos')->where('rut', $this->guard->user()->rut)->get();
         }
-
-        //dd($this->datos[0]->nombres);
-
-        //dd($this->guard->user()->rut);
     }
 
 	public function index ()
@@ -43,10 +39,7 @@ class AdminController extends Controller {
         $funcionarios = Funcionario::all()->count();
         $docentes = Docente::all()->count();
 
-
-
         $datos = $this->datos;
-
 
         return view('admin.index', compact('rut', 'estudiantes', 'docentes', 'funcionarios', 'datos'));
     }
